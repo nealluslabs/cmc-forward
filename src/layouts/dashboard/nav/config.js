@@ -37,13 +37,13 @@ const navConfig = [
   },
   {
     title: 'messages',
-    path: '/not-found',
+    path: '/dashboard/create-cooler',
     // icon: icon('ic_msg'),
     iconLabel: 'msg',
   },
   {
     title: 'settings',
-    path: '/not-found1',
+    path: '/dashboard/members',
     iconLabel: 'settings',
   },
 ];

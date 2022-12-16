@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTheme } from '@mui/material/styles';
 // import { Grid, Container, Typography, Paper, Button } from '@mui/material';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import {Box,Icon,Typography,CardMedia,CssBaseline,Grid,Container,FormControlLabel, Checkbox} from '@material-ui/core';
 import { usePaystackPayment, PaystackButton, PaystackConsumer } from 'react-paystack';
 import Modal from '@mui/material/Modal';
@@ -10,9 +10,10 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import CoolerBoxIMG from '../assets/images/cooler-box.png';
 import CoolerBoxIMG from '../assets/images/save-money.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-export default function CoolerDetails() {
+export default function PrivateCoolerJoin() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -48,7 +49,7 @@ export default function CoolerDetails() {
   return (
     <>
       <Helmet>
-        <title> Cooler | Cooler Details </title>
+        <title> Cooler | Join Private Cooler </title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -57,10 +58,11 @@ export default function CoolerDetails() {
        {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
        <Grid container spacing={3}>
         <Grid item xs={3}>
-        <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+        <Button variant="contained" style={{minHeight: '45px', minWidth: '55px', backgroundColor: '#348AED', }}
               onClick={() => {
-                // navigate('/dashboard/cooler-details')
+                navigate(-1);
               }}>
+                <ArrowBackIcon />
                 Back
             </Button>
         </Grid>
@@ -77,51 +79,65 @@ export default function CoolerDetails() {
         image={CoolerBoxIMG}
         alt="Paella dish"
       />
-      <br/><br/>
- {/* {
-  location.state.map(c => {
-    return (
-      <>
-      <Grid container spacing={2} style={{borderTop: '1px solid black'}}>
-      <Grid item xs={8} md={14}>
-       <FormControlLabel 
-      control={
-      <Checkbox 
-      style={{color: 'black'}}
-      checked={state.type.index} 
-      name={c.label} 
-      value={state.type[c.label]} 
-      onChange={checkboxChange}
-       />}  
-       label={<span style={{ fontSize: '17px' }}>{c.label}</span>} />
-      </Grid>
-      <Grid item xs={6} md={2}>
-      </Grid>
-      </Grid>
-      
-      </>
-    )
-  })
- } */}
-  <hr style={{borderTop: '1px solid grey'}}/>
-  <br/>
 
+           <Grid item xs container direction="column" spacing={0} justifyContent="center" alignItems="center">
+                <Grid item xs>
+                  <div style={{display: 'flex', border: '0px solid red', marginBottom: '-20px'}}>
+                  <h2 style={{ fontSize: '19px'}}><b>NAME: </b></h2>
+                    &nbsp; &nbsp;
+                  <p style={{ fontSize: '17px'}}>{"SPACE SAVERS"}</p>
+                  </div>
+                  <div style={{display: 'flex', marginBottom: '-20px'}}>
+                  <h2 style={{ fontSize: '19px'}}><b>FEE: </b></h2>
+                    &nbsp; &nbsp;
+                  <p style={{ fontSize: '17px'}}>{"$500"}</p>
+                  </div>
+                  
+                  <div style={{display: 'flex', marginBottom: '-10px' }}>
+                  <h2 style={{ fontSize: '19px'}}><b>COUNT: </b></h2>
+                    &nbsp; &nbsp;
+                  <p style={{ fontSize: '17px'}}>{"6 OF 10 SAVERS"}</p>
+                  </div>
+
+                  <div style={{display: 'flex' }}>
+                  <h2 style={{ fontSize: '19px'}}><b>START: </b></h2>
+                    &nbsp; &nbsp;
+                  <p style={{ fontSize: '17px'}}>{"01.01.2023"}</p>
+                  </div>
+
+                  <div style={{display: 'flex' }}>
+                  <h2 style={{ fontSize: '19px'}}><b>PIN: </b></h2>
+                    &nbsp; &nbsp;
+                  <TextField
+                    id="outlined-number"
+                    label="-"
+                    type="number"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    sx={{border: '1px solid black'}}
+                  />
+                  </div>
+                </Grid>
+                <br/>
+                <div style={{border: '1px solid grey', width: '100%'}}></div>
+                <br/>
             <PaystackConsumer {...componentProps} >
                 {({initializePayment}) => 
                  <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
                  onClick={() => {validatePayment(initializePayment)}} 
                  >
-                    <b>PAY</b> 
+                    <b>SUBMIT</b> 
                 </Button>
                 }
             </PaystackConsumer>  
+              </Grid>
       
     </Grid>
        
 
       </Grid>
-
-      <hr/>
     </>
       </Container>
     </>

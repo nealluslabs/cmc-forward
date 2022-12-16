@@ -157,7 +157,7 @@ function PrivateCoolerCard ({ name, fee, count, status}) {
               <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 5}}>
               <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
               onClick={() => {
-                // navigate('/dashboard/cooler-details')
+                navigate('/dashboard/join-private-cooler')
               }}>
                 {status}
             </Button>
