@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-function PublicCoolerRowCard ({ name, fee, count, status}) {
+function PublicCoolerRowCard ({ groupId, name, fee, count, status, img, startDate, isMember}) {
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const classes2 = useStyles2();
@@ -98,18 +98,6 @@ function PublicCoolerRowCard ({ name, fee, count, status}) {
     };
     return (
         <>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          />
-       
           <Paper
           sx={{
             p: 1,
@@ -127,7 +115,7 @@ function PublicCoolerRowCard ({ name, fee, count, status}) {
             <Grid item>
             {/* <Avatar alt="Profile Pic" src={EmptyAvatar} style={{ width: '120px', height: '120px'}} /> */}
               <ButtonBase sx={{ width: 128, height: 128 }}>
-              <Img alt="complex" src={RectangleIMG} />
+              <Img alt="complex" src={img ? img : RectangleIMG} />
               </ButtonBase>
             </Grid>
             <Grid item xs={12} sm container spacing={2}>
@@ -136,7 +124,7 @@ function PublicCoolerRowCard ({ name, fee, count, status}) {
                   <div style={{display: 'flex', border: '0px solid red', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px'}}><b>NAME: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{name}</p>
+                  <p style={{ fontSize: '17px'}}>{name.toUpperCase()}</p>
                   </div>
                   <div style={{display: 'flex', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px'}}><b>FEE: </b></h2>
@@ -155,12 +143,15 @@ function PublicCoolerRowCard ({ name, fee, count, status}) {
               <Box display="flex" alignItems="center" className={classes.box}>
               <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
               <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 5}}>
+              {!isMember &&
               <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
               onClick={() => {
-                navigate('/dashboard/join-public-cooler')
+                const groupData = {groupId, name, fee, count, img, startDate}
+                navigate('/dashboard/join-public-cooler', { state: { groupData } })
               }}>
                 {status}
             </Button>
+              }
               </Grid>
               </Grid>
 

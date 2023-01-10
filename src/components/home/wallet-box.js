@@ -11,6 +11,7 @@ function preventDefault(event) {
 }
 
 export default function WalletBox({type, BoxIcon}) {
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -29,7 +30,7 @@ export default function WalletBox({type, BoxIcon}) {
             variant="h3"
             component="p"
           >
-        <b>$101.75</b>
+        <b>${user?.walletBalance}</b>
       </Typography></center>
       <br/>
       {/* <div> */}

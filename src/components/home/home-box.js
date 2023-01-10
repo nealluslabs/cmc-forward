@@ -18,7 +18,7 @@ export default function HomeBox({type, BoxIcon, url}) {
       <center>
       <BoxIcon />
       <br/><br/>
-      <Link color="primary" to={url}>
+      <Link color="primary" to={url} state={{type: type}}>
         <Typography
             color="textPrimary"
             variant="h6"

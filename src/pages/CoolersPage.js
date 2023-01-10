@@ -37,7 +37,7 @@ export default function CoolersPage() {
                   border: '1px solid black'
                 }}
               >
-                <HomeBox type={'PUBLIC'} BoxIcon={LockOpenIcon} url={"/dashboard/public-cooler"}/>
+                <HomeBox type={'PUBLIC'} BoxIcon={LockOpenIcon} url={"/dashboard/create-cooler"}/>
               </Paper>
             </Grid>
 
@@ -51,7 +51,7 @@ export default function CoolersPage() {
                   border: '1px solid black'
                 }}
               >
-                <HomeBox type={'PRIVATE'}  BoxIcon={LockIcon} url={"/dashboard/private-cooler"}/>
+                <HomeBox type={'PRIVATE'}  BoxIcon={LockIcon} url={"/dashboard/create-cooler"}/>
               </Paper>
             </Grid>
           </Grid>

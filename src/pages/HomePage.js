@@ -8,12 +8,13 @@ import HomeBox from '../components/home/home-box';
 import WalletBox from 'src/components/home/wallet-box';
 import RowCard from 'src/components/home/row-card';
 import PieChartCard from 'src/components/home/pie-chart-card';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 export default function HomePage() {
-  const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -60,7 +61,11 @@ export default function HomePage() {
           {/* <SearchBox style={{ width: '100%' }} /> */}
           <br/>
           <Grid  container direction="row" justifyContent="flex-end" alignItems="flex-end">
-          <Button variant="contained" style={{backgroundColor: "#348AED", paddingTop: '10px', paddingBottom: '10px',  paddingRight: '30px', paddingLeft: '30px'}}>
+          <Button variant="contained" style={{backgroundColor: "#348AED", paddingTop: '10px', paddingBottom: '10px',  paddingRight: '30px', paddingLeft: '30px'}}
+          onClick={()=>{
+            navigate('/dashboard/cooler', { replace: true });
+          }}
+          >
           CREATE
         </Button>
         </Grid>

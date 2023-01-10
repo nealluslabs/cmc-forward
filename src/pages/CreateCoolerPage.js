@@ -6,11 +6,14 @@ import { Button, TextField } from '@mui/material';
 import {Box,Icon,Typography,CardMedia,CssBaseline,Grid,Container,FormControlLabel, Checkbox, makeStyles} from '@material-ui/core';
 import { usePaystackPayment, PaystackButton, PaystackConsumer } from 'react-paystack';
 import Modal from '@mui/material/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import CoolerBoxIMG from '../assets/images/cooler-box.png';
 import CoolerBoxIMG from '../assets/images/save-money.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { notifyErrorFxn } from 'src/utils/toast-fxn';
+import { uploadImage } from 'src/redux/actions/auth.action';
+import { uploadGroupImage } from 'src/redux/actions/group.action';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,9 +42,52 @@ export default function CreateCoolerPage() {
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useSelector((state) => state.auth);
     let today = new Date().toISOString().slice(0, 10);
-     console.log('Arry data: ', location.state);
+    const type = location?.state?.type;
+    const [loading, setLoading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState({selectedFile: [], selectedFileName: []});
+    const [file, setFile] = useState();
+     const [state, setState] = useState({
+      groupName: "",
+      noOfSavers: "",
+      pin: "",
+      startDate: "",
+      amount: "",
+      status: type,
+      imageUrl: "",
+    })
 
+    const handleChange = (e) => {
+      const value = e.target.value;
+      setState({
+        ...state,
+        [e.target.name]: value
+      });
+    }
+
+    const handleselectedFile = event => {
+      setSelectedFile({
+          selectedFile: event.target.files[0],
+          selectedFileName: event.target.files[0].name
+      });
+      setFile(URL.createObjectURL(event.target.files[0]));
+  };
+
+    const createGroup = (e) => {
+      e.preventDefault();
+      if(selectedFile.selectedFile.length == 0){
+        notifyErrorFxn("You have not uploaded Cooler Image");
+        return;
+      }
+      setLoading(true);
+      const id = user.id;
+      const name = user.firstName + " " + user.lastName;
+      const email = user.email;
+      const profileImg = user.imageUrl;
+      const userData = {id, name, email, profileImg};
+      dispatch(uploadGroupImage(state,selectedFile.selectedFile, userData, navigate, setLoading));
+    }
    
   return (
     <>
@@ -65,6 +111,7 @@ export default function CreateCoolerPage() {
         </Grid>
       </Grid>
        <>
+       <form onSubmit={createGroup}>
         <Grid container spacing={2} justify="center" style={{marginTop:"2rem", marginBottom:"2rem"}}>
        
         <Grid item xs={6}>
@@ -78,16 +125,21 @@ export default function CreateCoolerPage() {
        style={{border: '1px solid black', backgroundColor: '#fff', paddingLeft: '30px', paddingRight: '30px'}}
         component="img"
         height="250"
-        image={CoolerBoxIMG}
-        alt="Paella dish"
+        image={file ? file : CoolerBoxIMG}
+        alt="IMG"
       />
           <center>
-          <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', marginTop: '15px' }}>
-                    <b>UPLOAD</b> 
+          <Button component="label" variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', marginTop: '15px' }}>
+            <b>UPLOAD</b>
+            <input
+            type="file"
+            style={{ display: 'none' }}
+            onChange={handleselectedFile}
+            />
           </Button>
           </center>
-              <br/>
-      
+
+              <br/>      
     </Grid>
        
 
@@ -98,46 +150,71 @@ export default function CreateCoolerPage() {
                   <div style={{display: 'flex', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px', width: '40%'}}><b>COOLER NAME: </b></h2>
                     &nbsp; &nbsp;
-                    <TextField id="outlined-basic" fullWidth label="Enter Cooler Name" variant="outlined" />
+                    <TextField id="outlined-basic" fullWidth label="Enter Cooler Name" variant="outlined" 
+                    required
+                    name="groupName"
+                    value={state.groupName}
+                    onChange={handleChange}
+                    />
                   </div>
                   <br/><br/>
                   <div style={{display: 'flex'}}>
                   <h2 style={{ fontSize: '19px', width: '10%', border: '0px solid red'}}><b>FEE: </b></h2>
                     &nbsp; &nbsp;
-                    <TextField id="outlined-basic" style={{width: '30%'}} label="Enter Fee" variant="outlined" />
+                    <TextField id="outlined-basic" style={{width: '30%'}} label="Enter Fee ($)" variant="outlined" 
+                    required
+                    type="number"
+                    name="amount"
+                     value={state.amount}
+                     onChange={handleChange}
+                    />
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                   <h2 style={{ fontSize: '19px', width: '10%', border: '0px solid red'}}><b>START: </b></h2>
                     &nbsp; &nbsp;
                     <TextField
-               className={classes.textField}
-                id="date"
-                label=""
-                type="date"
-                // defaultValue="2022-08-28"
-                defaultValue={today}
-                sx={{ width: 220, fontSize: '20px' }}
-                InputLabelProps={{
-                shrink: true,
-                }}
-            />
+                    required
+                    className={classes.textField}
+                    name="startDate"
+                    value={state.startDate}
+                    onChange={handleChange}
+                    id="date"
+                    label=""
+                    type="date"
+                    defaultValue={today}
+                    sx={{ width: 220, fontSize: '20px' }}
+                    InputLabelProps={{
+                    shrink: true,
+                    }}
+                />
                   </div>
                   <br/>
                   <div style={{display: 'flex'}}>
                   <h2 style={{ fontSize: '19px', width: '10%', border: '0px solid red'}}><b>COUNT: </b></h2>
                     &nbsp; &nbsp;
-                    <TextField id="outlined-basic" style={{width: '30%'}} label="Enter Count" variant="outlined" />
+                    <TextField id="outlined-basic" style={{width: '30%'}} label="Enter Count" variant="outlined" 
+                    required
+                    type="number"
+                    name="noOfSavers"
+                    value={state.noOfSavers}
+                    onChange={handleChange}
+                    />
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <h2 style={{ fontSize: '19px', width: '10%', border: '0px solid red'}}><b>PIN: </b></h2>
+                  {type === "PRIVATE" && (
+                  <>
+                    <h2 style={{ fontSize: '19px', width: '10%', border: '0px solid red'}}><b>PIN: </b></h2>
                     &nbsp; &nbsp;
                     <TextField
+                    required
                     id="outlined-number"
                     label="Enter Pin"
                     type="number"
                     variant="outlined"
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
+                    name="pin"
+                    value={state.pin}
+                    onChange={handleChange}
                   />
+                  </>
+                  )}
                   </div>
 
                  
@@ -145,15 +222,13 @@ export default function CreateCoolerPage() {
                 <div style={{border: '1px solid grey', width: '100%'}}></div>
                 <br/>
                  <center>
-                 <Button variant="contained" style={{minHeight: '45px', maxWidth: '100px', backgroundColor: '#348AED'}}
-                //  onClick={} 
+                 <Button type="submit" disabled={loading} variant="contained" style={{minHeight: '45px', maxWidth: '100px', backgroundColor: '#348AED'}}
                  >
-                    <b>SUBMIT</b> 
+                    <b>{loading ? "Loading..." : "SUBMIT"}</b> 
                 </Button>
                  </center>
               </Grid>
-
-
+            </form>
     </>
       </Container>
     </>

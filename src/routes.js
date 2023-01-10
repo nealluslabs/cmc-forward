@@ -14,6 +14,7 @@ import MembersPage from './pages/MembersPage';
 import CreateCoolerPage from './pages/CreateCoolerPage';
 import PublicCoolerJoin from './pages/PublicCoolerJoin';
 import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
+import RegisterPage from './pages/RegisterPage';
 
 
 export default function Router() {
@@ -22,9 +23,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/home" />, index: true },
-        // { element: <Navigate to="/dashboard/app" />, index: true },
-        // { path: 'home', element: <DashboardAppPage /> },
+        { element: <Navigate to="/login" />, index: true },
         { path: 'home', element: <HomePage /> },
         { path: 'cooler', element: <CoolersPage /> },
         { path: 'my-cooler', element: <MyCoolersPage /> },
@@ -41,10 +40,14 @@ export default function Router() {
       element: <LoginPage />,
     },
     {
+      path: 'register',
+      element: <RegisterPage />,
+    },
+    {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/home" />, index: true },
-        // { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/login" />, index: true },
+        // { element: <Navigate to="/dashboard/home" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

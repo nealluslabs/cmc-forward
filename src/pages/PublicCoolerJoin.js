@@ -6,11 +6,12 @@ import { Button } from '@mui/material';
 import {Box,Icon,Typography,CardMedia,CssBaseline,Grid,Container,FormControlLabel, Checkbox} from '@material-ui/core';
 import { usePaystackPayment, PaystackButton, PaystackConsumer } from 'react-paystack';
 import Modal from '@mui/material/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import CoolerBoxIMG from '../assets/images/cooler-box.png';
 import CoolerBoxIMG from '../assets/images/save-money.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { joinPublicGroup } from 'src/redux/actions/group.action';
 
 
 export default function PublicCoolerJoin() {
@@ -20,32 +21,37 @@ export default function PublicCoolerJoin() {
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
     const location = useLocation();
-     console.log('Arry data: ', location.state);
-
+    const { user } = useSelector((state) => state.auth);
+    const { isLoading } = useSelector((state) => state.group);
+    const groupData = location.state?.groupData;
     const publicKey = 'pk_test_41be8d2866325ed0e9bcf8734f6d31706640d968';
-    let amount = 100000;
+    // let amount = 100000;
+    let subZero = "00";
+    let amount = parseInt(groupData.fee.replace(/[^\d.]/g, '') + subZero);
+    let name = user.firstName + " " + user.lastName;
 
     const componentProps = {
-        amount: amount,
-        // metadata: {
-        //   name,
-        // },
-        publicKey,
-        text: "Pay Now",
-        onSuccess: () => {
-          handleSubmit();
-        },
-        onClose: () => alert("Wait! Don't leave :("),
-      }
-      
+      email: user.email,
+      amount: amount,
+      metadata: {
+        name,
+      },
+      publicKey,
+      text: "Pay Now",
+      onSuccess: () => {
+        handleSubmit();
+      },
+      onClose: () => alert("Wait! Don't leave :("),
+    }
+    
       const handleSubmit = () => {
-        // let today = new Date().toLocaleDateString()
-        //  dispatch(buyBootcamp(state, user.uid, today, history));
+        let today = new Date().toLocaleDateString()
+         dispatch(joinPublicGroup(groupData?.groupId, user, today, navigate));
       }
 
     const validatePayment = (initializePayment) => {
-
-      }
+      initializePayment();
+     }
   return (
     <>
       <Helmet>
@@ -76,7 +82,7 @@ export default function PublicCoolerJoin() {
        style={{border: '1px solid black', backgroundColor: '#fff', paddingLeft: '30px', paddingRight: '30px'}}
         component="img"
         height="250"
-        image={CoolerBoxIMG}
+        image={groupData?.img ? groupData.img : CoolerBoxIMG}
         alt="Paella dish"
       />
 
@@ -85,34 +91,34 @@ export default function PublicCoolerJoin() {
                   <div style={{display: 'flex', border: '0px solid red', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px'}}><b>NAME: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{"SPACE SAVERS"}</p>
+                  <p style={{ fontSize: '17px'}}>{groupData?.name.toUpperCase()}</p>
                   </div>
                   <div style={{display: 'flex', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px'}}><b>FEE: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{"$500"}</p>
+                  <p style={{ fontSize: '17px'}}>{groupData?.fee}</p>
                   </div>
                   
                   <div style={{display: 'flex', marginBottom: '-10px' }}>
                   <h2 style={{ fontSize: '19px'}}><b>COUNT: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{"6 OF 10 SAVERS"}</p>
+                  <p style={{ fontSize: '17px'}}>{groupData?.count}</p>
                   </div>
 
                   <div style={{display: 'flex' }}>
                   <h2 style={{ fontSize: '19px'}}><b>START: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{"01.01.2023"}</p>
+                  <p style={{ fontSize: '17px'}}>{groupData?.startDate}</p>
                   </div>
                 </Grid>
                 <div style={{border: '1px solid grey', width: '100%'}}></div>
                 <br/>
             <PaystackConsumer {...componentProps} >
                 {({initializePayment}) => 
-                 <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+                 <Button disabled={isLoading} variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
                  onClick={() => {validatePayment(initializePayment)}} 
                  >
-                    <b>PAY</b> 
+                    <b>{isLoading ? "Loading..." : "PAY"}</b> 
                 </Button>
                 }
             </PaystackConsumer>  
