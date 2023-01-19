@@ -2,7 +2,7 @@ import { db, fb, auth, storage } from '../../config/firebase';
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-import { isItLoading, savePrivateGroup, savePublicGroup } from '../reducers/group.slice';
+import { isItLoading, saveAllGroup, saveEmployeer, saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup } from '../reducers/group.slice';
 
 
 export const createGroup = (groupData, user, file, navigate, setLoading, url) => async (dispatch) => {
@@ -82,6 +82,50 @@ export const uploadGroupImage = (groupData, file, user, navigate, setLoading) =>
     }
   );
 }
+
+
+export const fetchMyGroups = (coolers) => async (dispatch) => {
+  dispatch(isItLoading(true));
+  db.collection("groups")
+  . where('groupId', 'in', coolers)
+   .get()
+   .then((snapshot) => {
+     const myGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (myGroups.length) {
+     dispatch(isItLoading(false));
+     console.log("My Groups Data:", myGroups);
+     dispatch(saveMyGroup(myGroups));
+   } else {
+       dispatch(isItLoading(false));
+       console.log("No groups!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   dispatch(isItLoading(false));
+ });
+ };
+
+
+export const fetchGroups = (adminID) => async (dispatch) => {
+  dispatch(isItLoading(true));
+  db.collection("groups")
+  .where('admin', '==', adminID)
+   .get()
+   .then((snapshot) => {
+     const allGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (allGroups.length) {
+     dispatch(isItLoading(false));
+     console.log("All Groups Data:", allGroups);
+     dispatch(saveAllGroup(allGroups));
+   } else {
+       dispatch(isItLoading(false));
+       console.log("No groups!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   dispatch(isItLoading(false));
+ });
+ };
 
 
 export const fetchPublicGroup = () => async (dispatch) => {
@@ -210,4 +254,41 @@ userRef.update({
 });
  })
 })
+};
+
+
+export const fetchGroupMembers = (groupMembers) => async (dispatch) => {
+  dispatch(isItLoading(true));
+  db.collection('employees')
+    .where('id', 'in', groupMembers)
+    .get()
+    .then((snapshot) => {
+      const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
+      if (groupMembers.length) {
+        dispatch(isItLoading(false));
+        console.log('groupMembers Data:', groupMembers);
+        dispatch(saveGroupMembers(groupMembers));
+      } else {
+        dispatch(isItLoading(false));
+        console.log('No group members!');
+      }
+    })
+    .catch((error) => {
+      console.log('Error getting document:', error);
+      dispatch(isItLoading(false));
+    });
+};
+
+export const fetchEmployeer = (id) => async (dispatch) => {
+  var user = db.collection("employers").doc(id);
+  user.get().then((doc) => {
+  if (doc.exists) {
+    dispatch(saveEmployeer(doc.data()));
+  } else {
+      console.log("No such document!");
+  }
+}).catch((error) => {
+  console.log("Error getting document:", error);
+});
+return user;
 };

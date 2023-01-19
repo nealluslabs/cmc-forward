@@ -12,38 +12,38 @@ const navConfig = [
   },
   {
     title: 'cooler',
-    path: '/dashboard/cooler',
+    path: '#',
     icon: icon('ic_disabled'),
     children: [
       {
         title: 'my coolers',
         type: 'item',
         icon: 'Savings',
-        path: '/dashboard/my-cooler',
+        path: '/dashboard/cooler',
       },
+      // {
+      //   title: 'public',
+      //   type: 'item',
+      //   icon: 'LockOpen',
+      //   path: '/dashboard/public-cooler',
+      // },
       {
-        title: 'public',
-        type: 'item',
-        icon: 'LockOpen',
-        path: '/dashboard/public-cooler',
-      },
-      {
-        title: 'private',
+        title: 'join cooler',
         type: 'item',
         icon: 'LockIcon',
-        path: '/dashboard/private-cooler',
+        path: '/dashboard/join-cooler',
       },
     ],
   },
   {
     title: 'messages',
-    path: '/dashboard/create-cooler',
+    path: '#',
     // icon: icon('ic_msg'),
     iconLabel: 'msg',
   },
   {
     title: 'settings',
-    path: '/dashboard/members',
+    path: '#',
     iconLabel: 'settings',
   },
 ];

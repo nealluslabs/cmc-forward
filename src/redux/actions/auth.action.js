@@ -25,38 +25,55 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 };
 
 
-export const signup = (user, file, navigate, setLoading, url) => async (dispatch) => {
+export const signup = (user, navigate, setLoading) => async (dispatch) => {
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var today  = new Date();
+ 
+  db.collection('employers')
+    .where('employerNumber', '==', parseInt(user.employeer))
+    .get()
+    .then((snapshot) => {
+      const employeer = snapshot.docs.map((doc) => ({ ...doc.data() }));
+      if (employeer.length) {  
+        console.log('Employeer Exist:', employeer[0].cooler);
+        fb.auth().createUserWithEmailAndPassword(
+          user.email,
+          user.password
+      ).then((res)=>{
+        return db.collection('employees').doc(res.user.uid).set({
+          id: res.user.uid,
+          email: user.email,
+          firstName: user.fname,
+          lastName: user.lname,
+          imageUrl: "",
+          password: user.password,
+          coolers: [],
+          employeerNumber: user.employeer,
+          employeerID: employeer[0].id,
+          accruedBalance: 0,
+          walletBalance: 0,
+          accountCreated: today.toLocaleDateString("en-US", options),
+        })
+      }).then(() => {
+        notifySuccessFxn("Registered Successfully✔😊")
+        navigate('/login', { replace: true });
+      }).catch((err) => {
+        console.error("Error signing up: ", err);
+        var errorMessage = err.message;
+        notifyErrorFxn(errorMessage);
+        dispatch(signupFailed({ errorMessage }));
+        setLoading(false);
+      })
 
-    fb.auth().createUserWithEmailAndPassword(
-      user.email,
-      user.password
-  ).then((res)=>{
-    return db.collection('users').doc(res.user.uid).set({
-      id: res.user.uid,
-      email: user.email,
-      firstName: user.fname,
-      lastName: user.lname,
-      imageUrl: url,
-      password: user.password,
-      groups: [],
-      amountAccrued: 0,
-      loanBalance: 0,
-      loanBalance: 0,
-      walletBalance: 0,
-      accountCreated: today.toLocaleDateString("en-US", options),
-    })
-  }).then(() => {
-    notifySuccessFxn("Registered Successfully✔😊")
-    navigate('/login', { replace: true });
-  }).catch((err) => {
-    console.error("Error signing up: ", err);
-    var errorMessage = err.message;
-    notifyErrorFxn(errorMessage);
-    dispatch(signupFailed({ errorMessage }));
-    setLoading(false);
-  })
+      } else {
+        setLoading(false);
+        console.log('Invalid employeer code');
+        notifyErrorFxn("Invalid Employeer Code");
+      }
+    }).catch((error) => {
+      setLoading(false);
+      console.log('Error querying collection:', error);
+    });
 }
 
 
@@ -90,7 +107,7 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
 
 
 export const fetchUserData = (id, type, navigate) => async (dispatch) => {
-  var user = db.collection("users").doc(id);
+  var user = db.collection("employees").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
     // console.log("User Data:", doc.data());

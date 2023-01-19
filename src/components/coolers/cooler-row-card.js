@@ -9,9 +9,8 @@ import { Divider, Chip, Grid, Paper, Typography, Box, Avatar, Button, ButtonBase
 import { borderRadius } from '@mui/system';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import BookDevModal from './bookdev-modal';
-import EmptyAvatar from '../../assets/images/empty-avatar.png';
-  
+import RectangleIMG from '../../assets/images/cooler-img.png';
+import { useNavigate } from 'react-router-dom';
 
 
 const Img = styled('img')({
@@ -58,58 +57,18 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-function MembersRowCard ({ name, email, joined, status, isSelf}) {
+function CoolerRowCard ({ groupId, name, fee, count, status, img, startDate, isMember, members}) {
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
-    const classes2 = useStyles2();
-    const [time, setTime] = useState('time');
-    const [date, setDate] = useState(null);
     const [uid, setUid] = useState(null)
     let today = new Date().toISOString().slice(0, 10);
     const [nTime, setnTime] = useState(null);
+    const navigate = useNavigate();
     // const { allUsers, connects, isLoading } = useSelector((state) => state.user);
 
-    const notifyError = () => toast.error('Please select a date later than today!', {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      });
 
-    const handleChange = (event, newtime) => {
-
-    };
-
-    const setUser = (uid_btn, newtime) => {
-     setnTime(newtime);
-        if(date == null){
-          notifyError();
-         }else if(uid != uid_btn){
-          alert('Select time from the dev date selected');
-         } else{
-          setIsOpen(true);
-         console.log('UID: ', uid);
-         console.log('Date Val: ', date);
-         console.log('Selected Time is:', newtime);
-         }
-    };
     return (
         <>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          />
-       
           <Paper
           sx={{
             p: 1,
@@ -125,10 +84,10 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
         >
           <Grid container spacing={2}>
             <Grid item>
-            <Avatar alt="Profile Pic" src={EmptyAvatar} style={{ width: '120px', height: '120px'}} />
-              {/* <ButtonBase sx={{ width: 128, height: 128 }}>
-              <Img alt="complex" src={RectangleIMG} />
-              </ButtonBase> */}
+            {/* <Avatar alt="Profile Pic" src={EmptyAvatar} style={{ width: '120px', height: '120px'}} /> */}
+              <ButtonBase sx={{ width: 128, height: 128 }}>
+              <Img alt="complex" src={img ? img : RectangleIMG} />
+              </ButtonBase>
             </Grid>
             <Grid item xs={12} sm container spacing={2}>
               <Grid item xs container direction="column" spacing={0}>
@@ -136,58 +95,51 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
                   <div style={{display: 'flex', border: '0px solid red', marginBottom: '-20px'}}>
                   <h2 style={{ fontSize: '19px'}}><b>NAME: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{name}</p>
+                  <p style={{ fontSize: '17px'}}>{name.toUpperCase()}</p>
                   </div>
                   <div style={{display: 'flex', marginBottom: '-20px'}}>
-                  <h2 style={{ fontSize: '19px'}}><b>EMAIL: </b></h2>
+                  <h2 style={{ fontSize: '19px'}}><b>FEE: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{email}</p>
+                  <p style={{ fontSize: '17px'}}>{fee}</p>
                   </div>
                   <div style={{display: 'flex' }}>
-                  <h2 style={{ fontSize: '19px'}}><b>JOINED: </b></h2>
+                  <h2 style={{ fontSize: '19px'}}><b>COUNT: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{joined}</p>
+                  <p style={{ fontSize: '17px'}}>{count}</p>
                   </div>
                 </Grid>
               </Grid>
               
-              {
-                !isSelf && (
-                  <Grid item xs direction="column" spacing={2}>
+              <Grid item xs direction="column" spacing={2}>
               <Box display="flex" alignItems="center" className={classes.box}>
               <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
-              <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 1}}>
-              <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'transparent', border: '1px solid black', color: 'black' }}>
-                {status}
+              <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 5}}>
+              {!isMember ?
+              <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+              onClick={() => {
+                const groupData = {groupId, name, fee, count, img, startDate}
+                navigate('/dashboard/join-cooler', { state: { groupData } })
+              }}>
+                {"Join"}
             </Button>
+            :
+            <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+              onClick={() => {
+                const groupData = {groupId, name, fee, count, img, startDate, members}
+                navigate('/dashboard/members', { state: { groupData } })
+              }}>
+                {"View"}
+            </Button>
+              }
               </Grid>
               </Grid>
+
               </Box>
                 <br/>
-                   {/* next column */}
-              {
-                status != 'Invited' &&(
-                    <Box display="flex" alignItems="center" className={classes.box}>
-                    <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
-                    <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 1}}>
-                    <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}>
-                        REMOVE
-                    </Button>
-                    </Grid>
-                    </Grid>
-                    </Box>
-                )
-              }
-                    <br/>
                   <Grid container justify="center">
-                     {/* ToggleButton */}
                   </Grid>
 
               </Grid>
-                )
-              }
-
-          
             </Grid>
           </Grid>
         </Paper>
@@ -198,4 +150,4 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
       );
 }
 
-export default MembersRowCard
+export default CoolerRowCard

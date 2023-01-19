@@ -15,6 +15,7 @@ import CreateCoolerPage from './pages/CreateCoolerPage';
 import PublicCoolerJoin from './pages/PublicCoolerJoin';
 import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
 import RegisterPage from './pages/RegisterPage';
+import JoinCoolerPage from './pages/JoinCoolerPage';
 
 
 export default function Router() {
@@ -25,11 +26,12 @@ export default function Router() {
       children: [
         { element: <Navigate to="/login" />, index: true },
         { path: 'home', element: <HomePage /> },
+        { path: 'members', element: <MembersPage /> },
         { path: 'cooler', element: <CoolersPage /> },
+        { path: 'join-cooler', element: <JoinCoolerPage /> },
         { path: 'my-cooler', element: <MyCoolersPage /> },
         { path: 'public-cooler', element: <PublicCoolerPage /> },
         { path: 'private-cooler', element: <PrivateCoolerPage /> },
-        { path: 'members', element: <MembersPage /> },
         { path: 'join-public-cooler', element: <PublicCoolerJoin /> },
         { path: 'join-private-cooler', element: <PrivateCoolerJoin /> },
         { path: 'create-cooler', element: <CreateCoolerPage /> },
@@ -46,8 +48,8 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/login" />, index: true },
-        // { element: <Navigate to="/dashboard/home" />, index: true },
+        // { element: <Navigate to="/login" />, index: true },
+        { element: <Navigate to="/dashboard/home" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

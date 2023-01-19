@@ -51,7 +51,7 @@ function NavItem({ item }) {
         '&.active': {
           color: 'black',
           // bgcolor: '#66000000',
-          backgroundColor: 'black',
+          backgroundColor: path != '#' && 'black',
           fontWeight: 'fontWeightBold',
         },
       }}

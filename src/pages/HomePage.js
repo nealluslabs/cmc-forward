@@ -1,20 +1,50 @@
 import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Paper, Button } from '@mui/material';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import HomeBox from '../components/home/home-box';
-import WalletBox from 'src/components/home/wallet-box';
-import RowCard from 'src/components/home/row-card';
-import PieChartCard from 'src/components/home/pie-chart-card';
+import { Grid, Container, Typography, Paper, Button, Stack, Skeleton } from '@mui/material';
+import { useEffect } from 'react';
+import { fCurrency } from '../utils/formatNumber';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import EmptyRowCard from 'src/components/home/empty-row-card';
+import { fetchGroups, fetchMyGroups } from 'src/redux/actions/group.action';
+import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
+import PieChartCard from 'src/components/home/pie-chart-card';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import WalletBox from 'src/components/home/wallet-box';
 
 
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { myGroups, isLoading } = useSelector((state) => state.group);
+
+  useEffect(() => {
+    dispatch(fetchMyGroups(user.coolers));
+  }, [])
+
+
+  console.log("MY GROUPS: ", myGroups);
+const myCoolerGroups = myGroups?.length ? (
+  myGroups.map(group => {
+    return (
+      <MyCoolersRowCard 
+      groupId={group.groupId}
+      name={group.groupName} 
+      fee={fCurrency(group.amount)}
+      count={`${group.members.length} OF ${group.noOfSavers} SAVERS`}
+      img={group.imageUrl}
+      members={group.members}
+      isMember={group.members.includes(user.id)}
+      startDate={group.startDate}
+      />
+    )
+  })
+) : 
+<>
+<EmptyRowCard />
+</>
+
 
   return (
     <>
@@ -59,18 +89,16 @@ export default function HomePage() {
           </Grid>
           <br/>
           {/* <SearchBox style={{ width: '100%' }} /> */}
-          <br/>
-          <Grid  container direction="row" justifyContent="flex-end" alignItems="flex-end">
-          <Button variant="contained" style={{backgroundColor: "#348AED", paddingTop: '10px', paddingBottom: '10px',  paddingRight: '30px', paddingLeft: '30px'}}
-          onClick={()=>{
-            navigate('/dashboard/cooler', { replace: true });
-          }}
-          >
-          CREATE
-        </Button>
-        </Grid>
-          <br/>
-          <RowCard />
+          {
+        isLoading ?
+        <Stack>
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+        </Stack>
+        :
+        myCoolerGroups
+      }
       </Container>
     </>
   );
