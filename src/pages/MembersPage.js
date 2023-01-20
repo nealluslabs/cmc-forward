@@ -27,6 +27,7 @@ export default function MembersPage() {
   console.log("Employeer: ", employeer);
   const myCoolerMembers = groupMembers?.length ? (
     groupMembers.map(member => {
+      console.log("MEMBER: ", member);
       return (
        <>
        {employeer &&
@@ -34,15 +35,17 @@ export default function MembersPage() {
        name={employeer.firstName + " " + employeer.lastName} 
        email={employeer.email} 
        joined={employeer.accountCreated}
-       status={"Invited"}
-       isSelf={true}
+       status={"Paid"}
+       isSelf={employeer.id === user.id ? true : false}
      />
+     //Selet all from groups where employees ID in members(For PAID AND Not PAID Filter)
        }
       <MembersRowCard 
-        name={"PAUL JONES"} 
-        email={"paul.jones@target.com"} 
-        joined={"01.01.2023"}
+        name={member.firstName + " " + member.lastName} 
+        email={member.email} 
+        joined={member.accountCreated}
         status={"Invited"}
+        isSelf={member.id === user.id ? true : false}
         />
         </>
       )
@@ -55,10 +58,10 @@ export default function MembersPage() {
        email={employeer.email} 
        joined={employeer.accountCreated}
        status={"Invited"}
-       isSelf={true}
+       isSelf={employeer.id === user.id ? true : false}
      />
        }
-          <MembersRowCard 
+          {/* <MembersRowCard 
           name={"PATRICIA SMITH"} 
           email={"patricia.smith@target.com"} 
           joined={"01.01.2023"}
@@ -69,7 +72,7 @@ export default function MembersPage() {
           email={"larry.williams@target.com"} 
           joined={"01.01.2023"}
           status={"Not Paid"}
-          />
+          /> */}
   </>
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTheme } from '@mui/material/styles';
 // import { Grid, Container, Typography, Paper, Button } from '@mui/material';
@@ -7,11 +7,11 @@ import {Box,Icon,Typography,CardMedia,CssBaseline,Grid,Container,FormControlLabe
 import { usePaystackPayment, PaystackButton, PaystackConsumer } from 'react-paystack';
 import Modal from '@mui/material/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate} from 'react-router-dom';
 // import CoolerBoxIMG from '../assets/images/cooler-box.png';
 import CoolerBoxIMG from '../assets/images/save-money.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { joinPublicGroup } from 'src/redux/actions/group.action';
+import { joinGroup, joinPublicGroup } from 'src/redux/actions/group.action';
 
 
 export default function JoinCoolerPage() {
@@ -46,12 +46,21 @@ export default function JoinCoolerPage() {
     
       const handleSubmit = () => {
         let today = new Date().toLocaleDateString()
-         dispatch(joinPublicGroup(groupData?.groupId, user, today, navigate));
+         dispatch(joinGroup(groupData?.groupId, user, today, navigate));
       }
 
     const validatePayment = (initializePayment) => {
       initializePayment();
      }
+
+useEffect(() => {
+  console.log("GroupData: ", groupData);
+  if(location.state == null){
+   return navigate("/dashboard/cooler");
+  }
+}, [location.state])
+
+
   return (
     <>
       <Helmet>

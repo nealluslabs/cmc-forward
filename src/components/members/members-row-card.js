@@ -150,13 +150,12 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
                   </div>
                 </Grid>
               </Grid>
-              
               {
                 !isSelf && (
                   <Grid item xs direction="column" spacing={2}>
               <Box display="flex" alignItems="center" className={classes.box}>
               <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
-              <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 1}}>
+              <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 5}}>
               <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'transparent', border: '1px solid black', color: 'black' }}>
                 {status}
             </Button>
@@ -165,7 +164,7 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
               </Box>
                 <br/>
                    {/* next column */}
-              {
+              {/* {
                 status != 'Invited' &&(
                     <Box display="flex" alignItems="center" className={classes.box}>
                     <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
@@ -177,7 +176,7 @@ function MembersRowCard ({ name, email, joined, status, isSelf}) {
                     </Grid>
                     </Box>
                 )
-              }
+              } */}
                     <br/>
                   <Grid container justify="center">
                      {/* ToggleButton */}
