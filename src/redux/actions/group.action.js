@@ -85,7 +85,7 @@ export const uploadGroupImage = (groupData, file, user, navigate, setLoading) =>
 
 
 export const fetchMyGroups = (coolers) => async (dispatch) => {
-  dispatch(isItLoading(true));
+  // dispatch(isItLoading(true));
   db.collection("groups")
   . where('groupId', 'in', coolers)
    .get()
@@ -185,6 +185,12 @@ export const fetchPrivateGroup = () => async (dispatch) => {
   userRef.update({
     members: [...newMembers],
   }).then((res) => {
+    db.collection('employees')
+    .doc(user.id)
+    .update({
+      coolers: [...user?.coolers, groupID],
+    })
+   .then(() => {
     db.collection('groups').doc(groupID).collection('membersCollection').add({
       memberName: user.firstName + " " + user.lastName,
       memberEmail: user.email,
@@ -209,6 +215,8 @@ export const fetchPrivateGroup = () => async (dispatch) => {
     notifyErrorFxn(errorMessage)
     dispatch(isItLoading(false));
   });
+   })
+      
    })
 })
  };

@@ -43,7 +43,7 @@ export default function JoinCoolerPage() {
       },
       onClose: () => alert("Wait! Don't leave :("),
     }
-    
+    console.log(user.coolers, "USER");
       const handleSubmit = () => {
         let today = new Date().toLocaleDateString()
          dispatch(joinGroup(groupData?.groupId, user, today, navigate));

@@ -10,6 +10,7 @@ import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
 import PieChartCard from 'src/components/home/pie-chart-card';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import WalletBox from 'src/components/home/wallet-box';
+import { isItLoading } from 'src/redux/reducers/group.slice';
 
 
 
@@ -20,11 +21,24 @@ export default function HomePage() {
   const { myGroups, isLoading } = useSelector((state) => state.group);
 
   useEffect(() => {
+    if(user?.id == undefined){
+     return navigate("/login");
+    }
+   }, [])
+
+  useEffect(() => {
+    if(myGroups?.length){
+      dispatch(isItLoading(false));
+    }
+  }, [myGroups])
+console.log("USER: ", user);
+  useEffect(() => {
     dispatch(fetchMyGroups(user.coolers));
-  }, [])
+  }, [user])
 
 
   console.log("MY GROUPS: ", myGroups);
+  console.log("IS LOADING: ", isLoading);
 const myCoolerGroups = myGroups?.length ? (
   myGroups.map(group => {
     return (
@@ -35,7 +49,7 @@ const myCoolerGroups = myGroups?.length ? (
       count={`${group.members.length} OF ${group.noOfSavers} SAVERS`}
       img={group.imageUrl}
       members={group.members}
-      isMember={group.members.includes(user.id)}
+      isMember={group.members.includes(user?.id)}
       startDate={group.startDate}
       />
     )

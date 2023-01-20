@@ -114,7 +114,7 @@ function EmptyRowCard () {
           }}
         >
       
-          <center><p style={{color: 'black'}}>Coolers you have created will appear here.</p></center>
+          <center><p style={{color: 'black'}}>Coolers you have joined will appear here.</p></center>
         </Paper>
         <br/>
         </>

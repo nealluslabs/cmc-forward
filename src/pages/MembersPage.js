@@ -44,7 +44,7 @@ export default function MembersPage() {
         name={member.firstName + " " + member.lastName} 
         email={member.email} 
         joined={member.accountCreated}
-        status={"Invited"}
+        status={"Paid"}
         isSelf={member.id === user.id ? true : false}
         />
         </>
@@ -57,7 +57,7 @@ export default function MembersPage() {
        name={employeer.firstName + " " + employeer.lastName} 
        email={employeer.email} 
        joined={employeer.accountCreated}
-       status={"Invited"}
+       status={"Paid"}
        isSelf={employeer.id === user.id ? true : false}
      />
        }
