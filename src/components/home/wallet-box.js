@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { Button, Divider, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { fCurrency } from 'src/utils/formatNumber';
 
 
 function preventDefault(event) {
@@ -30,7 +31,7 @@ export default function WalletBox({type, BoxIcon}) {
             variant="h3"
             component="p"
           >
-        <b>${user?.walletBalance}</b>
+        <b>{fCurrency(user?.walletBalance)}</b>
       </Typography></center>
       <br/>
       {/* <div> */}

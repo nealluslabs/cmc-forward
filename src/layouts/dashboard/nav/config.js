@@ -19,7 +19,7 @@ const navConfig = [
         title: 'my coolers',
         type: 'item',
         icon: 'Savings',
-        path: '/dashboard/cooler',
+        path: '/dashboard/my-cooler',
       },
       // {
       //   title: 'public',
@@ -31,8 +31,7 @@ const navConfig = [
         title: 'join cooler',
         type: 'item',
         icon: 'LockIcon',
-        path: '#',
-        // path: '/dashboard/join-cooler',
+        path: '/dashboard/cooler',
       },
     ],
   },

@@ -68,7 +68,7 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Cooler
+              Sign in to Cooler(Employee)
             </Typography>
             <Typography variant="body2" sx={{ mb: 2 }}>
               Don’t have an account? {''}

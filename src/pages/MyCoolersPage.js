@@ -6,12 +6,14 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import HomeBox from '../components/home/home-box';
 import PublicCoolerRowCard from 'src/components/public-cooler/public-cooler-card';
-import { fetchGroups, fetchPublicGroup } from 'src/redux/actions/group.action';
+import { fetchGroups, fetchMyGroups, fetchPublicGroup } from 'src/redux/actions/group.action';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fCurrency } from '../utils/formatNumber';
+import EmptyRowCard from 'src/components/home/empty-row-card';
+import { fetchUserData } from 'src/redux/actions/auth.action';
+import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
 // import AllCoolerRowCard from 'src/components/my-cooler/all-cooler-card';
-
 
 
 
@@ -19,32 +21,43 @@ export default function MyCoolersPage() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { allGroups, publicGroups, isLoading } = useSelector((state) => state.group);
+  const { myGroups, isLoading } = useSelector((state) => state.group);
 
   useEffect(() => {
-    dispatch(fetchGroups());
+    dispatch(fetchMyGroups(user.coolers));
+  }, [user])
+
+  
+  useEffect(() => {
+    dispatch(fetchUserData(user.id));
   }, [])
 
-
-console.log("All GROUPS: ", allGroups);
-const allCoolerGroup = allGroups?.length ? (
-  allGroups.map(group => {
-    return (
-      <></>
-    )
-  })
-) : 
-<>
-<div className="container">
-      <center><p className="center">No cooler yet</p></center>
-  </div>
-</>
+  console.log("MY GROUPS: ", myGroups);
+  const myCoolerGroups = myGroups?.length ? (
+    myGroups.map(group => {
+      return (
+        <MyCoolersRowCard 
+        groupId={group.groupId}
+        name={group.groupName} 
+        fee={fCurrency(group.amount)}
+        count={`${group.members.length} OF ${group.noOfSavers} SAVERS`}
+        img={group.imageUrl}
+        members={group.members}
+        isMember={group.members.includes(user?.id)}
+        startDate={group.startDate}
+        />
+      )
+    })
+  ) : 
+  <>
+  <EmptyRowCard />
+  </>
 
 
   return (
     <>
       <Helmet>
-        <title> Cooler | Groups </title>
+        <title> Cooler | My Groups </title>
       </Helmet>
       <Container maxWidth="xl">
       {/* <SearchBox style={{ width: '100%' }} /> */}
@@ -63,7 +76,7 @@ const allCoolerGroup = allGroups?.length ? (
         <Skeleton animation={false} />
         </Stack>
         :
-        allCoolerGroup
+        myCoolerGroups
       }
   </Container>
       

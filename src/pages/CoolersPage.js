@@ -11,8 +11,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fCurrency } from '../utils/formatNumber';
 import CoolerRowCard from 'src/components/coolers/cooler-row-card';
-
-
+import { fetchUserData } from 'src/redux/actions/auth.action';
 
 
 
@@ -25,9 +24,12 @@ export default function CoolersPage() {
   useEffect(() => {
     dispatch(fetchGroups(user.employeerID));
   }, [])
+  
+  useEffect(() => {
+    dispatch(fetchUserData(user.id));
+  }, [])
 
-
-console.log("All GROUPS: ", allGroups);
+// console.log("All GROUPS: ", allGroups);
 const allCoolerGroup = allGroups?.length ? (
   allGroups.map(group => {
     return (

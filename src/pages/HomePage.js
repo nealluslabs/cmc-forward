@@ -11,6 +11,7 @@ import PieChartCard from 'src/components/home/pie-chart-card';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import WalletBox from 'src/components/home/wallet-box';
 import { isItLoading } from 'src/redux/reducers/group.slice';
+import { fetchUserData } from 'src/redux/actions/auth.action';
 
 
 
@@ -27,18 +28,16 @@ export default function HomePage() {
    }, [])
 
   useEffect(() => {
-    if(myGroups?.length){
-      dispatch(isItLoading(false));
-    }
-  }, [myGroups])
-console.log("USER: ", user);
-  useEffect(() => {
     dispatch(fetchMyGroups(user.coolers));
   }, [user])
 
+  useEffect(() => {
+    dispatch(fetchUserData(user.id));
+  }, [])
 
+
+  console.log(user, ":USER");
   console.log("MY GROUPS: ", myGroups);
-  console.log("IS LOADING: ", isLoading);
 const myCoolerGroups = myGroups?.length ? (
   myGroups.map(group => {
     return (
