@@ -177,7 +177,10 @@ export const fetchPrivateGroup = () => async (dispatch) => {
    };
 
 
-   export const joinGroup = (groupID, user, today, navigate) => async (dispatch) => {
+   export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal) => async (dispatch) => {
+    let newUserBal = userWalletBal - groupFee;
+    let newGroupBal = groupBal + groupFee;
+      // console.log("New Group Bal: ", newGroupBal);
     dispatch(isItLoading(true));
     let newMembers;
     var docRef = db.collection("groups").doc(groupID);
@@ -189,11 +192,13 @@ export const fetchPrivateGroup = () => async (dispatch) => {
   db.collection('groups')
   var userRef = db.collection("groups").doc(groupID);
   userRef.update({
+    accountBalance: newGroupBal,
     members: [...newMembers],
   }).then((res) => {
     db.collection('employees')
     .doc(user.id)
     .update({
+      walletBalance: newUserBal,
       coolers: [...user?.coolers, groupID],
     })
    .then(() => {
@@ -221,11 +226,59 @@ export const fetchPrivateGroup = () => async (dispatch) => {
     notifyErrorFxn(errorMessage)
     dispatch(isItLoading(false));
   });
-   })
-      
+   }) 
    })
 })
  };
+//    export const joinGroup = (groupID, user, today, navigate, userBal, groupFee) => async (dispatch) => {
+//     dispatch(isItLoading(true));
+//     let newMembers;
+//     var docRef = db.collection("groups").doc(groupID);
+//     docRef.get().then((doc) => {
+//     const data = doc.data();
+//     const members = data.members;
+//     newMembers = [...members, user.id];
+// }).then(() => {
+//   db.collection('groups')
+//   var userRef = db.collection("groups").doc(groupID);
+//   userRef.update({
+//     members: [...newMembers],
+//   }).then((res) => {
+//     db.collection('employees')
+//     .doc(user.id)
+//     .update({
+//       coolers: [...user?.coolers, groupID],
+//     })
+//    .then(() => {
+//     db.collection('groups').doc(groupID).collection('membersCollection').add({
+//       memberName: user.firstName + " " + user.lastName,
+//       memberEmail: user.email,
+//       memberImageUrl: "",
+//       invitedBy: user.id,
+//       invite: 0,
+//       paid: 1,
+//       users: user.id,
+//       sentAt: today,
+//     }).then((resp) => {
+//       console.log("membersCollection RESPONSE: ", resp);
+//       db.collection('groups').doc(groupID).collection('membersCollection').doc(resp.id).update({
+//         id: resp.id,
+//       })
+//   }).then(() => {
+//     dispatch(isItLoading(false));
+//     notifySuccessFxn("Joined Group")
+//     navigate('/dashboard/home', { replace: true });
+//     }).catch((error) => {
+//     console.log("Error joining group:", error);
+//     var errorMessage = error.message;
+//     notifyErrorFxn(errorMessage)
+//     dispatch(isItLoading(false));
+//   });
+//    })
+      
+//    })
+// })
+//  };
 
 
 export const joinPublicGroup = (groupID, user, today, navigate) => async (dispatch) => {

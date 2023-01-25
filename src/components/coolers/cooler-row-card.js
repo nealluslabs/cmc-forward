@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   
 
 
-function CoolerRowCard ({ groupId, name, fee, count, status, img, startDate, isMember, members}) {
+function CoolerRowCard ({ groupId, name, fee, feeInNum, count, status, img, startDate, isMember, members, accountBal}) {
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const [uid, setUid] = useState(null)
@@ -117,7 +117,7 @@ function CoolerRowCard ({ groupId, name, fee, count, status, img, startDate, isM
               {!isMember ?
               <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
               onClick={() => {
-                const groupData = {groupId, name, fee, count, img, startDate}
+                const groupData = {groupId, name, fee, feeInNum, accountBal, count, img, startDate}
                 navigate('/dashboard/join-cooler', { state: { groupData } })
               }}>
                 {"Join"}
@@ -125,7 +125,7 @@ function CoolerRowCard ({ groupId, name, fee, count, status, img, startDate, isM
             :
             <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
               onClick={() => {
-                const groupData = {groupId, name, fee, count, img, startDate, members}
+                const groupData = {groupId, name, fee, feeInNum, accountBal, count, img, startDate, members}
                 navigate('/dashboard/members', { state: { groupData } })
               }}>
                 {"View"}

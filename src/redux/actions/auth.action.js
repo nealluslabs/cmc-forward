@@ -51,7 +51,7 @@ export const signup = (user, navigate, setLoading) => async (dispatch) => {
           employeerNumber: user.employeer,
           employeerID: employeer[0].id,
           accruedBalance: 0,
-          walletBalance: 0,
+          walletBalance: 1000,
           accountCreated: today.toLocaleDateString("en-US", options),
         })
       }).then(() => {

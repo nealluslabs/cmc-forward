@@ -12,6 +12,8 @@ import { useLocation, useNavigate} from 'react-router-dom';
 import CoolerBoxIMG from '../assets/images/save-money.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { joinGroup, joinPublicGroup } from 'src/redux/actions/group.action';
+import { fetchUserData } from 'src/redux/actions/auth.action';
+import { notifyErrorFxn } from 'src/utils/toast-fxn';
 
 
 export default function JoinCoolerPage() {
@@ -53,12 +55,25 @@ export default function JoinCoolerPage() {
       initializePayment();
      }
 
+     const makePayment = () => {
+      if(user?.walletBalance >= groupData?.feeInNum){
+        let today = new Date().toLocaleDateString()
+        dispatch(joinGroup(groupData?.groupId, user, today, navigate, user?.walletBalance, groupData?.feeInNum, groupData?.accountBal ));
+     }else{
+      notifyErrorFxn("You do not have enough balance")
+     }
+     }
+
 useEffect(() => {
   console.log("GroupData: ", groupData);
   if(location.state == null){
    return navigate("/dashboard/cooler");
   }
 }, [location.state])
+
+useEffect(() => {
+  dispatch(fetchUserData(user.id));
+}, [])
 
 
   return (
@@ -122,7 +137,7 @@ useEffect(() => {
                 </Grid>
                 <div style={{border: '1px solid grey', width: '100%'}}></div>
                 <br/>
-            <PaystackConsumer {...componentProps} >
+            {/* <PaystackConsumer {...componentProps} >
                 {({initializePayment}) => 
                  <Button disabled={isLoading} variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
                  onClick={() => {validatePayment(initializePayment)}} 
@@ -130,7 +145,12 @@ useEffect(() => {
                     <b>{isLoading ? "Loading..." : "PAY"}</b> 
                 </Button>
                 }
-            </PaystackConsumer>  
+            </PaystackConsumer>   */}
+             <Button disabled={isLoading} variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+                 onClick={() => makePayment()} 
+                 >
+                    <b>{isLoading ? "Loading..." : "PAY"}</b> 
+                </Button>
               </Grid>
       
     </Grid>

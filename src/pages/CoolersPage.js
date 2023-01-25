@@ -36,7 +36,9 @@ const allCoolerGroup = allGroups?.length ? (
       <CoolerRowCard 
       groupId={group.groupId}
       name={group.groupName} 
+      feeInNum={group.amount}
       fee={fCurrency(group.amount)}
+      accountBal={group.accountBalance}
       count={`${group.members.length} OF ${group.noOfSavers} SAVERS`}
       status={group.members.includes(user.id) ? "View" : "Join"}
       img={group.imageUrl}
