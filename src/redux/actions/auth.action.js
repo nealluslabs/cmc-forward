@@ -2,8 +2,8 @@ import { db, fb, auth, storage } from '../../config/firebase';
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-// import { clearCandidateSlice } from '../reducers/candidate.slice';
-// import { clearJobSlice } from '../reducers/job.slice';
+import { clearGroup } from '../reducers/group.slice';
+
 
   export const signin = (user, navigate, setLoading) => async (dispatch) => {
     fb.auth().signInWithEmailAndPassword(user.email, user.password)
@@ -11,7 +11,7 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
       // Signed in
       var user = userCredential.user;
       console.log('Signed In user is: ', user.email);
-       dispatch(fetchUserData(user.uid, "sigin", navigate));
+       dispatch(fetchUserData(user.uid, "sigin", navigate, setLoading));
     })
     .catch((error) => {
       setLoading(false);
@@ -106,7 +106,7 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
 }
 
 
-export const fetchUserData = (id, type, navigate) => async (dispatch) => {
+export const fetchUserData = (id, type, navigate, setLoading) => async (dispatch) => {
   var user = db.collection("employees").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
@@ -117,6 +117,8 @@ export const fetchUserData = (id, type, navigate) => async (dispatch) => {
       navigate('/dashboard/home', { replace: true });
     }
   } else {
+      setLoading(false);
+      notifyErrorFxn("Unauthorized❌")
       console.log("No such document!");
   }
 }).catch((error) => {
@@ -133,11 +135,10 @@ return user;
 export const logout = (navigate) => async (dispatch) => {
   fb.auth().signOut().then(() => {
     dispatch(logoutFxn());
-    console.log('logout successful!');
     dispatch(clearUser());
-    // dispatch(clearCandidateSlice());
-    // dispatch(clearJobSlice());
+    dispatch(clearGroup());
     navigate('/login', { replace: true });
+    console.log('logout successful!');
   }).catch((error) => {
     // An error happened.
     console.log('logout failed response: ', error.message);

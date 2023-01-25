@@ -105,11 +105,11 @@ export default function HomePage() {
    }, [])
 
   useEffect(() => {
-    dispatch(fetchMyGroups(user.coolers));
+    dispatch(fetchMyGroups(user?.coolers));
   }, [user])
 
   useEffect(() => {
-    dispatch(fetchUserData(user.id));
+    dispatch(fetchUserData(user?.id));
   }, [])
 
 
