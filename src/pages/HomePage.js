@@ -159,9 +159,9 @@ const myCoolerGroups = myGroups?.length ? (
                 }}
               >
                 {/* <PieChartCard /> */}
-            <ChartWrapperStyle dir="ltr">
+            {/* <ChartWrapperStyle dir="ltr"> */}
               <ReactApexChart type="donut" series={CHART_DATA} options={chartOptions} height={240} />
-            </ChartWrapperStyle>
+            {/* </ChartWrapperStyle> */}
               </Paper>
             </Grid>
 
