@@ -86,7 +86,7 @@ export default function MembersPage() {
           <br/>
           <Grid  container direction="row" justifyContent="flex-end" alignItems="flex-end">
           <Button variant="contained" style={{backgroundColor: "#348AED", paddingTop: '10px', paddingBottom: '10px',  paddingRight: '30px', paddingLeft: '30px'}} startIcon={<Iconify icon="eva:plus-fill" />}>
-          ADD MEMBER
+          Make Payment
         </Button>
         </Grid>
           <br/>
