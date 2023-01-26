@@ -8,7 +8,7 @@ import Iconify from '../iconify';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadImage } from 'src/redux/actions/auth.action';
+import { signup, uploadImage } from 'src/redux/actions/auth.action';
 import { notifySuccessFxn } from 'src/utils/toast-fxn';
 
 
@@ -27,6 +27,7 @@ export default function RegisterForm() {
   const [lname, setLName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [employeer, setEmployeer] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState({selectedFile: [], selectedFileName: []});
   const [file, setFile] = useState();
@@ -43,9 +44,18 @@ export default function RegisterForm() {
   const userSignup = (e) => {
     e.preventDefault();
     setLoading(true);
-    const user = {fname, lname, email, password};
-    dispatch(uploadImage(user, selectedFile.selectedFile, navigate, setLoading)); 
+    const user = {fname, lname, email, employeer, password};
+    console.log("USER: ", user);
+    dispatch(signup(user, navigate, setLoading)); 
   }
+
+
+  // const userSignup = (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const user = {fname, lname, email, password};
+  //   dispatch(uploadImage(user, selectedFile.selectedFile, navigate, setLoading)); 
+  // }
 
   return (
     <>
@@ -54,6 +64,7 @@ export default function RegisterForm() {
         <TextField name="fname" required label="First Name" value={fname} onChange={(e) => setFName(e.target.value)}/>
         <TextField name="lname" required label="Last Name" value={lname} onChange={(e) => setLName(e.target.value)}/>
         <TextField name="email" required label="Email address" type="email" onChange={(e) => setEmail(e.target.value)}/>
+        <TextField name="employeer" required label="Employeer No." type="number" onChange={(e) => setEmployeer(e.target.value)}/>
 
         <TextField
           name="password"
@@ -71,8 +82,7 @@ export default function RegisterForm() {
             ),
           }}
         />
-          {/* <Grid item xs={12} sm={6} style={{border: '0px solid red'}}> */}
-          <Grid
+          {/* <Grid
           container
           direction="row"
           justifyContent="flex-start"
@@ -90,7 +100,6 @@ export default function RegisterForm() {
               variant="contained"
               component="label"
               style={{backgroundColor: 'black', height:"40px", width: '100%',  fontSize:"15px"}}
-            //   sx={{ mt: 3, mb: 2 }}
             >
               UPLOAD PROFILE PIC
               <input
@@ -103,7 +112,7 @@ export default function RegisterForm() {
             </Button>
             <p>{selectedFile?.selectedFileName}</p>
             </center>
-          </Grid>
+          </Grid> */}
         
       </Stack>
 

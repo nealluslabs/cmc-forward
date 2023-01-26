@@ -30,11 +30,12 @@ export default function LoginForm() {
     <>
      <form onSubmit={userSignin}>
       <Stack spacing={3}>
-        <TextField name="email" type="email" label="Email address" onChange={(e) => setEmail(e.target.value)}/>
+        <TextField required name="email" type="email" label="Email address" onChange={(e) => setEmail(e.target.value)}/>
 
         <TextField
           name="password"
           label="Password"
+          required
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
