@@ -50,7 +50,7 @@ export default function MyCoolersPage() {
     })
   ) : 
   <>
-  <EmptyRowCard />
+  <EmptyRowCard msg={"Coolers you have joined will appear here."}/>
   </>
 
 

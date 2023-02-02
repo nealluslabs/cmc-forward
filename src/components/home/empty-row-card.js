@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EmptyRowCard () {
+function EmptyRowCard ({msg}) {
     const [isOpen, setIsOpen] = useState(false);
     const classes = useStyles();
     const classes2 = useStyles2();
@@ -114,7 +114,7 @@ function EmptyRowCard () {
           }}
         >
       
-          <center><p style={{color: 'black'}}>Coolers you have joined will appear here.</p></center>
+          <center><p style={{color: 'black'}}>{msg}</p></center>
         </Paper>
         <br/>
         </>

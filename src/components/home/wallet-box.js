@@ -31,7 +31,7 @@ export default function WalletBox({type, BoxIcon}) {
             variant="h3"
             component="p"
           >
-        <b>{fCurrency(user?.walletBalance)}</b>
+        <b>{user?.walletBalance === 0 ? "$0" : fCurrency(user?.walletBalance)}</b>
       </Typography></center>
       <br/>
       {/* <div> */}

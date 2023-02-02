@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Iconify from '../components/iconify';
 import MembersRowCard from 'src/components/members/members-row-card';
 import { fetchEmployeer, fetchGroupMembers } from 'src/redux/actions/group.action';
+import EmptyRowCard from 'src/components/home/empty-row-card';
 
 
 
@@ -30,7 +31,7 @@ export default function MembersPage() {
       console.log("MEMBER: ", member);
       return (
        <>
-       {employeer &&
+       {/* {employeer &&
        <MembersRowCard 
        name={employeer.firstName + " " + employeer.lastName} 
        email={employeer.email} 
@@ -39,7 +40,7 @@ export default function MembersPage() {
        isSelf={employeer.id === user.id ? true : false}
      />
      //Selet all from groups where employees ID in members(For PAID AND Not PAID Filter)
-       }
+       } */}
       <MembersRowCard 
         name={member.firstName + " " + member.lastName} 
         email={member.email} 
@@ -51,29 +52,7 @@ export default function MembersPage() {
       )
     })
   ) : 
-  <>
-      {employeer &&
-       <MembersRowCard 
-       name={employeer.firstName + " " + employeer.lastName} 
-       email={employeer.email} 
-       joined={employeer.accountCreated}
-       status={"Paid"}
-       isSelf={employeer.id === user.id ? true : false}
-     />
-       }
-          {/* <MembersRowCard 
-          name={"PATRICIA SMITH"} 
-          email={"patricia.smith@target.com"} 
-          joined={"01.01.2023"}
-          status={"Paid"}
-          />
-          <MembersRowCard 
-          name={"LARRY WILLIAMS"} 
-          email={"larry.williams@target.com"} 
-          joined={"01.01.2023"}
-          status={"Not Paid"}
-          /> */}
-  </>
+  <EmptyRowCard msg={"Members that have joined will appear here."}/>
 
   return (
     <>

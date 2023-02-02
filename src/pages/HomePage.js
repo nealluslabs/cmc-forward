@@ -132,7 +132,7 @@ const myCoolerGroups = myGroups?.length ? (
   })
 ) : 
 <>
-<EmptyRowCard />
+<EmptyRowCard msg={"Coolers you have joined will appear here."}/>
 </>
 
 
