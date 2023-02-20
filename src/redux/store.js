@@ -1,13 +1,20 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
+import { useDispatch as useAppDispatch, useSelector as useAppSelector } from 'react-redux';
 import thunk from 'redux-thunk';
 import storage from './storage';
 import authReducer from './reducers/auth.slice';
 import groupReducer from './reducers/group.slice';
+import inboxReducer from './reducers/chat.slice';
+// import chatReducer from '../chat-src/redux/slices/chat';
+
+
 
 const reducers = combineReducers({
   auth: authReducer,
   group: groupReducer,
+  // chat: chatReducer,
+  inbox: inboxReducer,
 });
 
 const persistConfig = {
@@ -24,4 +31,15 @@ const store = configureStore({
   middleware: [thunk],
 });
 
-export default store;
+const { dispatch } = store;
+
+const useSelector = useAppSelector;
+
+const persistor = persistStore(store);
+
+const useDispatch = () => useAppDispatch();
+
+export { store, persistor, dispatch, useSelector, useDispatch };
+
+
+// export default store;

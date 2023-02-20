@@ -177,7 +177,10 @@ export const fetchPrivateGroup = () => async (dispatch) => {
    };
 
 
-   export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal) => async (dispatch) => {
+   export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal, groupName) => async (dispatch) => {
+    var today  = new Date();
+    const date = today.toISOString();  
+   
     let newUserBal = userWalletBal - groupFee;
     let newGroupBal = groupBal + groupFee;
       // console.log("New Group Bal: ", newGroupBal);
@@ -215,6 +218,15 @@ export const fetchPrivateGroup = () => async (dispatch) => {
       console.log("membersCollection RESPONSE: ", resp);
       db.collection('groups').doc(groupID).collection('membersCollection').doc(resp.id).update({
         id: resp.id,
+      }).then(() => {
+        return db.collection('inbox')
+          .add({
+              id: user.id,
+              msg: `You have joined ${groupName}`,
+              isViewed: false,
+              unread: 0,
+              time: date,
+          })
       })
   }).then(() => {
     dispatch(isItLoading(false));

@@ -16,6 +16,7 @@ import PublicCoolerJoin from './pages/PublicCoolerJoin';
 import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
 import RegisterPage from './pages/RegisterPage';
 import JoinCoolerPage from './pages/JoinCoolerPage';
+import InboxPage from './pages/InboxPage';
 
 
 export default function Router() {
@@ -30,6 +31,8 @@ export default function Router() {
         { path: 'my-cooler', element: <MyCoolersPage /> },
         { path: 'cooler', element: <CoolersPage /> },
         { path: 'join-cooler', element: <JoinCoolerPage /> },
+        { path: 'chat', element: <InboxPage /> },
+        { path: 'chat/:name', element: <InboxPage /> },
         // { path: 'my-cooler', element: <MyCoolersPage /> },
         { path: 'public-cooler', element: <PublicCoolerPage /> },
         { path: 'private-cooler', element: <PrivateCoolerPage /> },

@@ -4,6 +4,7 @@ import "firebase/storage";
 import "firebase/auth";
 
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDXYDyDFyCGZm1ukPFjGcgltftOBDeqqPM",
   authDomain: "coworkpay.firebaseapp.com",
@@ -16,7 +17,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const fb = firebase.initializeApp(firebaseConfig);
-
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = firebase.firestore();

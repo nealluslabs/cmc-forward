@@ -37,7 +37,7 @@ const navConfig = [
   },
   {
     title: 'messages',
-    path: '#',
+    path: '/dashboard/chat',
     // icon: icon('ic_msg'),
     iconLabel: 'msg',
   },

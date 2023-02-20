@@ -28,6 +28,7 @@ import { clearGroup } from '../reducers/group.slice';
 export const signup = (user, navigate, setLoading) => async (dispatch) => {
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var today  = new Date();
+  const date = today.toISOString();
  
   db.collection('employers')
     .where('employerNumber', '==', parseInt(user.employeer))
@@ -53,6 +54,15 @@ export const signup = (user, navigate, setLoading) => async (dispatch) => {
           accruedBalance: 0,
           walletBalance: 1000,
           accountCreated: today.toLocaleDateString("en-US", options),
+        }).then(() => {
+          return db.collection('inbox')
+          .add({
+              id: res.user.uid,
+              msg: 'Welcome to Cooler. Thank you for joining us!',
+              isViewed: false,
+              unread: 0,
+              time: date,
+          })
         })
       }).then(() => {
         notifySuccessFxn("Registered Successfully✔😊")
