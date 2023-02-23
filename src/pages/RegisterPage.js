@@ -10,6 +10,7 @@ import Iconify from '../components/iconify';
 import Piggy from '../assets/images/piggy2.jpg';
 import Money from '../assets/images/money.jpg';
 import LoginForm from 'src/components/login/LoginForm';
+import CoolerEntryIMG from '../assets/images/cooler-entry.jpg';
 import RegisterForm from 'src/components/register/RegisterForm';
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -57,7 +58,8 @@ export default function RegisterPage() {
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               <span className='wave' style={{color: '#348AED'}}>*Cooler*</span> your guaranteed back up plan
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+            <img src={CoolerEntryIMG} alt="login" />
+            {/* <img src="/assets/illustrations/illustration_login.png" alt="login" /> */}
           </StyledSection>
         )}
 

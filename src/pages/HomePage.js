@@ -18,33 +18,23 @@ import ReactApexChart from 'react-apexcharts';
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
 import { BaseOptionChart } from 'src/components/chart2';
+import RecentTransaction from 'src/components/home/recent-transaction';
 
 
 const CHART_HEIGHT = 392;
 const LEGEND_HEIGHT = 72;
 
-const ChartWrapperStyle = styled('div')(({ theme }) => ({
-  height: CHART_HEIGHT,
-  marginTop: theme.spacing(0),
-  '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
-  '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
-    overflow: 'visible',
-  },
-  '& .apexcharts-legend': {
-    height: LEGEND_HEIGHT,
-    alignContent: 'center',
-    position: 'relative !important',
-    borderTop: `solid 1px ${theme.palette.divider}`,
-    top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
-  },
-}));
 
-// ----------------------------------------------------------------------
 
 const CHART_DATA = [50, 50];
 
 export default function HomePage() {
   const theme = useTheme();
+    
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { myGroups, isLoading } = useSelector((state) => state.group);
 
   const chartOptions = merge(BaseOptionChart(), {
     colors: [
@@ -60,19 +50,10 @@ export default function HomePage() {
     tooltip: {
       enabled: false
   },
-    // tooltip: {
-    //   fillSeriesColor: false,
-    //   y: {
-    //     formatter: (seriesName) => fNumber(seriesName),
-    //     title: {
-    //       formatter: (seriesName) => `${seriesName}`,
-    //     },
-    //   },
-    // },
     plotOptions: {
       pie: {
         donut: {
-          size: '90%',
+          size: '70%',
           labels: {
             value: {
               formatter: (val) => fNumber(0),
@@ -80,7 +61,9 @@ export default function HomePage() {
             total: {
               formatter: (w) => {
                 const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                return fNumber(0);
+                console.log("user?.accruedBalance: ", user?.accruedBalance);
+                return user?.accruedBalance === 0 ? "$0" : fCurrency(user?.accruedBalance);
+                // return fNumber(0);
               },
             },
             hover: {
@@ -92,11 +75,7 @@ export default function HomePage() {
     },
   });
 
-  
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { myGroups, isLoading } = useSelector((state) => state.group);
+
 
   useEffect(() => {
     if(user?.id == undefined){
@@ -160,7 +139,7 @@ const myCoolerGroups = myGroups?.length ? (
               >
                 {/* <PieChartCard /> */}
             {/* <ChartWrapperStyle dir="ltr"> */}
-              <ReactApexChart type="donut" series={CHART_DATA} options={chartOptions} height={240} />
+              <ReactApexChart key={Math.random()} type="donut" series={CHART_DATA} options={chartOptions} height={240} />
             {/* </ChartWrapperStyle> */}
               </Paper>
             </Grid>
@@ -181,16 +160,36 @@ const myCoolerGroups = myGroups?.length ? (
           </Grid>
           <br/>
           {/* <SearchBox style={{ width: '100%' }} /> */}
-          {
-        isLoading ?
-        <Stack>
-        <Skeleton />
-        <Skeleton animation="wave" />
-        <Skeleton animation={false} />
-        </Stack>
-        :
-        myCoolerGroups
-      }
+          
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={12} lg={7.5}>
+             {
+                isLoading ?
+                <Stack>
+                <Skeleton />
+                <Skeleton animation="wave" />
+                <Skeleton animation={false} />
+                </Stack>
+                :
+                myCoolerGroups
+              }
+            </Grid>
+
+             <Grid item xs={8} md={6} lg={4.5}>
+             {/* <Grid item xs={12} md={8} lg={6}> */}
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: 540,
+                  border: '1px solid black'
+                }}
+              >
+                <RecentTransaction />
+              </Paper>
+            </Grid>
+          </Grid>
       </Container>
     </>
   );

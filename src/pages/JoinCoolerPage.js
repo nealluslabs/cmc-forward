@@ -54,11 +54,10 @@ export default function JoinCoolerPage() {
     const validatePayment = (initializePayment) => {
       initializePayment();
      }
-
      const makePayment = () => {
       if(user?.walletBalance >= groupData?.feeInNum){
         let today = new Date().toLocaleDateString()
-        dispatch(joinGroup(groupData?.groupId, user, today, navigate, user?.walletBalance, groupData?.feeInNum, groupData?.accountBal, groupData?.name ));
+        dispatch(joinGroup(groupData?.groupId, user, today, navigate, user?.walletBalance, groupData?.feeInNum, groupData?.accountBal, groupData?.name, user?.accruedBalance ));
      }else{
       notifyErrorFxn("You do not have enough balance")
      }

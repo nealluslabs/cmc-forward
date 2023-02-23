@@ -114,7 +114,7 @@ function MyCoolersRowCard ({ groupId, name, fee, count, status, img, startDate, 
           <Grid container spacing={2}>
             <Grid item>
             {/* <Avatar alt="Profile Pic" src={EmptyAvatar} style={{ width: '120px', height: '120px'}} /> */}
-              <ButtonBase sx={{ width: 128, height: 128 }}>
+              <ButtonBase sx={{ width: 108, height: 108 }}>
               <Img alt="complex" src={img ? img : RectangleIMG} />
               </ButtonBase>
             </Grid>
@@ -122,19 +122,19 @@ function MyCoolersRowCard ({ groupId, name, fee, count, status, img, startDate, 
               <Grid item xs container direction="column" spacing={0}>
                 <Grid item xs>
                   <div style={{display: 'flex', border: '0px solid red', marginBottom: '-20px'}}>
-                  <h2 style={{ fontSize: '19px'}}><b>NAME: </b></h2>
+                  <h2 style={{ fontSize: '18px'}}><b>NAME: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{name.toUpperCase()}</p>
+                  <p style={{ fontSize: '16px'}}>{name.toUpperCase()}</p>
                   </div>
                   <div style={{display: 'flex', marginBottom: '-20px'}}>
-                  <h2 style={{ fontSize: '19px'}}><b>FEE: </b></h2>
+                  <h2 style={{ fontSize: '18px'}}><b>FEE: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{fee}</p>
+                  <p style={{ fontSize: '16px'}}>{fee}</p>
                   </div>
                   <div style={{display: 'flex' }}>
-                  <h2 style={{ fontSize: '19px'}}><b>COUNT: </b></h2>
+                  <h2 style={{ fontSize: '18px'}}><b>COUNT: </b></h2>
                     &nbsp; &nbsp;
-                  <p style={{ fontSize: '17px'}}>{count}</p>
+                  <p style={{ fontSize: '16px'}}>{count}</p>
                   </div>
                 </Grid>
               </Grid>
@@ -143,7 +143,7 @@ function MyCoolersRowCard ({ groupId, name, fee, count, status, img, startDate, 
               <Box display="flex" alignItems="center" className={classes.box}>
               <Grid item xs={6} sm container spacing={1} justifyContent="flex-end" alignItems="center">
               <Grid item justifyContent="flex-end" alignItems="center" sx={{mt: 5}}>
-              <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: '#348AED', }}
+              <Button variant="contained" style={{minHeight: '45px', minWidth: '125px', backgroundColor: '#348AED', }}
               onClick={() => {
                 const groupData = {groupId, name, fee, count, img, startDate, members}
                 navigate('/dashboard/members', { state: { groupData } })

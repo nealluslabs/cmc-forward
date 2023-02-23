@@ -177,12 +177,13 @@ export const fetchPrivateGroup = () => async (dispatch) => {
    };
 
 
-   export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal, groupName) => async (dispatch) => {
+   export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal, groupName, accruedBalance) => async (dispatch) => {
     var today  = new Date();
     const date = today.toISOString();  
    
     let newUserBal = userWalletBal - groupFee;
     let newGroupBal = groupBal + groupFee;
+    let newAccruedBal = accruedBalance + groupFee;
       // console.log("New Group Bal: ", newGroupBal);
     dispatch(isItLoading(true));
     let newMembers;
@@ -202,6 +203,7 @@ export const fetchPrivateGroup = () => async (dispatch) => {
     .doc(user.id)
     .update({
       walletBalance: newUserBal,
+      accruedBalance: newAccruedBal,
       coolers: [...user?.coolers, groupID],
     })
    .then(() => {
@@ -231,6 +233,7 @@ export const fetchPrivateGroup = () => async (dispatch) => {
   }).then(() => {
     dispatch(isItLoading(false));
     notifySuccessFxn("Joined Group")
+    // window.location = '/dashboard/home';
     navigate('/dashboard/home', { replace: true });
     }).catch((error) => {
     console.log("Error joining group:", error);

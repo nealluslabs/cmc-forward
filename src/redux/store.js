@@ -31,15 +31,5 @@ const store = configureStore({
   middleware: [thunk],
 });
 
-const { dispatch } = store;
 
-const useSelector = useAppSelector;
-
-const persistor = persistStore(store);
-
-const useDispatch = () => useAppDispatch();
-
-export { store, persistor, dispatch, useSelector, useDispatch };
-
-
-// export default store;
+export default store;

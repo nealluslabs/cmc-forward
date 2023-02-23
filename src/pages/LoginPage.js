@@ -8,7 +8,7 @@ import useResponsive from '../hooks/useResponsive';
 import Iconify from '../components/iconify';
 
 import Piggy from '../assets/images/piggy2.jpg';
-import Money from '../assets/images/money.jpg';
+import CoolerEntryIMG from '../assets/images/cooler-entry.jpg';
 import LoginForm from 'src/components/login/LoginForm';
 
 // ----------------------------------------------------------------------
@@ -61,7 +61,8 @@ export default function LoginPage() {
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hi, Welcome Back
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+            <img src={CoolerEntryIMG} alt="login" />
+            {/* <img src="/assets/illustrations/illustration_login.png" alt="login" /> */}
           </StyledSection>
         )}
 
