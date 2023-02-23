@@ -29,6 +29,10 @@ export default function MembersPage() {
   const myCoolerMembers = groupMembers?.length ? (
     groupMembers.map(member => {
       console.log("MEMBER: ", member);
+      const timestampInSeconds = member?.accountCreated?.seconds;
+      const timestampInMilliseconds = timestampInSeconds * 1000 + Math.floor(member?.accountCreated?.nanoseconds / 1000000);
+      const date = new Date(timestampInMilliseconds);
+      const dateString = date.toLocaleString();
       return (
        <>
        {/* {employeer &&
@@ -44,7 +48,7 @@ export default function MembersPage() {
       <MembersRowCard 
         name={member.firstName + " " + member.lastName} 
         email={member.email} 
-        joined={member.accountCreated}
+        joined={dateString}
         status={"Paid"}
         isSelf={member.id === user.id ? true : false}
         />
