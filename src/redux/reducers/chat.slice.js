@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   chatMessages: [],
   inboxMessages: [],
+  inboxDetails: null,
   isLoading: false,
   chatStarted: false,
   selectedChatUser: null,
@@ -37,6 +38,9 @@ const chatSlice = createSlice({
       state.inboxMessages = action.payload;
       state.error = '';
   },
+  setInboxDetails: (state, action) => {
+    state.inboxDetails = action.payload;
+ },
     clearChat: (state) => {
       return {
         ...initialState,
@@ -53,6 +57,7 @@ export const {
  fetchChatsFailed,
  setCurrentChat,
  fetchInboxMessages,
+ setInboxDetails,
  clearChat,
 } = actions;
 

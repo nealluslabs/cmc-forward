@@ -19,6 +19,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useTheme, styled } from '@mui/material/styles';
 import { BaseOptionChart } from 'src/components/chart2';
 import RecentTransaction from 'src/components/home/recent-transaction';
+import { fetchMyTransactions } from 'src/redux/actions/transaction.action';
 
 
 const CHART_HEIGHT = 392;
@@ -35,6 +36,8 @@ export default function HomePage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { myGroups, isLoading } = useSelector((state) => state.group);
+  const { transactions } = useSelector((state) => state.transaction);
+
 
   const chartOptions = merge(BaseOptionChart(), {
     colors: [
@@ -85,6 +88,8 @@ export default function HomePage() {
 
   useEffect(() => {
     dispatch(fetchMyGroups(user?.coolers));
+    dispatch(fetchMyTransactions(user?.id));
+    console.log("Transac Changed.");
   }, [user])
 
   useEffect(() => {
@@ -92,10 +97,12 @@ export default function HomePage() {
   }, [])
 
 
-  console.log(user, ":USER");
-  console.log("MY GROUPS: ", myGroups);
+
 const myCoolerGroups = myGroups?.length ? (
-  myGroups.map(group => {
+  myGroups
+  .slice(0, 3)
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .map(group => {
     return (
       <MyCoolersRowCard 
       groupId={group.groupId}
@@ -125,7 +132,6 @@ const myCoolerGroups = myGroups?.length ? (
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
-
         <Grid container spacing={2}>
             <Grid item xs={12} md={8} lg={6}>
               <Paper

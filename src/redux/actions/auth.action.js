@@ -138,8 +138,69 @@ return user;
 };
 
 
+export const uploadProfileImage = (profileData, file, userID, navigate, setLoading) => async (dispatch) => {
+  const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();
+  console.log('File Name: ', imageName);
+  const uploadTask = storage.ref(`profile_images/${imageName}`).put(file);
+  uploadTask.on(
+    "state_changed",
+    snapshot => {
+      const progress = Math.round(
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      );
+      // setProgress(progress);
+    },
+    error => {
+      console.log(error);
+    },
+    () => {
+      storage
+        .ref("profile_images")
+        .child(imageName)
+        .getDownloadURL()
+        .then(url => {
+          console.log('Image URL: ', url);
+          dispatch(updateProfile(profileData, userID, file, navigate, setLoading, url));
+        });
+    }
+  );
+}
 
 
+export const updateProfile = (profileData, userID, file, navigate, setLoading, url) => async (dispatch) => {
+  // return  
+  db.collection('employees').doc(userID).update({
+    paymentLink: profileData.paymentLink,
+    imageUrl: url,
+  }).then((res)=>{
+       if(profileData?.password){
+        //update password start
+        const user = auth.currentUser;
+        user.updatePassword(profileData.password)
+          .then(() => {
+            setLoading(false);
+            console.log("Password updated successfully");
+            notifySuccessFxn("Updated successfully");
+            navigate('/dashboard/home', { replace: true });
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.error("Error updating password: ", error);
+            notifyErrorFxn(error.message);
+          });
+       //update password end
+       }else{
+        setLoading(false);
+        console.error("No Password to update");
+        notifySuccessFxn("Updated successfully");
+        navigate('/dashboard/home', { replace: true });
+       }
+     
+  }).catch((err) => {
+    setLoading(false);
+    console.log("ERR-: ", err);
+  })
+}
 
 
 export const logout = (navigate) => async (dispatch) => {

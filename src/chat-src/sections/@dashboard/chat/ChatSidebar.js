@@ -96,7 +96,7 @@ export default function ChatSidebar() {
   const renderContent = (
     <>
       <Box sx={{ py: 2, px: 3 }}>
-        <Stack direction="row" alignItems="center" justifyContent="center">
+        {/* <Stack direction="row" alignItems="center" justifyContent="center">
           {!isCollapse && (
             <>
               <ChatAccount />
@@ -117,7 +117,7 @@ export default function ChatSidebar() {
               <Iconify icon={'eva:edit-fill'} width={20} height={20} />
             </IconButton>
           )}
-        </Stack>
+        </Stack> */}
 
       </Box>
        {console.log("displayResults: ", displayResults)}

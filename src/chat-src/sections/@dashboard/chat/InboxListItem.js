@@ -6,9 +6,19 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import COOLERICON from '../../../../assets/images/cooler-icon.png'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import { useDispatch } from 'react-redux';
+import { setInboxDetails } from 'src/redux/reducers/chat.slice';
 
 export default function InboxListItem({ inboxMessages, user }) {
+ const dispatch = useDispatch();
+
+  const setInboxData = (data) => {
+    dispatch(setInboxDetails(data));   
+    // console.log("DATA:", data);
+  }
+
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {inboxMessages.map((msg) => {
@@ -16,13 +26,13 @@ export default function InboxListItem({ inboxMessages, user }) {
        const localTimeString = utcDate.toLocaleString();
         return (
         <>
-       <ListItem alignItems="flex-start">
+       <ListItem alignItems="flex-start" onClick={() => setInboxData(msg)}>
         <ListItemAvatar>
-          {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" /> */}
-          <CircleNotificationsIcon />
+          <Avatar alt="Cooler Icon" src={COOLERICON} />
+          {/* <CircleNotificationsIcon /> */}
         </ListItemAvatar>
         <ListItemText
-          primary={msg?.msg}
+          primary={msg?.coolerName}
           secondary={
             <React.Fragment>
               <Typography

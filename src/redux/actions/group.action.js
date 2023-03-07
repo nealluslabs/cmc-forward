@@ -83,32 +83,64 @@ export const uploadGroupImage = (groupData, file, user, navigate, setLoading) =>
   );
 }
 
-
 export const fetchMyGroups = (coolers) => async (dispatch) => {
+  console.log("Clicked...");
   dispatch(isItLoading(true));
-    if(coolers.length){
-      db.collection("groups")
-      . where('groupId', 'in', coolers)
-       .get()
-       .then((snapshot) => {
-        const myGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-        console.log("DATA: ", myGroups);
-      if (myGroups.length) {
-        dispatch(isItLoading(false));
+  if (coolers.length) {
+    const chunkSize = 10;
+    const chunks = coolers.reduce((acc, _, i) => (i % chunkSize ? acc : [...acc, coolers.slice(i, i + chunkSize)]), []);
+    const promises = chunks.map((chunk) => {
+      return db
+        .collection("groups")
+        .where("groupId", "in", chunk)
+        .get()
+        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data() })));
+    });
+    Promise.all(promises)
+      .then((results) => {
+        const myGroups = results.flat();
         console.log("My Groups Data:", myGroups);
         dispatch(saveMyGroup(myGroups));
-      } else {
-          dispatch(isItLoading(false));
-      }
-     }).catch((error) => {
-       console.log("Error getting document:", error);
-       dispatch(isItLoading(false));
-     });
-    }else{
-      dispatch(saveMyGroup(coolers));
-      dispatch(isItLoading(false));
-    }
- };
+        dispatch(isItLoading(false));
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+        dispatch(isItLoading(false));
+      });
+  } else {
+    dispatch(saveMyGroup(coolers));
+    dispatch(isItLoading(false));
+  }
+};
+
+
+// export const fetchMyGroups = (coolers) => async (dispatch) => {
+//   console.log("Cilcked...")
+//   dispatch(isItLoading(true));
+//     if(coolers.length){
+//       db.collection("groups")
+//       . where('groupId', 'in', coolers)
+//        .get()
+//        .then((snapshot) => {
+//         const myGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+//         console.log("DATA::: ", myGroups);
+//         // return
+//       if (myGroups.length) {
+//         dispatch(isItLoading(false));
+//         console.log("My Groups Data:", myGroups);
+//         dispatch(saveMyGroup(myGroups));
+//       } else {
+//           dispatch(isItLoading(false));
+//       }
+//      }).catch((error) => {
+//        console.log("Error getting document:", error);
+//        dispatch(isItLoading(false));
+//      });
+//     }else{
+//       dispatch(saveMyGroup(coolers));
+//       dispatch(isItLoading(false));
+//     }
+//  };
 
 
 export const fetchGroups = (adminID) => async (dispatch) => {
@@ -178,8 +210,11 @@ export const fetchPrivateGroup = () => async (dispatch) => {
 
 
    export const joinGroup = (groupID, user, today, navigate, userWalletBal, groupFee, groupBal, groupName, accruedBalance) => async (dispatch) => {
+    let todaysDate = new Date().toISOString().slice(0, 10) //2018-08-03
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const date = today.toISOString();  
+
    
     let newUserBal = userWalletBal - groupFee;
     let newGroupBal = groupBal + groupFee;
@@ -225,9 +260,21 @@ export const fetchPrivateGroup = () => async (dispatch) => {
           .add({
               id: user.id,
               msg: `You have joined ${groupName}`,
+              coolerName: groupName,
+              amount: groupFee,
               isViewed: false,
               unread: 0,
               time: date,
+          })
+      }).then(() => {
+        return db.collection('transactions')
+          .add({
+              userID: user.id,
+              coolerID: groupID,
+              type: 'Payment',
+              amount: groupFee,
+              date: todaysDate,
+              createdAt: today.toLocaleDateString("en-US", options),
           })
       })
   }).then(() => {
