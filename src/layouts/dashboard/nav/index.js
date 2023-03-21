@@ -12,7 +12,7 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
-import CoolerLogo from '../../../assets/images/Cooler.png';
+import CMCLOGO from '../../../assets/images/CMCNetwork-logo.png';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ export default function Nav({ openNav, onCloseNav }) {
               </Typography>
             </Box>
           </StyledAccount> */}
-          <img src={CoolerLogo} width="220" height="60"/>
+          <img src={CMCLOGO} width="60" height="60"/>
         </Link>
       </Box>
 
@@ -101,7 +101,7 @@ export default function Nav({ openNav, onCloseNav }) {
               width: NAV_WIDTH,
               // bgcolor: 'background.default',
               // bgcolor: '#60A1EC',
-              bgcolor: '#130C66',
+              bgcolor: 'black',
               borderRightStyle: 'dashed',
             },
           }}

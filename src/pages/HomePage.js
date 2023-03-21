@@ -7,10 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import EmptyRowCard from 'src/components/home/empty-row-card';
 import { fetchGroups, fetchMyGroups } from 'src/redux/actions/group.action';
 import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
-import PieChartCard from 'src/components/home/pie-chart-card';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import WalletBox from 'src/components/home/wallet-box';
-import { isItLoading } from 'src/redux/reducers/group.slice';
 import { fetchUserData } from 'src/redux/actions/auth.action';
 
 import merge from 'lodash/merge';
@@ -20,6 +16,10 @@ import { useTheme, styled } from '@mui/material/styles';
 import { BaseOptionChart } from 'src/components/chart2';
 import RecentTransaction from 'src/components/home/recent-transaction';
 import { fetchMyTransactions } from 'src/redux/actions/transaction.action';
+import BoxOne from 'src/components/home/box-one';
+import FeedBox from 'src/components/home/feed-box';
+import SeessionBox from 'src/components/home/session-box';
+import BadgeBox from 'src/components/home/badge-box';
 
 
 const CHART_HEIGHT = 392;
@@ -37,46 +37,6 @@ export default function HomePage() {
   const { user } = useSelector((state) => state.auth);
   const { myGroups, isLoading } = useSelector((state) => state.group);
   const { transactions } = useSelector((state) => state.transaction);
-
-
-  const chartOptions = merge(BaseOptionChart(), {
-    colors: [
-      theme.palette.primary.lighter,
-      theme.palette.primary.light,
-      theme.palette.primary.main,
-      theme.palette.primary.dark,
-    ],
-    labels: [],
-    interactions: [],
-    stroke: { colors: [theme.palette.background.paper] },
-    legend: { floating: true, horizontalAlign: 'center', show:false },
-    tooltip: {
-      enabled: false
-  },
-    plotOptions: {
-      pie: {
-        donut: {
-          size: '70%',
-          labels: {
-            value: {
-              formatter: (val) => fNumber(0),
-            },
-            total: {
-              formatter: (w) => {
-                const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                console.log("user?.accruedBalance: ", user?.accruedBalance);
-                return user?.accruedBalance === 0 ? "$0" : fCurrency(user?.accruedBalance);
-                // return fNumber(0);
-              },
-            },
-            hover: {
-              enabled: false
-          },
-          },
-        },
-      },
-    },
-  });
 
 
 
@@ -125,77 +85,63 @@ const myCoolerGroups = myGroups?.length ? (
   return (
     <>
       <Helmet>
-        <title> Cooler | HOME </title>
+        <title> CMC | Dashboard </title>
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
-        <Grid container spacing={2}>
-            <Grid item xs={12} md={8} lg={6}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                  border: '1px solid black'
-                }}
-              >
-                {/* <PieChartCard /> */}
-            {/* <ChartWrapperStyle dir="ltr"> */}
-              <ReactApexChart key={Math.random()} type="donut" series={CHART_DATA} options={chartOptions} height={240} />
-            {/* </ChartWrapperStyle> */}
-              </Paper>
-            </Grid>
 
-             <Grid item xs={12} md={8} lg={6}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                  border: '1px solid black'
-                }}
-              >
-                <WalletBox type={'PROFILE'}  BoxIcon={AccountCircleIcon}/>
-              </Paper>
-            </Grid>
-          </Grid>
-          <br/>
-          {/* <SearchBox style={{ width: '100%' }} /> */}
-          
-        <Grid container spacing={2}>
-            <Grid item xs={12} md={12} lg={7.5}>
-             {
-                isLoading ?
-                <Stack>
-                <Skeleton />
-                <Skeleton animation="wave" />
-                <Skeleton animation={false} />
-                </Stack>
-                :
-                myCoolerGroups
-              }
-            </Grid>
+  <Grid container spacing={2} style={{border: '0px solid red'}}>
+        
+  <Grid item xs={12} md={8} lg={6} style={{border: '0px solid green', height: '800px'}}>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+      <Paper
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: 240,
+            border: '1px solid black'
+          }}
+        >
+          <BoxOne />
+        </Paper>
+        <br/>
+        <SeessionBox />
+      </div>
+      </Grid>
+      
 
-             <Grid item xs={8} md={6} lg={4.5}>
-             {/* <Grid item xs={12} md={8} lg={6}> */}
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 540,
-                  border: '1px solid black'
-                }}
-              >
-                <RecentTransaction />
-              </Paper>
-            </Grid>
+      <Grid item xs={12} md={8} lg={6} >
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <Paper
+          sx={{
+            pt: 1,
+            pb: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            height: 410,
+            border: '1px solid black'
+          }}
+        >
+          <FeedBox />
+        </Paper>
+        <br/>
+        <Paper
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: 240,
+            border: '1px solid black'
+          }}
+        >
+          <BadgeBox />
+        </Paper>
+        </div>
+      </Grid>
           </Grid>
+
+
       </Container>
     </>
   );

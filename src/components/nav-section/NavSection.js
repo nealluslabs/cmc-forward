@@ -56,9 +56,13 @@ function NavItem({ item }) {
         },
       }}
     >
-      {iconLabel != 'msg' && iconLabel != 'settings' && <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}>{icon && icon}</StyledNavItemIcon>}
+      {iconLabel != 'msg' && iconLabel != 'settings' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}>{icon && icon}</StyledNavItemIcon>}
+      {iconLabel === 'msg' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}><MessageIcon /></StyledNavItemIcon>}
+      {iconLabel === 'settings' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}><SettingsIcon /></StyledNavItemIcon>}
+     
+      {/* {iconLabel != 'msg' && iconLabel != 'settings' && <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}>{icon && icon}</StyledNavItemIcon>}
       {iconLabel === 'msg' && <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}><MessageIcon /></StyledNavItemIcon>}
-      {iconLabel === 'settings' && <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}><SettingsIcon /></StyledNavItemIcon>}
+      {iconLabel === 'settings' && <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}><SettingsIcon /></StyledNavItemIcon>} */}
 
       <ListItemText disableTypography primary={title} sx={{color: '#FFFFFF', fontSize: '18px'}}/>
 
@@ -84,9 +88,9 @@ function SubNavItem({ item }) {
     >
       {/* <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '20px'}}>{icon && icon}</StyledNavItemIcon> */}
       <StyledNavItemIcon sx={{color: '#FFFFFF', fontSize: '18px', ml: 5}}>
-        {icon === 'LockIcon' && <LockIcon />}
+        {/* {icon === 'LockIcon' && <LockIcon />}
         {icon === 'LockOpen' && <LockOpenIcon />}
-        {icon === 'Savings' && <SavingsIcon />}
+        {icon === 'Savings' && <SavingsIcon />} */}
       </StyledNavItemIcon>
 
       <ListItemText disableTypography primary={title} sx={{color: '#FFFFFF', fontSize: '15px'}}/>

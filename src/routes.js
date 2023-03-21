@@ -3,22 +3,9 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 
-import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import HomePage from './pages/HomePage';
-import CoolersPage from './pages/CoolersPage';
-import MyCoolersPage from './pages/MyCoolersPage';
-import PublicCoolerPage from './pages/PublicCoolerPage';
-import PrivateCoolerPage from './pages/PrivateCoolerPage';
-import MembersPage from './pages/MembersPage';
-import CreateCoolerPage from './pages/CreateCoolerPage';
-import PublicCoolerJoin from './pages/PublicCoolerJoin';
-import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
-import RegisterPage from './pages/RegisterPage';
-import JoinCoolerPage from './pages/JoinCoolerPage';
-import InboxPage from './pages/InboxPage';
-import SettingsPage from './pages/SettingsPage';
-
+import HomePage2 from './pages/HomePage2';
 
 export default function Router() {
   const routes = useRoutes([
@@ -27,28 +14,16 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/login" />, index: true },
-        { path: 'home', element: <HomePage /> },
-        { path: 'members', element: <MembersPage /> },
-        { path: 'my-cooler', element: <MyCoolersPage /> },
-        { path: 'cooler', element: <CoolersPage /> },
-        { path: 'join-cooler', element: <JoinCoolerPage /> },
-        { path: 'chat', element: <InboxPage /> },
-        { path: 'settings', element: <SettingsPage /> },
-        // { path: 'my-cooler', element: <MyCoolersPage /> },
-        { path: 'public-cooler', element: <PublicCoolerPage /> },
-        { path: 'private-cooler', element: <PrivateCoolerPage /> },
-        { path: 'join-public-cooler', element: <PublicCoolerJoin /> },
-        { path: 'join-private-cooler', element: <PrivateCoolerJoin /> },
-        { path: 'create-cooler', element: <CreateCoolerPage /> },
+        { path: 'home', element: <HomePage /> }
       ],
     },
     {
       path: 'login',
-      element: <LoginPage />,
+      element: <HomePage2 />,
     },
     {
       path: 'register',
-      element: <RegisterPage />,
+      element: <HomePage2 />,
     },
     {
       element: <SimpleLayout />,
