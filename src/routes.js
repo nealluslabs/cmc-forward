@@ -6,6 +6,9 @@ import SimpleLayout from './layouts/simple';
 import Page404 from './pages/Page404';
 import HomePage from './pages/HomePage';
 import HomePage2 from './pages/HomePage2';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import DashboardAppPage from './pages/DashboardAppPage';
 
 export default function Router() {
   const routes = useRoutes([
@@ -19,11 +22,19 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <HomePage2 />,
+      element: <Login/>,
     },
     {
       path: 'register',
-      element: <HomePage2 />,
+      element: <Register/>,
+    },
+    {
+      path: 'home',
+      element: <HomePage2/>,
+    },
+    {
+      path: 'app',
+      element: <DashboardAppPage/>,
     },
     {
       element: <SimpleLayout />,
