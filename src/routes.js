@@ -7,6 +7,21 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import HomePage from './pages/HomePage';
 import HomePage2 from './pages/HomePage2';
+import FeedPage from './pages/FeedPage';
+import VideoPage from './pages/VideoPage';
+import VideoDetailsPage from './pages/VideoDetailsPage';
+import DocsPage from './pages/DocsPage';
+import MembersPage from './pages/MembersPage';
+import MyCoolersPage from './pages/MyCoolersPage';
+import CoolersPage from './pages/CoolersPage';
+import JoinCoolerPage from './pages/JoinCoolerPage';
+import InboxPage from './pages/InboxPage';
+import SettingsPage from './pages/SettingsPage';
+import PublicCoolerPage from './pages/PublicCoolerPage';
+import PrivateCoolerPage from './pages/PrivateCoolerPage';
+import PublicCoolerJoin from './pages/PublicCoolerJoin';
+import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
+import CreateCoolerPage from './pages/CreateCoolerPage';
 
 export default function Router() {
   const routes = useRoutes([
