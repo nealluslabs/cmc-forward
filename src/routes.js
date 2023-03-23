@@ -22,6 +22,7 @@ import FeedPage from './pages/FeedPage';
 import VideoPage from './pages/VideoPage';
 import DocsPage from './pages/DocsPage';
 import VideoDetailsPage from './pages/VideoDetailsPage';
+import Login from './pages/Login';
 
 
 export default function Router() {
@@ -49,6 +50,10 @@ export default function Router() {
         { path: 'join-private-cooler', element: <PrivateCoolerJoin /> },
         { path: 'create-cooler', element: <CreateCoolerPage /> },
       ],
+    },
+    {
+      path: 'loginTest',
+      element: <Login />,
     },
     {
       path: 'login',

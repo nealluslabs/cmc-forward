@@ -21,10 +21,10 @@ export default function VideoDetailsPage() {
   const groupData = location.state?.groupData;
 
 
-  useEffect(() => {
-    dispatch(fetchGroupMembers(groupData?.members));
-    dispatch(fetchEmployeer(user.employeerID));
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchGroupMembers(groupData?.members));
+  //   dispatch(fetchEmployeer(user.employeerID));
+  // }, [])
 
   console.log("GROUP MEMBERS: ", groupMembers);
   console.log("Employeer: ", employeer);

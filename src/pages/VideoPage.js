@@ -25,13 +25,13 @@ export default function VideoPage() {
   const { user } = useSelector((state) => state.auth);
   const { allGroups, publicGroups, isLoading } = useSelector((state) => state.group);
 
-  useEffect(() => {
-    dispatch(fetchGroups(user.employeerID));
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchGroups(user.employeerID));
+  // }, [])
   
-  useEffect(() => {
-    dispatch(fetchUserData(user.id));
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchUserData(user.id));
+  // }, [])
 
 const videosData = [
     {id: 1, title: 'FINANCE', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet.', tags: 'Psychology, Communication etc'},
@@ -76,13 +76,13 @@ const allVideosData = currentVideosData?.length ? (
     </Grid>
       <br/>
       {
-        isLoading ?
-        <Stack>
-        <Skeleton />
-        <Skeleton animation="wave" />
-        <Skeleton animation={false} />
-        </Stack>
-        :
+        // isLoading ?
+        // <Stack>
+        // <Skeleton />
+        // <Skeleton animation="wave" />
+        // <Skeleton animation={false} />
+        // </Stack>
+        // :
         <>
         {allVideosData}
         <Pagination 
