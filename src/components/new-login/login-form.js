@@ -12,6 +12,9 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 //import { submitLogin } from 'app/auth/store/loginSlice';
 //import { signin, logout } from '../../../../../redux/actions/auth.action';
 
@@ -63,7 +66,7 @@ function LoginForm(props) {
 
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{paddingLeft: '15%', paddingRight: '15%'}}>
         {error && <div><Alert
         severity="error" color="error"
         action={
@@ -89,9 +92,7 @@ function LoginForm(props) {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Icon className="text-20" color="action">
-                      user
-                    </Icon>
+                    <PersonIcon />
                   </InputAdornment>
                 ),
               }}
@@ -100,7 +101,7 @@ function LoginForm(props) {
           )}
         />
 
-
+          <br/>
          
         <Controller
           name="password"
@@ -120,9 +121,8 @@ function LoginForm(props) {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={() => setShowPassword(!showPassword)}>
-                      <Icon className="text-20" color="action">
-                        {showPassword ? 'visibility' : 'visibility_off'}
-                      </Icon>
+                      
+                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -131,8 +131,9 @@ function LoginForm(props) {
             />
           )}
         />
-
+          <br/>
         <Button
+          style={{ borderRadius: '20px'}}
           type="submit"
           variant="contained"
           color="primary"

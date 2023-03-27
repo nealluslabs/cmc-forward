@@ -95,11 +95,11 @@ function Login() {
 
            <LoginForm />
           </CardContent>
-
+            <br/>
           <div className="flex flex-col items-center justify-center pb-32">
             <div>
               <span className="font-normal mr-8">Don't have an account?</span>
-              <Link className="font-normal" to="/register">
+              <Link className="font-normal" to="/register" style={{color: '#A9D6EE'}}>
                 Register
               </Link>
             </div>
