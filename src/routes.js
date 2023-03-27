@@ -6,24 +6,23 @@ import SimpleLayout from './layouts/simple';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import HomePage from './pages/HomePage';
-import CoolersPage from './pages/CoolersPage';
-import MyCoolersPage from './pages/MyCoolersPage';
-import PublicCoolerPage from './pages/PublicCoolerPage';
-import PrivateCoolerPage from './pages/PrivateCoolerPage';
+import HomePage2 from './pages/HomePage2';
+import FeedPage from './pages/FeedPage';
+import VideoPage from './pages/VideoPage';
+import VideoDetailsPage from './pages/VideoDetailsPage';
+import DocsPage from './pages/DocsPage';
 import MembersPage from './pages/MembersPage';
-import CreateCoolerPage from './pages/CreateCoolerPage';
-import PublicCoolerJoin from './pages/PublicCoolerJoin';
-import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
-import RegisterPage from './pages/RegisterPage';
+import MyCoolersPage from './pages/MyCoolersPage';
+import CoolersPage from './pages/CoolersPage';
 import JoinCoolerPage from './pages/JoinCoolerPage';
 import InboxPage from './pages/InboxPage';
 import SettingsPage from './pages/SettingsPage';
-import FeedPage from './pages/FeedPage';
-import VideoPage from './pages/VideoPage';
-import DocsPage from './pages/DocsPage';
-import VideoDetailsPage from './pages/VideoDetailsPage';
+import PublicCoolerPage from './pages/PublicCoolerPage';
+import PrivateCoolerPage from './pages/PrivateCoolerPage';
+import PublicCoolerJoin from './pages/PublicCoolerJoin';
+import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
+import CreateCoolerPage from './pages/CreateCoolerPage';
 import Login from './pages/Login';
-
 
 export default function Router() {
   const routes = useRoutes([
@@ -57,11 +56,11 @@ export default function Router() {
     },
     {
       path: 'login',
-      element: <LoginPage />,
+      element: <HomePage2 />,
     },
     {
       path: 'register',
-      element: <RegisterPage />,
+      element: <HomePage2 />,
     },
     {
       element: <SimpleLayout />,

@@ -40,11 +40,11 @@ export default function HomePage() {
 
 
 
-  // useEffect(() => {
-  //   if(user?.id == undefined){
-  //    return navigate("/login");
-  //   }
-  //  }, [])
+ // useEffect(() => {
+ //   if(user?.id == undefined){
+ //    return navigate("/login");
+ //   }
+ //  }, [])
 
   useEffect(() => {
     dispatch(fetchMyGroups(user?.coolers));

@@ -1,3 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Black.ttf') format('truetype');
+  src: url('./assets/fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+
 .wave {
     animation-name: wave-animation; /* Refers to the name of your @keyframes element below */
     animation-duration: 2.1s; /* Change to speed up or slow down */
