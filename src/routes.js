@@ -6,6 +6,7 @@ import SimpleLayout from './layouts/simple';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import HomePage from './pages/HomePage';
+import HomePage1 from './pages/HomePage1';
 import HomePage2 from './pages/HomePage2';
 import FeedPage from './pages/FeedPage';
 import VideoPage from './pages/VideoPage';
@@ -23,6 +24,9 @@ import PublicCoolerJoin from './pages/PublicCoolerJoin';
 import PrivateCoolerJoin from './pages/PrivateCoolerJoin';
 import CreateCoolerPage from './pages/CreateCoolerPage';
 import Login from './pages/Login';
+import LoginUpdatedPage from './pages/LoginUpdatedPage/LoginUpdatedPage'
+import RegisterUpdatedPage from './pages/RegisterUpdatedPage/RegisterUpdatedPage'
+
 
 export default function Router() {
   const routes = useRoutes([
@@ -31,7 +35,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { element: <Navigate to="/login" />, index: true },
-        { path: 'home', element: <HomePage /> },
+        { path: 'home', element: <HomePage1 /> },
         { path: 'feed', element: <FeedPage /> },
         { path: 'video', element: <VideoPage /> },
         { path: 'video-details', element: <VideoDetailsPage /> },
@@ -52,7 +56,17 @@ export default function Router() {
     },
     {
       path: 'loginTest',
-      element: <Login />,
+      element:/* <Login />*/<LoginUpdatedPage/>,
+    },
+
+    {
+      path: 'regTest',
+      element:/* <Login />*/<RegisterUpdatedPage/>,
+    },
+
+    {
+      path: 'loginTest2',
+      element: <LoginPage />,
     },
     {
       path: 'login',
