@@ -16,6 +16,13 @@ height:100%;
 background: linear-gradient(white, black);
 }
 
+/*ALL THE FONT, (ON EVERY PAGE) IS CHANGED FROM HERE*/
+* {
+   
+    font-family: 'Josefin Sans', sans-serif !important;
+
+    
+    }
 
 .container-center-horizontal {
 display: flex;
@@ -29,9 +36,9 @@ margin: 3% auto;
 border-radius:2rem;
 font-family: 'Josefin Sans', sans-serif ;
 
-
-
 }
+
+
 .container-center-horizontal > * {
 flex-shrink: 0;
 pointer-events: auto;
