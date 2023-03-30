@@ -56,7 +56,9 @@ function NavItem({ item }) {
         },
       }}
     >
-      {iconLabel != 'msg' && iconLabel != 'settings' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}>{icon && icon}</StyledNavItemIcon>}
+      {iconLabel != 'msg' && iconLabel != 'settings' && <StyledNavItemIcon sx={{color: 'white', fontSize: '20px' ,
+       '&.active': { color: 'black', backgroundColor: 'white',fontWeight: 'fontWeightBold' },}}>
+    {icon && icon}</StyledNavItemIcon>}
       {iconLabel === 'msg' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}><MessageIcon /></StyledNavItemIcon>}
       {iconLabel === 'settings' && <StyledNavItemIcon sx={{color: 'black', fontSize: '20px'}}><SettingsIcon /></StyledNavItemIcon>}
      

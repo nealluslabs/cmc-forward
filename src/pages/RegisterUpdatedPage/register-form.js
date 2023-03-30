@@ -154,13 +154,13 @@ function RegisterForm(props) {
     const phone = model.phone;
     const password = model.password;
     const user = { name, email, phone, password };
- 
+    navigate('/dashboard/home')
     /*dispatch(signup(user, history));*/
   }
 
 
   return (
-    <div  style={{paddingLeft: '15%', paddingRight: '15%' , position:"relative",top:"-8rem"}}>
+    <div  style={{paddingLeft: '15%', paddingRight: '15%' , position:"relative",top:"-8rem",scale:"0.85"}}>
        
        
        {phase2 && <span style={{ display:"flex",alignItems:"center",gap:"10px",position:"relative",top:"8rem"}} onClick={changePageTo1} ><AiOutlineArrowLeft/> Back</span>}
@@ -373,11 +373,11 @@ function RegisterForm(props) {
      <br/>
 
      <Button
-    style= {{display:`${phase1?'block':'none'}`}}
+    style= {{display:`${phase1?'block':'none'}`,padding:"0.9rem",borderRadius: '0.5rem',backgroundColor:"black",color:"white"}}
           type="button"
           onClick ={swapDecoyButton}
           variant="contained"
-          color="primary"
+          //color="primary"
           className="w-full mx-auto mt-16"
           aria-label="REGISTER"
           /*disabled={ !isValid  || isLoading}*/
@@ -583,10 +583,10 @@ function RegisterForm(props) {
 
 
     <Button
-         style= {{display:`${phase2?'block':'none'}`}}
+         style= {{display:`${phase2?'block':'none'}`,padding:"0.9rem",borderRadius: '0.5rem',backgroundColor:"black",color:"white"}}
           type="submit"
           variant="contained"
-          color="primary"
+          //color="primary"
           className="w-full mx-auto mt-16"
           aria-label="SUBMIT"
          /* disabled={_.isEmpty(dirtyFields) || !isValid  || isLoading}*/

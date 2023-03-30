@@ -8,6 +8,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'src/redux/actions/auth.action';
 import { useNavigate } from 'react-router-dom';
+import randomGuy from 'src/assets/images/random-guy.jpg'
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={user?.imageUrl} alt="photoURL" />
+        <Avatar src={user?user.imageUrl:randomGuy} alt="photoURL" />
       </IconButton>
       <ArrowDropDownIcon sx={{color: 'black'}} onClick={handleOpen}/>
       <Popover
@@ -80,14 +81,14 @@ export default function AccountPopover() {
           alignItems="flex-start"
         >
           <Grid sx={{mt: 1, ml: 1}}>
-          <Avatar src={user?.imageUrl} alt="photoURL" />
+          <Avatar src={user?user.imageUrl:randomGuy} alt="photoURL" />
           </Grid>
           <Box sx={{ my: 1.5, px: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.firstName + " " + user?.lastName}
+            {user?user.firstName + " " + user.lastName:"Globus Contractors"}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
+            {user?user.email:'ut1@cmc.com'}
           </Typography>
         </Box>
         </Grid>

@@ -13,6 +13,7 @@ import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
 import CMCLOGO from '../../../assets/images/CMCNetwork-logo.png';
+import { fontFamily } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -57,7 +58,7 @@ export default function Nav({ openNav, onCloseNav }) {
         {/* <Logo /> */}
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box sx={{ mb: 5, mx: 2.5,display:'flex',justifyContent:"center" }}>
         <Link underline="none">
           {/* <StyledAccount>
             <Avatar src={account.photoURL} alt="photoURL" />
@@ -78,6 +79,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <NavSection data={navConfig} />
 
+     
       <Box sx={{ flexGrow: 1 }} />
 
    
@@ -93,6 +95,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       {isDesktop ? (
+         <>
         <Drawer
           open
           variant="permanent"
@@ -107,7 +110,15 @@ export default function Nav({ openNav, onCloseNav }) {
           }}
         >
           {renderContent}
-        </Drawer>
+          <div style={{color:"white",
+                      backgroundColor:"black",
+                     margin:"0 auto",
+                     marginBottom:"1rem",
+                     fontWeight:"bold"
+                     }}> Version 1.0.12</div>
+        </Drawer>,
+        
+        </>
       ) : (
         <Drawer
           open={openNav}
@@ -120,6 +131,7 @@ export default function Nav({ openNav, onCloseNav }) {
           }}
         >
           {renderContent}
+          
         </Drawer>
       )}
     </Box>

@@ -61,12 +61,12 @@ function LoginForm(props) {
     const password = model.password;
     const user = { email, password };
     //dispatch(signin(user, history));
-    
+    navigate('/dashboard/home')
   }
 
 
   return (
-    <div  style={{paddingLeft: '15%', paddingRight: '15%'}}>
+    <div  style={{paddingLeft: '15%', paddingRight: '15%', scale:"0.85"}}>
         {error && <div><Alert
         severity="error" color="error"
         action={
@@ -135,10 +135,10 @@ function LoginForm(props) {
         />
           <br/>
         <Button
-          style={{ borderRadius: '0.5rem',padding:"1rem"}}
+          style={{ borderRadius: '0.5rem',padding:"0.9rem",backgroundColor:"black",color:"white"}}
           type="submit"
           variant="contained"
-          color="primary"
+          //color="primary"
           className="w-full mx-auto mt-16"
           aria-label="LOG IN"
           disabled={_.isEmpty(dirtyFields) || !isValid || isLoading}

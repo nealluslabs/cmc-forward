@@ -2,10 +2,11 @@ import React from 'react'
 import './registerUpdated.css'
 import bxNetworkChartSvg from './bxNetworkChartsvg.jpeg'
 import accentLogo from './accentLogo.png'
-import barcode from './barcode.png'
+import barcode from './barcode2.png'
 
 import LoginForm from './login-form';
 import RegisterForm from './register-form';
+import { Link } from 'react-router-dom'
 /*overlapGroup1: "rectangle-1-1.png",
 iconLock: "bx-lock-open-alt-svg-1.png",
 iconUser: "bx-user-svg-1.png",*/
@@ -63,7 +64,7 @@ const loginPageData = {
        <RegisterForm />
        
 
-       Have an account already? Login.
+    <span style={{position:"absolute", bottom:"8rem"}}>  Have an account? <Link style={{color:"lightblue"}} to ={'/loginTest'}>Login.</Link> </span>
       </div>
      
     </div>

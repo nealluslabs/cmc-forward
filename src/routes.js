@@ -30,6 +30,10 @@ import RegisterUpdatedPage from './pages/RegisterUpdatedPage/RegisterUpdatedPage
 
 export default function Router() {
   const routes = useRoutes([
+   
+     
+   
+   
     {
       path: '/dashboard',
       element: <DashboardLayout />,
@@ -80,7 +84,7 @@ export default function Router() {
       element: <SimpleLayout />,
       children: [
         // { element: <Navigate to="/login" />, index: true },
-        { element: <Navigate to="/dashboard/home" />, index: true },
+        { element: <Navigate to="loginTest" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

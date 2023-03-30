@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Avatar, Button, Divider, FormControlLabel, Grid, Paper, Typography,  } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fCurrency } from 'src/utils/formatNumber';
-import AvatarIcon from '../../assets/images/icon-avatar.png';
+//import { fCurrency } from 'src/utils/formatNumber';
+import AvatarIcon from 'src/assets/images/rec.png';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
   }
 
 export default function FeedBox() {
-  const { user } = useSelector((state) => state.auth);
-  const { transactions } = useSelector((state) => state.transaction);
+  //const { user } = useSelector((state) => state.auth);
+  //const { transactions } = useSelector((state) => state.transaction);
   const classes = useStyles();
 
   const rowData = [
@@ -77,8 +78,8 @@ export default function FeedBox() {
             style={{
               minHeight: '35px',
               minWidth: '100px',
-              backgroundColor: 'white',
-              color: 'black',
+              backgroundColor: 'black',
+              color: 'white',
               border: '1px solid black',
             }}
           >

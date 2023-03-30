@@ -4,31 +4,45 @@ import Typography from '@mui/material/Typography';
 import { Button, Divider, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { fCurrency } from 'src/utils/formatNumber';
+//import { fCurrency } from 'src/utils/formatNumber';
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
-import Star from '../../assets/images/star.png'
+import line from 'src/assets/images/line.png'
+import badge from 'src/assets/images/badge.gif'
 
 
 const useStyles = makeStyles((theme) => ({
   circle: {
-    width: "120px",
-    height: "120px",
-    borderRadius: "50%",
-    border: '1px solid black',
+    width: "200px",
+    height: "200px",
+    //borderRadius: "50%",
+   // border: '1px solid black',
     // backgroundColor: 'white',
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: 'black',
-    fontWeight: "bold",
-    fontSize: "1.5rem",
+    fontWeight: "regular",
+    fontSize: "6rem",
+  },
+
+  badges: {
+    width: "40px",
+    height: "40px",
+    //borderRadius: "50%",
+   // border: '1px solid black',
+    // backgroundColor: 'white',
+    display: "flex",
+    justifyContent: "center",
+    gap:"0.2rem",
+    alignItems: "center",
+  
   },
 }));
 
 export default function BadgeBox() {
   const classes = useStyles();
-  const { user } = useSelector((state) => state.auth);
+  /*const { user } = useSelector((state) => state.auth);*/
 
   return (
     <>
@@ -42,19 +56,33 @@ export default function BadgeBox() {
       <Divider />
       <br/>
         <center>
-    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justifyContent="center">
-    <Grid item xs={4}>
-     <img src={Star} height='120'/>
-    </Grid>
-    <Grid item xs={4}>
+    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }} justifyContent="flex-start" alignItems="center" position="relative" top="-10%">
+   
+    <Grid item xs={2}>
     <div elevation={3} className={classes.circle}>
-      9
+    <img src={badge} />
     </div>
     </Grid>
+
+   {/* THIS IS COMMENTED OUT FOR USE IN THE FUTURE  - SAVED 30/03/2023
+    <Grid item xs={2}>
+    <div elevation={3} className={classes.circle}>
+     h  i
+    </div>
+    </Grid>
+
+    <Grid item xs={2}>
+    <div elevation={3} className={classes.circle}>
+    <img src={line} />
+    </div>
+  </Grid>*/}
+
     </Grid>
     </center>
+   
+    <p style={{fontStyle:"1.2rem",fontWeight:"bold"}}>You have Recieved <span style={{color:"brown"}}> 1</span> out of 5 badges! </p>
     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '10px' }}>
-      <div></div>
+    <div></div>
       <Button
         variant="contained"
         style={{
