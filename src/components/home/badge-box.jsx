@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 //import { fCurrency } from 'src/utils/formatNumber';
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
-import line from 'src/assets/images/line.png'
+
 import badge from 'src/assets/images/badge.gif'
 
 

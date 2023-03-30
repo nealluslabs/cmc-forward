@@ -90,6 +90,8 @@ const myCoolerGroups = myGroups?.length ? (
 
       <Container maxWidth="xl">
 
+      <div style={{fontSize:"1.6rem",marginBottom:"1.5rem"}}> Welcome  <strong>Globus Contractors,</strong> </div>
+  
   <Grid container spacing={2} style={{border: '0px solid red'}}>
         
   <Grid item xs={12} md={8} lg={6} style={{border: '0px solid green', height: '800px'}}>
