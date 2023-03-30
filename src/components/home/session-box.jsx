@@ -73,7 +73,7 @@ export default function SeessionBox() {
         <Grid item>
         <Grid item xs container direction="column" spacing={0} sx={{pl: 2, pr: 2}}>
         <ButtonBase sx={{ width: '100%', height: 1, marginBottom: '1rem' }}>
-        <img style={{height:"279px", width:"600px"}} alt="complex" src={CMCVid} />
+        <img style={{height:"232px", width:"600px"}} alt="complex" src={CMCVid} />
         </ButtonBase>
         </Grid>  
         <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '20%' }}>

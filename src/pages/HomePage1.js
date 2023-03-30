@@ -101,7 +101,7 @@ const myCoolerGroups = myGroups?.length ? (
             p: 2,
             display: 'flex',
             flexDirection: 'column',
-            height: 240,
+            height: 290,
            // border: '1px solid black'
            boxShadow: "2px 2px 5px 0px rgba(0,0,0,0.75)"
           }}
