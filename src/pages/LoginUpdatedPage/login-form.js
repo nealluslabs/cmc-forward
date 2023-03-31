@@ -16,9 +16,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 //import { submitLogin } from 'app/auth/store/loginSlice';
-//import { signin, logout } from '../../../../../redux/actions/auth.action';
+import { signin, logout } from 'src/redux/actions/auth.action';
 
-//import { logoutSuccess } from 'redux/reducers/auth.slice';
+import { logoutSuccess } from 'src/redux/reducers/auth.slice';
 
 /**
  * Form Validation Schema
@@ -50,18 +50,20 @@ function LoginForm(props) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // const { isLoading, error } = useSelector( (state) => state.login);
-  const isLoading = false;
-  const error = '';
+   const { isLoading, error,user,message } = useSelector( (state) => state.auth);
+   
+   console.log("this is error",error)
 
 
   function onSubmit(model) {
     // dispatch(submitLogin(model));
     const email = model.email;
     const password = model.password;
+    console.log("EMAIL IS",email )
+    console.log("PASSWORD IS NOW",password)
     const user = { email, password };
-    //dispatch(signin(user, history));
-    navigate('/dashboard/home')
+    dispatch(signin(user, navigate));
+    //navigate('/dashboard/home')
   }
 
 
@@ -70,12 +72,12 @@ function LoginForm(props) {
         {error && <div><Alert
         severity="error" color="error"
         action={
-          <Button color="inherit" size="small" style={{ fontSize: '15px' }} onClick={() => {/*dispatch(logoutSuccess())*/}}>
+          <Button color="inherit" size="small" style={{ fontSize: '15px' }} onClick={() => {dispatch(logoutSuccess())}}>
             <b>X</b>
           </Button>
         }
       >
-        <p style={{ fontSize: '11px' }}><b>{error}</b></p>
+        <p style={{ fontSize: '14px' }}><b>{error}</b></p>
       </Alert><br/></div>}
 
       
@@ -144,7 +146,7 @@ function LoginForm(props) {
           disabled={_.isEmpty(dirtyFields) || !isValid || isLoading}
           value="legacy"
         >
-           {isLoading ? 'Loading...' : 'Login'}
+           {isLoading ? 'Loading...' : 'LOGIN'}
         </Button>
       </form>
         

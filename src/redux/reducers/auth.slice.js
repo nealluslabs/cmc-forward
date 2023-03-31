@@ -17,8 +17,14 @@ const loginSlice = createSlice({
         state.message = '';
       },
     loginFailed: (state, action) => {
+        
         state.error = action.payload;
         state.user = null;
+      },
+      signupPending: (state) => {
+        (state.isLoading = true);
+          (state.error = '');
+          (state.message = '');
       },
       signupFailed: (state, action) => {
         state.error = action.payload;
@@ -35,6 +41,14 @@ const loginSlice = createSlice({
     logoutFxn: state => {
 
     },
+
+    logoutSuccess: (state) => {
+      // reset: () => initialState
+      return {
+        ...initialState,
+      };
+    }
+    
   },
 });
 
@@ -43,10 +57,12 @@ const { actions, reducer } = loginSlice;
 export const {
  loginSuccess,
  loginFailed,
+ signupPending,
  signupFailed,
  storeUserData,
  clearUser,
  logoutFxn,
+ logoutSuccess,
 } = actions;
 
 export default reducer;

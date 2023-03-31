@@ -1,89 +1,61 @@
 import { db, fb, auth, storage } from '../../config/firebase';
-import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
+import { clearUser, loginFailed, loginSuccess, logoutFxn, signupPending, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { clearGroup } from '../reducers/group.slice';
 
 
   export const signin = (user, navigate, setLoading) => async (dispatch) => {
+    console.log("all is still well at this point")
     fb.auth().signInWithEmailAndPassword(user.email, user.password)
     .then((userCredential) => {
       // Signed in
+     
       var user = userCredential.user;
       console.log('Signed In user is: ', user.email);
        dispatch(fetchUserData(user.uid, "sigin", navigate, setLoading));
     })
     .catch((error) => {
+      console.log( ' PROBLEM REPORT ', error.message);
+      dispatch(loginFailed(error.message));
       setLoading(false);
       var errorCode = error.code;
       var errorMessage = error.message;
-      notifyErrorFxn(errorMessage);
+      //notifyErrorFxn(errorMessage);
+      
       console.log('Error Code is: ', errorCode, + ' Msg is: ', errorMessage);
-      dispatch(loginFailed(errorMessage));
+     
     });
 
 };
 
 
-export const signup = (user, navigate, setLoading) => async (dispatch) => {
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  var today  = new Date();
-  const date = today.toISOString();
- 
-  db.collection('employers')
-    .where('employerNumber', '==', parseInt(user.employeer))
-    .get()
-    .then((snapshot) => {
-      const employeer = snapshot.docs.map((doc) => ({ ...doc.data() }));
-      if (employeer.length) {  
-        console.log('Employeer Exist:', employeer[0].cooler);
-        fb.auth().createUserWithEmailAndPassword(
-          user.email,
-          user.password
-      ).then((res)=>{
-        return db.collection('employees').doc(res.user.uid).set({
-          id: res.user.uid,
-          email: user.email,
-          firstName: user.fname,
-          lastName: user.lname,
-          imageUrl: "",
-          password: user.password,
-          coolers: [],
-          employeerNumber: user.employeer,
-          employeerID: employeer[0].id,
-          accruedBalance: 0,
-          walletBalance: 1000,
-          accountCreated: today.toLocaleDateString("en-US", options),
-        }).then(() => {
-          return db.collection('inbox')
-          .add({
-              id: res.user.uid,
-              msg: 'Welcome to Cooler. Thank you for joining us!',
-              isViewed: false,
-              unread: 0,
-              time: date,
-          })
-        })
-      }).then(() => {
-        notifySuccessFxn("Registered Successfully✔😊")
-        navigate('/login', { replace: true });
-      }).catch((err) => {
-        console.error("Error signing up: ", err);
-        var errorMessage = err.message;
-        notifyErrorFxn(errorMessage);
-        dispatch(signupFailed({ errorMessage }));
-        setLoading(false);
-      })
+export const signup = (user,navigate) => async (dispatch) => {
+  console.log(user);
+   dispatch(signupPending());
+   console.log("Just before the sign up happens!!!!")
+    fb.auth().createUserWithEmailAndPassword(
+      user.email,
+      user.password
+  ).then((res)=>{
+     db.collection('users').doc(res.user.uid).set({
+      uid: res.user.uid,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      password: user.password,
+      registeredOn:new Date()
+    })
 
-      } else {
-        setLoading(false);
-        console.log('Invalid employeer code');
-        notifyErrorFxn("Invalid Employeer Code");
-      }
-    }).catch((error) => {
-      setLoading(false);
-      console.log('Error querying collection:', error);
-    });
+    dispatch(fetchUserData(res.user.uid, "sigin"));
+  }).then(() => {
+   
+    navigate("/dashboard/home");
+  }).catch((err) => {
+    console.error("Error signing up: ", err);
+    var errorMessage = err.message;
+    dispatch(signupFailed({ errorMessage }));
+  })
 }
 
 
@@ -117,7 +89,7 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
 
 
 export const fetchUserData = (id, type, navigate, setLoading) => async (dispatch) => {
-  var user = db.collection("employees").doc(id);
+  var user = db.collection("users").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
     // console.log("User Data:", doc.data());
@@ -169,7 +141,7 @@ export const uploadProfileImage = (profileData, file, userID, navigate, setLoadi
 
 export const updateProfile = (profileData, userID, file, navigate, setLoading, url) => async (dispatch) => {
   // return  
-  db.collection('employees').doc(userID).update({
+  db.collection('users').doc(userID).update({
     paymentLink: profileData.paymentLink,
     imageUrl: url,
   }).then((res)=>{
@@ -208,7 +180,7 @@ export const logout = (navigate) => async (dispatch) => {
     dispatch(logoutFxn());
     dispatch(clearUser());
     dispatch(clearGroup());
-    navigate('/login', { replace: true });
+    navigate('/loginTest', { replace: true });
     console.log('logout successful!');
   }).catch((error) => {
     // An error happened.

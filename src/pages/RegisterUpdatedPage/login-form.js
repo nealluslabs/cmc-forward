@@ -17,7 +17,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 //import { submitLogin } from 'app/auth/store/loginSlice';
-//import { signin, logout } from '../../../../../redux/actions/auth.action';
+import { signin, logout } from 'src/redux/actions/auth.action';
+
 
 //import { logoutSuccess } from 'redux/reducers/auth.slice';
 
@@ -61,7 +62,7 @@ function LoginForm(props) {
     const email = model.email;
     const password = model.password;
     const user = { email, password };
-    //dispatch(signin(user, history));
+    dispatch(signin(user, navigate));
     
   }
 
