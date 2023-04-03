@@ -12,15 +12,21 @@ text-decoration: none;
 .overall-backround{
  
  
-background: linear-gradient(white, black);
+/*background: linear-gradient(white, black);*/
 }
 
 /*ALL THE FONT, (ON EVERY PAGE) IS CHANGED FROM HERE*/
 * {
    
     font-family: 'Josefin Sans', sans-serif !important;
+  
+    }
 
-    
+    body {
+        /*background-color: black !important;*/
+        background: linear-gradient(rgb(255, 255, 255,0), black);
+      
+       
     }
 
 .container-center-horizontal {

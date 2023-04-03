@@ -12,7 +12,7 @@ text-decoration: none;
 .overall-backround{
    
 
-background: linear-gradient(white, black);
+/*background: linear-gradient(white, black);*/
 }
 
 
@@ -21,8 +21,8 @@ display: flex;
 flex-direction: row;
 justify-content: center;
 pointer-events: none;
-width: 80%;
-height:80%;
+/*width: 80%;
+height:80%;*/
 margin: 3% auto;
 /*border: 1px solid blue;*/
 border-radius:2rem;
