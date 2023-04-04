@@ -95,7 +95,7 @@ const myCoolerGroups = myGroups?.length ? (
   <Grid container spacing={2} style={{border: '0px solid red'}}>
         
   <Grid item xs={12} md={8} lg={6} style={{border: '0px solid green', height: '800px'}}>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div style={{display: 'flex', flexDirection: 'column', gap:"0px"}}>
       <Paper
           sx={{
             p: 2,
@@ -109,7 +109,9 @@ const myCoolerGroups = myGroups?.length ? (
           <BoxOne />
         </Paper>
         <br/>
+        {/*<div style={{marginTop:"-40px"}}></div>*/}
         <SeessionBox />
+        
       </div>
       </Grid>
       

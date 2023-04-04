@@ -3,7 +3,7 @@ import { Avatar, Button, ButtonBase, Grid, Paper, Typography,  } from '@mui/mate
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { styled } from '@mui/material/styles';
-import CMCVid from 'src/assets/images/CMC-vid.png';
+import CMCVid from 'src/assets/images/CMC-vid.jpg';
 
 
 
@@ -27,11 +27,12 @@ export default function SeessionBox() {
         pt: 2,
         pb: 2,
         margin: 'auto',
-        marginTop:'2rem',
+        marginTop:{lg:'-0.5rem',md:'1rem',sm:'1.5rem'},
         // maxWidth: 500,
         //border: '1px solid black',
         boxShadow: "2px 2px 5px 0px rgba(0,0,0,0.75)",
         flexGrow: 1,
+       
         backgroundColor: (theme) =>
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
@@ -73,7 +74,7 @@ export default function SeessionBox() {
         <Grid item>
         <Grid item xs container direction="column" spacing={0} sx={{pl: 2, pr: 2}}>
         <ButtonBase sx={{ width: '100%', height: 1, marginBottom: '1rem' }}>
-        <img style={{height:"232px", width:"600px"}} alt="complex" src={CMCVid} />
+        <img style={{height:"272px", width:"600px"}} alt="complex" src={CMCVid} />
         </ButtonBase>
         </Grid>  
         <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '20%' }}>

@@ -1,6 +1,6 @@
 import React from 'react'
 import './loginUpdated.css'
-import bxNetworkChartSvg from './bxNetworkChartsvg.jpeg'
+import bxNetworkChartSvg from './bxNetworkChartsvg1.jpeg'
 import accentLogo from './accentLogo.png'
 import barcode from './barcode2.png'
 
@@ -60,7 +60,7 @@ const loginPageData = {
       
       <div className="login-content" >
      
-      <h2>Login to access</h2>
+      <h2 style={{position:"absolute" ,top:"35%"}}>Login to access</h2>
        <LoginForm />
        
 

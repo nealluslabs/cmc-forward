@@ -1,6 +1,6 @@
 import React from 'react'
 import './registerUpdated.css'
-import bxNetworkChartSvg from './bxNetworkChartsvg.jpeg'
+import bxNetworkChartSvg from './bxNetworkChartsvg1.jpeg'
 import accentLogo from './accentLogo.png'
 import barcode from './barcode2.png'
 
