@@ -1,5 +1,30 @@
 import { fetchChatsPending, fetchChatsSuccess, fetchInboxMessages, setCurrentChat } from "../reducers/chat.slice";
 import { db, fb, auth, storage } from '../../config/firebase';
+import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
+
+
+export const addToNotices = (message ) => async (dispatch) => {
+    db.collection("notices").add({
+        header: "sample event",
+        message: message,
+        time: Date.now()
+    })
+    .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+       
+        
+        notifySuccessFxn('notice has been added to feed.✔');
+        
+    })
+    .catch((error) => {
+        console.error("Error adding notice: ", error);
+        notifyErrorFxn('Error adding notice, please try again.❌')
+    });
+
+};
+
+
+
 
 
 

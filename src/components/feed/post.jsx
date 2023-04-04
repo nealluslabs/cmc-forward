@@ -8,6 +8,7 @@ import { Divider, Chip, Grid, Paper, Typography, Box, Avatar, Button, ButtonBase
     ToggleButton, ToggleButtonGroup, Hidden  } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import RECTANGLELONG from '../../assets/images/rectangle-long.png';
+import {addToNotices} from 'src/redux/actions/chat.action'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,11 +19,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-  
+ 
 
 
 function Post ({ handleConnect }) {
   const classes = useStyles();
+
+const [message,setMessage] =useState('this is a sample message')
+const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const postMessage = () =>{
+    dispatch(addToNotices(message));
+  } 
+
     return (
         <>
           <Paper
@@ -31,7 +41,7 @@ function Post ({ handleConnect }) {
             pt: 2,
             pb: 2,
             margin: 'auto',
-            maxWidth: 900,
+            maxWidth: {xl:1100,lg:900,md:800,sm:650},
             border: '1px solid black',
             flexGrow: 1,
             backgroundColor: (theme) =>
@@ -41,6 +51,8 @@ function Post ({ handleConnect }) {
           <Grid container spacing={2}>
             <Grid item xs container direction="column" spacing={0}>
                 <div style={{width: '100%', height: '127px', border: '1px solid black'}}>
+                 <textarea  style={{width: '100%', height: '100%'}} 
+          value={message} onChange ={(e)=>setMessage(e.target.value)}/>
                 </div>
             </Grid>
           </Grid>
@@ -66,6 +78,7 @@ function Post ({ handleConnect }) {
             backgroundColor: "black",
             border: "1px solid black",
           }}
+          onClick={()=>{postMessage(message)}}
         >
           POST
         </Button>

@@ -28,8 +28,8 @@ export default function FeedList() {
   }, [user])
 
   return (
-      <Container maxWidth={'xl'}>
-        <Card sx={{ height: '72vh', display: 'flex' }}>
+      <Container maxWidth={'lg'}>
+        <Card sx={{ height: '72vh', display: 'flex',margin: '2%' }}>
           <FeedSidebar />
           {inboxDetails != null ? <ChatWindow /> : <span style={{margin: '5%'}}><img src={EmptyIMAGE} /></span>}
         </Card>

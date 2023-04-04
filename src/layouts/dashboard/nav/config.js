@@ -42,11 +42,11 @@ const navConfig = [
     ],*/
   },
   {
-    title: 'bids',
+    title: `bids`,
     // path: '/dashboard/chat',
     // icon: icon('ic_msg'),
     //iconLabel: 'msg',
-    icon:<AiOutlineLock/>
+    icon:<CgToolbox/>
   },
   {
     title: 'settings',
