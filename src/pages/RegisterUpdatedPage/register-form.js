@@ -185,7 +185,7 @@ function RegisterForm(props) {
 
 
   return (
-    <div  style={{paddingLeft: '15%', paddingRight: '15%' , position:"relative",top:"-8rem",scale:"0.85"}}>
+    <div  style={{paddingLeft: '15%', paddingRight: '15%' , position:"relative",top:"-5rem",scale:"0.85"}}>
        
        
        {phase2 && <span style={{ display:"flex",alignItems:"center",gap:"10px",position:"relative",top:"8rem"}} onClick={changePageTo1} ><AiOutlineArrowLeft/> Back</span>}
