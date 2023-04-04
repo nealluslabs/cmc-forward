@@ -40,12 +40,23 @@ export const signup = (user,navigate) => async (dispatch) => {
   ).then((res)=>{
      db.collection('users').doc(res.user.uid).set({
       uid: res.user.uid,
-      name: user.name,
+      firstName: user.fName,
+      lastName:user.lName,
       email: user.email,
       phone: user.phone,
       password: user.password,
-      registeredOn:new Date()
+      registeredOn:new Date(),
+      businessName:user.bName,
+      companySize:user.companySize, 
+      regType:user.regType, 
+      country:user.country,
+      certified:user.certified,
+      state:user.state,
+      industry:user.industry,
+      city:user.city
+
     })
+    
 
     dispatch(fetchUserData(res.user.uid, "sigin"));
   }).then(() => {

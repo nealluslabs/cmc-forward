@@ -66,6 +66,7 @@ const defaultValues = {
   email: '',
   password: '',
   passwordConfirm: '',
+  regType:'',
   state:'',
   city:'',
   country:'',
@@ -80,6 +81,8 @@ function RegisterForm(props) {
 
   const [advisorChecked, setAdvisorChecked] = useState(false);
   const [contractorChecked, setContractorChecked] = useState(true);
+  const [regType,setRegType] = useState('contractor')
+  const [certified,setCertified] =useState(false)
   const [phase1,setPhase1] = useState(true)
   const [phase2,setPhase2] = useState(false)
   const [visited,setVisited] = useState(false)
@@ -148,13 +151,35 @@ function RegisterForm(props) {
     // const name = model.displayName;
     const fName = model.fName;
     const lName = model.lName;
+    const bName = model.bName;
+    //const regType = model.regType;
+    const state = model.state;
+    const city  = model.city;
+    const country = model.country;
+    const industry = model.industry;
+    const companySize = model.companySize;
+    //const certified = model.certified;
 
     const name = fName + ' ' + lName;
     const email = model.email;
     const phone = model.phone;
     const password = model.password;
-    const user = { name, email, phone, password };
+    const user = { fName,
+                  lName,
+                   email,
+                   phone,
+                   password,
+                   bName,
+                   regType,
+                   state,
+                   city,
+                   country,
+                   certified,
+                   industry,
+                  companySize
+                 };
    // navigate('/dashboard/home')
+    // console.log("THIS IS USER",user)
     dispatch(signup(user, navigate));
   }
 
@@ -390,7 +415,7 @@ function RegisterForm(props) {
        
   {/*==================== THE SECOND PART OF THE FORM ======================= */}     
        
-   {phase2 &&
+  { phase2 &&
   <>
 
 <FormControl>
@@ -408,7 +433,7 @@ function RegisterForm(props) {
         <FormControlLabel value="Advisor" control={<Radio />} style={{ paddingLeft:"1rem"}}  label="Trusted Advisor" checked={advisorChecked} onClick={chooseAdvisor}/>
        
       </RadioGroup>
-    </FormControl>
+   </FormControl>
 
   
   <Controller
@@ -564,7 +589,7 @@ function RegisterForm(props) {
         />
 
 
-<FormControl>
+  <FormControl>
       <FormLabel id="demo-row-radio-buttons-group-label"
      style={{marginTop:"1rem",marginBottom:"1rem"}} >
         Are you a certified MBE/WBE?
@@ -575,12 +600,11 @@ function RegisterForm(props) {
         name="row-radio-buttons-group"
         style={{marginBottom:"1rem", paddingLeft:"1rem"}}
       >
-        <FormControlLabel value={true} style={{ paddingLeft:"1rem"}} control={<Radio />} label="Yes"/>
-        <FormControlLabel value={false} style={{ paddingLeft:"1rem"}} control={<Radio />} label="No" />
+        <FormControlLabel value={true} style={{ paddingLeft:"1rem"}} control={<Radio />} label="Yes" onClick={() =>{setCertified(true)}}/>
+        <FormControlLabel value={false} style={{ paddingLeft:"1rem"}} control={<Radio />} label="No"  onClick={() =>{setCertified(false)}} />
        
       </RadioGroup>
-    </FormControl>
-
+   </FormControl>
 
     <Button
          style= {{display:`${phase2?'block':'none'}`,padding:"0.9rem",borderRadius: '0.5rem',backgroundColor:"black",color:"white"}}
@@ -597,7 +621,8 @@ function RegisterForm(props) {
 
 
 </>
- } 
+ }
+ 
       </form>
         
     </div>
