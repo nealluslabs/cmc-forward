@@ -1,16 +1,23 @@
 import { fetchChatsPending, fetchChatsSuccess, fetchInboxMessages, setCurrentChat } from "../reducers/chat.slice";
 import { db, fb, auth, storage } from '../../config/firebase';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-
+import "firebase/firestore";
+import firebase from "firebase/app";
 
 export const addToNotices = (message ) => async (dispatch) => {
-    db.collection("notices").add({
+   /* db.collection("notices").add({
         header: "sample event",
         message: message,
         time: Date.now()
-    })
+    })*/
+  const adminId = "aPmalurwLta7i2Ygrmkx4dYVfMJ2"
+
+    db.collection('users').doc(adminId).update({
+        generalNotices:firebase.firestore.FieldValue.arrayUnion({title:message})
+        
+      })
     .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
+        console.log("Document updated is: ", docRef);
        
         
         notifySuccessFxn('notice has been added to feed.✔');

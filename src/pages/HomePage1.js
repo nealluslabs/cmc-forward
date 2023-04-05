@@ -16,6 +16,8 @@ import { useTheme, styled } from '@mui/material/styles';
 import { BaseOptionChart } from 'src/components/chart2';
 import RecentTransaction from 'src/components/home/recent-transaction';
 import { fetchMyTransactions } from 'src/redux/actions/transaction.action';
+import { fetchFeed} from 'src/redux/actions/candidate.action';
+
 import BoxOne from 'src/components/home/box-one';
 import FeedBox from 'src/components/home/feed-box';
 import SeessionBox from 'src/components/home/session-box';
@@ -35,6 +37,7 @@ export default function HomePage1() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const {candidates } = useSelector((state) => state.candidates);
   const { myGroups, isLoading } = useSelector((state) => state.group);
   const { transactions } = useSelector((state) => state.transaction);
 
@@ -53,7 +56,8 @@ export default function HomePage1() {
   }, [user])
 
   useEffect(() => {
-    dispatch(fetchUserData(user?.id));
+    dispatch(fetchFeed());
+    console.log("general notices looks like!",candidates)
   }, [])
 
 
@@ -129,7 +133,7 @@ const myCoolerGroups = myGroups?.length ? (
             boxShadow: "2px 2px 5px 0px rgba(0,0,0,0.75)"
           }}
         >
-          <FeedBox />
+          {<FeedBox feed = {candidates}/>}
         </Paper>
         <br/>
         <Paper

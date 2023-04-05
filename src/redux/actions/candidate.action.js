@@ -1,5 +1,5 @@
 import { db } from "../../config/firebase";
-import { fetchCandidates, fetchSingleCandidate } from "../reducers/candidate.slice";
+import { fetchCandidates, fetchSingleCandidate ,fetchGeneralNotices} from "../reducers/candidate.slice";
 
 
 export const getCandidates = (uid) => async (dispatch) => {
@@ -11,6 +11,24 @@ export const getCandidates = (uid) => async (dispatch) => {
         var errorMessage = error.message;
         console.log('Error fetching candidates', errorMessage);
     });
+};
+
+
+export const fetchFeed = (id) => async (dispatch) => {
+    const adminId = "aPmalurwLta7i2Ygrmkx4dYVfMJ2"
+    var feed = db.collection("users").doc(adminId);
+
+    feed.get().then((doc) => {
+    if (doc.exists) {
+        console.log("the admins data is:", doc.data());
+        dispatch(fetchGeneralNotices(doc.data().generalNotices));
+    } else {
+        console.log("No such document!");
+    }
+}).catch((error) => {
+    console.log("Error getting document:", error);
+});
+
 };
 
 export const getSingleCandidate = (id) => async (dispatch) => {

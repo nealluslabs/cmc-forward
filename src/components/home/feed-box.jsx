@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 //import { fCurrency } from 'src/utils/formatNumber';
 import AvatarIcon from 'src/assets/images/rec.png';
 
+
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,12 +39,21 @@ const useStyles = makeStyles((theme) => ({
     );
   }
 
-export default function FeedBox() {
+export default function FeedBox(feed) {
   //const { user } = useSelector((state) => state.auth);
   //const { transactions } = useSelector((state) => state.transaction);
   const classes = useStyles();
-
+   console.log("feed is :",feed)
   const rowData = [
+   /* { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
+    { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
+    { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},
+    { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
+    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },*/
+
+    feed?feed.feed.map((item)=>{
+      return( { img: '21-01-2023', title:item.title, time: '4:00PM' })
+    }):
     { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
     { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
     { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},

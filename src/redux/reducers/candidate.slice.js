@@ -19,6 +19,11 @@ const candidateSlice = createSlice({
     fetchSingleCandidate: (state, action) => {
         state.candidate = action.payload;
       },
+       fetchGeneralNotices: (state, action) => {
+        state.candidates = action.payload;
+        state.error = '';
+        state.message = '';
+      },
 
     initiatePending: (state) => {
       state.isLoading = true;
@@ -38,6 +43,7 @@ const { actions, reducer } = candidateSlice;
 export const {
  fetchCandidates,
  fetchSingleCandidate,
+ fetchGeneralNotices,
 } = actions;
 
 export default reducer;

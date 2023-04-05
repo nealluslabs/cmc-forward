@@ -6,6 +6,7 @@ import storage from './storage';
 import authReducer from './reducers/auth.slice';
 import groupReducer from './reducers/group.slice';
 import inboxReducer from './reducers/chat.slice';
+import candidateReducer from './reducers/candidate.slice';
 import transactionReducer from './reducers/transactions.slice';
 // import chatReducer from '../chat-src/redux/slices/chat';
 
@@ -16,7 +17,8 @@ const reducers = combineReducers({
   group: groupReducer,
   // chat: chatReducer,
   inbox: inboxReducer,
-  transaction: transactionReducer
+  transaction: transactionReducer,
+  candidates:candidateReducer,
 });
 
 const persistConfig = {
