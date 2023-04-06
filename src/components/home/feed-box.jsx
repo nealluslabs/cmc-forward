@@ -44,21 +44,24 @@ export default function FeedBox(feed) {
   //const { transactions } = useSelector((state) => state.transaction);
   const classes = useStyles();
    console.log("feed is :",feed)
+
+ 
+
   const rowData = [
-   /* { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
+    { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
     { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
     { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},
     { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
-    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },*/
+    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },
 
-    feed?feed.feed.map((item)=>{
+   /* feed?feed.feed.map((item)=>{
       return( { img: '21-01-2023', title:item.title, time: '4:00PM' })
     }):
     { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
     { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
     { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},
     { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
-    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },
+    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' }*/
   ];
 
   return (
@@ -100,9 +103,9 @@ export default function FeedBox(feed) {
       </Grid>
       <br/>
       <Grid container spacing={1} className={classes.container}>
-      {rowData.map((row) => (
+      {rowData.map((row,i) => (
         <Grid item xs={12} key={row.title}>
-          <Row title={row.title} avatarSrc={AvatarIcon} time={row.time} />
+          <Row title={feed.feed[i].title} avatarSrc={AvatarIcon} time={row.time} />
         </Grid>
       ))}
     </Grid>
