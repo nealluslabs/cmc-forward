@@ -105,7 +105,7 @@ export default function FeedBox(feed) {
       <Grid container spacing={1} className={classes.container}>
       {rowData.map((row,i) => (
         <Grid item xs={12} key={row.title}>
-          <Row title={feed.feed[i].title} avatarSrc={AvatarIcon} time={row.time} />
+          <Row title={feed.feed?feed.feed[i].title:row.title} avatarSrc={AvatarIcon} time={row.time} />
         </Grid>
       ))}
     </Grid>

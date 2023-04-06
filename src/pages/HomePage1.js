@@ -133,7 +133,7 @@ const myCoolerGroups = myGroups?.length ? (
             boxShadow: "2px 2px 5px 0px rgba(0,0,0,0.75)"
           }}
         >
-          {<FeedBox feed = {candidates}/>}
+          {<FeedBox feed = {candidates.length && candidates}/>}
         </Paper>
         <br/>
         <Paper
