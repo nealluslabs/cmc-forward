@@ -78,7 +78,7 @@ useEffect(() => {
   return (
     <>
       <Helmet>
-        <title> Cooler | Join Public Cooler </title>
+        <title> CMC | CMC</title>
       </Helmet>
 
       <Container maxWidth="xl">

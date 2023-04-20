@@ -5,7 +5,7 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { clearGroup } from '../reducers/group.slice';
 
 
-  export const signin = (user, navigate, setLoading) => async (dispatch) => {
+  export const signin = (user, navigate,) => async (dispatch) => {
     console.log("all is still well at this point")
     fb.auth().signInWithEmailAndPassword(user.email, user.password)
     .then((userCredential) => {
@@ -13,12 +13,12 @@ import { clearGroup } from '../reducers/group.slice';
      
       var user = userCredential.user;
       console.log('Signed In user is: ', user.email);
-       dispatch(fetchUserData(user.uid, "sigin", navigate, setLoading));
+       dispatch(fetchUserData(user.uid, "sigin", navigate));
     })
     .catch((error) => {
       console.log( ' PROBLEM REPORT ', error.message);
       dispatch(loginFailed(error.message));
-      setLoading(false);
+     
       var errorCode = error.code;
       var errorMessage = error.message;
       //notifyErrorFxn(errorMessage);
@@ -99,18 +99,19 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
 }
 
 
-export const fetchUserData = (id, type, navigate, setLoading) => async (dispatch) => {
+export const fetchUserData = (id, type, navigate) => async (dispatch) => {
   var user = db.collection("users").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
     // console.log("User Data:", doc.data());
     dispatch(storeUserData(doc.data()));
     if(type === "sigin"){
+     
       notifySuccessFxn("Logged In😊");
       navigate('/dashboard/home', { replace: true });
     }
   } else {
-      setLoading(false);
+     
       notifyErrorFxn("Unauthorized❌")
       console.log("No such document!");
   }

@@ -23,7 +23,7 @@ export default function JobPage() {
   return (
     <>
       <Helmet>
-        <title> MDLiaison | Company Panel </title>
+        <title> CMC | Company Panel </title>
       </Helmet>
 
       <Container maxWidth="xl">
