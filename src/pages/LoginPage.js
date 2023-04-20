@@ -47,7 +47,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Cooler Web </title>
+        <title> Login | CMC Network </title>
       </Helmet>
 
       <StyledRoot>
