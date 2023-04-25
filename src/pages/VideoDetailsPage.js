@@ -52,7 +52,7 @@ export default function VideoDetailsPage() {
   return (
     <>
       <Helmet>
-        <title> Cooler | VIDEO-DETAILS </title>
+        <title> CMC | VIDEO-DETAILS </title>
       </Helmet>
       <Container maxWidth="xl">
           {

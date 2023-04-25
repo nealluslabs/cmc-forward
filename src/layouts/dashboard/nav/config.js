@@ -50,7 +50,7 @@ const navConfig = [
   },
   {
     title: 'settings',
-    // path: '/dashboard/settings',
+     path: '/dashboard/settings',
    // iconLabel: 'settings',
    icon:<FiSettings/>
   },
