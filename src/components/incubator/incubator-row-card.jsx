@@ -76,7 +76,7 @@ function IncubatorRowCard ({ id, title, val, img}) {
             pb: 2,
             margin: 'auto',
             // maxWidth: 500,
-            border: '1px solid black',
+            border: '0px solid black',
             flexGrow: 1,
             backgroundColor: (theme) =>
               theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
