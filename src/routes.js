@@ -27,6 +27,7 @@ import Login from './pages/Login';
 import LoginUpdatedPage from './pages/LoginUpdatedPage/LoginUpdatedPage'
 import RegisterUpdatedPage from './pages/RegisterUpdatedPage/RegisterUpdatedPage'
 import IncubatorVideoPage from './pages/IncubatorVideosPage';
+import ViewIncubatorPage from './pages/ViewIncubatorPage';
 
 
 export default function Router() {
@@ -47,6 +48,7 @@ export default function Router() {
         { path: 'docs', element: <DocsPage /> },
 
         { path: 'incubator-videos', element: <IncubatorVideoPage /> },
+        { path: 'view-incubator', element: <ViewIncubatorPage /> },
        
         
         { path: 'chat', element: <InboxPage /> },
