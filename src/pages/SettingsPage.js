@@ -6,6 +6,7 @@ import { fetchGroups, fetchMyGroups, uploadGroupImage} from 'src/redux/actions/g
 
 import { useDispatch, useSelector } from 'react-redux';
 import { notifyErrorFxn } from 'src/utils/toast-fxn';
+import users from 'src/_mock/user';
 
 function SettingsPage() {
   const navigate = useNavigate();
@@ -17,22 +18,25 @@ function SettingsPage() {
   const [selectedFile2, setSelectedFile2] = useState({selectedFile2: [], selectedFileName2: []});
   const dispatch = useDispatch();
 
-  const [title,setTitle] =useState('')
-  const [genre,setGenre] =useState('')
-  const [releaseDate,setReleaseDate] =useState('')
+  const [newPassword,setNewPassword] =useState('')
+  const [confirmPassword,setConfirmPassword] =useState('')
+  const [companySize,setCompanySize] =useState('')
+
+  const { user } = useSelector((state) => state.auth);
+  console.log("user details are:",user)
+
+  /*const [releaseDate,setReleaseDate] =useState('')
   const [director,setDirector] =useState('')
   const [cast,setCast] =useState([])
   const [description,setDescription] =useState('')
-  const [trivia,setTrivia] =useState('')
+  const [trivia,setTrivia] =useState('')*/
   
   const groupData = {
-    title,
-    genre,
-    releaseDate,
-    director,
-    cast,
-    description,
-    trivia
+    email:user.email,
+    password:user.password,
+    newPassword,
+    companySize,
+    uid:user.uid
   }
 
 
@@ -46,7 +50,7 @@ function SettingsPage() {
     setFile(URL.createObjectURL(event.target.files[0]));
     setFileSize(event.target.files[0].size)
 };
-  const handleselectedFile2 = event => {
+ /* const handleselectedFile2 = event => {
     console.log("these are the video deets!",event.target.files[0])
     setSelectedFile2({
         selectedFile2: event.target.files[0],
@@ -54,22 +58,22 @@ function SettingsPage() {
     });
     setFile2(URL.createObjectURL(event.target.files[0]));
     setFileSize2(event.target.files[0].size)
-};
+};*/
 
 
 
-const uploadMovie = (movieData,video,image,navigate) => {
-if(!title.length || !genre.length ||!releaseDate.length ||!director.length ||!cast.length ||!trivia.length || !description.length || file === undefined || file2 === undefined){
+const uploadMovie = (movieData = 0,image = 0,) => {
+if(!companySize.length && !newPassword.length &&  file === undefined ){
   console.log("THE EMPTY FIELDS ARE:",file)
-  notifyErrorFxn("Please make sure to fill in all fields")
+  notifyErrorFxn("Please fill in the field(s) you want to update!")
 }else{
- if( fileSize  > 10000000){
+ if( fileSize  > 300000){
   notifyErrorFxn("Image size too large! please upload a smaller picture.")
  }
- else if( fileSize2  > 20000000){
+ /*else if( fileSize2  > 20000000){
   notifyErrorFxn("Video size too large! please upload a smaller video.")
- }else{
-  dispatch(uploadGroupImage(movieData,video,image,navigate))
+ }*/else{
+  dispatch(uploadGroupImage(movieData,image))
  }
 }
 }
@@ -100,8 +104,8 @@ if(!title.length || !genre.length ||!releaseDate.length ||!director.length ||!ca
             variant="outlined"
             multiline
             maxRows={4}
-            value= {title}
-            onChange = {(e)=>{setTitle(e.target.value)}}
+            value= {newPassword}
+            onChange = {(e)=>{setNewPassword(e.target.value)}}
             /><br/><br/><br/>
              <Divider variant="fullWidth"/>
             <br/><br/>
@@ -114,8 +118,8 @@ if(!title.length || !genre.length ||!releaseDate.length ||!director.length ||!ca
             variant="outlined"
             multiline
             maxRows={4}
-            value= {genre}
-            onChange = {(e)=>{setGenre(e.target.value)}}
+            value= {companySize}
+            onChange = {(e)=>{setCompanySize(e.target.value)}}
             />
           </Grid>
           <Grid item xs={6}>
@@ -128,8 +132,8 @@ if(!title.length || !genre.length ||!releaseDate.length ||!director.length ||!ca
             variant="outlined"
             multiline
             maxRows={4}
-            value= {title}
-            onChange = {(e)=>{setTitle(e.target.value)}}
+            value= {confirmPassword}
+            onChange = {(e)=>{setConfirmPassword(e.target.value)}}
             
             />
             
@@ -290,7 +294,7 @@ if(!title.length || !genre.length ||!releaseDate.length ||!director.length ||!ca
       </Grid>
       <br/><br/><br/><br/>
   <div style={{ display: 'flex', justifyContent: 'center' }}>
-  <Button  onClick={() => { uploadMovie(groupData,selectedFile2.selectedFile2,selectedFile.selectedFile,navigate)}} variant="contained" 
+  <Button  onClick={() => { uploadMovie(groupData,selectedFile.selectedFile,navigate)}} variant="contained" 
   style={{ backgroundColor: "#000000"/*"#F97D0B"*/, paddingTop: '10px', paddingBottom: '10px', 
   paddingRight: '30px', paddingLeft: '30px'}}
 >

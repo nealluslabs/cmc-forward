@@ -55,10 +55,14 @@ export const createGroup = (groupData, user, file, navigate, setLoading, url) =>
 }
 
 
-export const uploadGroupImage = (groupData, file, user, navigate, setLoading) => async (dispatch) => {
+export const uploadGroupImage = (groupData = 0, file = 0, user = 0) => async (dispatch) => {
+ if(file && file.length !== 0){
+
+   /*LOGIC T0 RUN IF WE HAVE A PICTURE */
+
   const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();
   console.log('File Name: ', imageName);
-  const uploadTask = storage.ref(`group_images/${imageName}`).put(file);
+  const uploadTask = storage.ref(`profile_images/${imageName}`).put(file);
   uploadTask.on(
     "state_changed",
     snapshot => {
@@ -69,18 +73,132 @@ export const uploadGroupImage = (groupData, file, user, navigate, setLoading) =>
     },
     error => {
       console.log(error);
+      notifyErrorFxn("Error uploading image,please try again!")
     },
     () => {
       storage
-        .ref("group_images")
+        .ref("profile_images")
         .child(imageName)
         .getDownloadURL()
         .then(url => {
           console.log('Image URL: ', url);
-          dispatch(createGroup(groupData, user, file, navigate, setLoading, url));
+          //dispatch(createGroup(groupData, user, file, navigate, setLoading, url));
+ 
+  
+
+    if(groupData.newPassword){
+   //PASSWORD UPDATE LOGIC
+
+   fb.auth().signInWithEmailAndPassword(groupData.email, groupData.password)
+   .then((userCredential) => {
+     // Signed in
+     const user = fb.auth().currentUser;
+    
+     user.updatePassword(groupData.newPassword).then(() => {
+       // Update successful.
+       console.log("PASSWORD UPDATE WENT WELL")
+     }).catch((error) => {
+       // An error ocurred
+       console.log("PASSWORD UPDATE FAILED HORRIBLY!")
+     });
+
+    
+     db.collection('users')
+     .doc(groupData.uid)
+     .update({
+      companySize:groupData.companySize,
+      profileImage:url,
+      password:groupData.newPassword
+     }).then(()=>{
+        notifySuccessFxn("data updated successfully")
+     }).catch((error)=>{
+      notifyErrorFxn("Error updating data,please try again!")
+     })
+
+   }).catch(()=>{
+    notifyErrorFxn("Please try updating your password again...")
+   })
+
+        
+          }
+
+  
+     if(!groupData.newPassword){
+    db.collection('users')
+  .doc(groupData.uid)
+  .update({
+   companySize:groupData.companySize,
+   profileImage:url,
+   
+  }).then(()=>{
+     notifySuccessFxn("data updated successfully")
+  }).catch((error)=>{
+   notifyErrorFxn("Error updating data,please try again!")
+  })
+
+  }
         });
     }
   );
+
+} 
+
+if(file.length === 0 && !groupData.newPassword){
+   // WE HAVE NO IMAGE AND NO NEW PASSWORD
+   db.collection('users')
+   .doc(groupData.uid)
+   .update({
+    companySize:groupData.companySize
+   }).then(()=>{
+      notifySuccessFxn("data updated successfully")
+   }).catch((error)=>{
+    notifyErrorFxn("Error updating data,please try again!")
+   })
+
+}
+
+
+if(file.length === 0 && groupData.newPassword){
+  // WE HAVE NO IMAGE BUT A NEW PASSWORD
+  
+  //UPDATING THE PASSWORD
+  fb.auth().signInWithEmailAndPassword(groupData.email, groupData.password)
+  .then((userCredential) => {
+    // Signed in
+    const user = fb.auth().currentUser;
+
+    user.updatePassword(groupData.newPassword).then(() => {
+      // Update successful.
+      console.log("PASSWORD UPDATE WENT WELL")
+    }).catch((error) => {
+      // An error ocurred
+      console.log("PASSWORD UPDATE FAILED HORRIBLY!")
+    });
+   
+    //UPDATING USER INFORMATION
+  db.collection('users')
+  .doc(groupData.uid)
+  .update({
+   companySize:groupData.companySize,
+   password:groupData.newPassword
+  }).then(()=>{
+     notifySuccessFxn("data updated successfully")
+  }).catch((error)=>{
+   notifyErrorFxn("Error updating data,please try again!")
+  })
+  }).catch(()=>{
+   notifyErrorFxn("Please try updating your password again...")
+  })
+  
+ 
+
+}
+
+
+
+
+
+
 }
 
 export const fetchMyGroups = (coolers) => async (dispatch) => {
