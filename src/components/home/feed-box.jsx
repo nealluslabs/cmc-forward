@@ -1,7 +1,8 @@
-import * as React from 'react';
+import  React,{useState,useEffect} from 'react';
 import { Avatar, Button, Divider, FormControlLabel, Grid, Paper, Typography,  } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {getUserProfilePic} from 'src/redux/actions/auth.action';
 //import { fCurrency } from 'src/utils/formatNumber';
 import AvatarIcon from 'src/assets/images/rec.png';
 import logo1 from 'src/assets/images/logo1.png';
@@ -51,8 +52,12 @@ export default function FeedBox(feed) {
   //const { transactions } = useSelector((state) => state.transaction);
   const classes = useStyles();
    console.log("feed is :",feed)
+  const dispatch = useDispatch()
 
- 
+  const { profileImages } = useSelector((state) => state.auth);
+  const {candidates } = useSelector((state) => state.candidates);
+
+  console.log("profile images array what the hell:",profileImages)
 
   const rowData = [
     { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
@@ -70,6 +75,28 @@ export default function FeedBox(feed) {
     { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
     { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' }*/
   ];
+
+ const userData = feed && feed.feed?feed.feed:[]
+ const userIdArray = []
+
+ useEffect(()=>{
+   if(feed && feed.feed){
+    userData.forEach((item)=>{
+      userIdArray.push(item.senderId)
+    })
+   }
+     
+ },[candidates])
+
+ useEffect(()=>{
+  
+  if(userIdArray.length>0){
+    console.log("the user id array",userIdArray)
+    dispatch(getUserProfilePic(userIdArray))
+   }
+  
+    
+},[userIdArray,candidates])
 
   const imageData = [
     logo1,logo2,logo3,logo4,logo5,logo6,logo7,logo8
@@ -114,9 +141,13 @@ export default function FeedBox(feed) {
       </Grid>
       <br/>
       <Grid container spacing={1} className={classes.container}>
-      {rowData.map((row,i) => (
+      
+      {
+      userData.slice(0,5).map((row,i) => (
         <Grid item xs={12} key={row.title}>
-          <Row title={feed.feed?feed.feed[feed.feed.length-(i+1)].title:row.title} avatarSrc={imageData[imageData.length -(i+1)]} time={row.time} />
+          <Row title={/*feed.feed?feed.feed[feed.feed.length-(i)].title:*/row.title} avatarSrc={userData.length?profileImages[i]:AvatarIcon} time={rowData[i].time} />
+       
+           
         </Grid>
       ))}
     </Grid>

@@ -51,7 +51,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={user?user.imageUrl:randomGuy} alt="photoURL" />
+        <Avatar src={user?user.profileImage:randomGuy} alt="photoURL" />
       </IconButton>
       <ArrowDropDownIcon sx={{color: 'black'}} onClick={handleOpen}/>
       <Popover
@@ -81,7 +81,7 @@ export default function AccountPopover() {
           alignItems="flex-start"
         >
           <Grid sx={{mt: 1, ml: 1}}>
-          <Avatar src={user?user.imageUrl:randomGuy} alt="photoURL" />
+          <Avatar src={user?user.profileImage:randomGuy} alt="photoURL" />
           </Grid>
           <Box sx={{ my: 1.5, px: 1 }}>
           <Typography variant="subtitle2" noWrap>

@@ -8,7 +8,8 @@ import { Divider, Chip, Grid, Paper, Typography, Box, Avatar, Button, ButtonBase
     ToggleButton, ToggleButtonGroup, Hidden  } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import RECTANGLELONG from '../../assets/images/rectangle-long.png';
-import {addToNotices} from 'src/redux/actions/chat.action'
+import {addToNotices} from 'src/redux/actions/chat.action';
+import { getUserProfilePic } from 'src/redux/actions/auth.action';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,13 +25,18 @@ const useStyles = makeStyles((theme) => ({
 
 function Post ({ handleConnect }) {
   const classes = useStyles();
+  const {candidates } = useSelector((state) => state.candidates);
+  console.log("candidates from store",candidates)
 
 const [message,setMessage] =useState('')
 const { user } = useSelector((state) => state.auth);
+console.log("user id is actually:", user.uid)
   const dispatch = useDispatch();
 
   const postMessage = () =>{
-    dispatch(addToNotices(message));
+    dispatch(addToNotices(message,user.uid));
+  
+    
   } 
 
     return (

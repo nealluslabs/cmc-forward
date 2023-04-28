@@ -55,7 +55,7 @@ export const createGroup = (groupData, user, file, navigate, setLoading, url) =>
 }
 
 
-export const uploadGroupImage = (groupData = 0, file = 0, user = 0) => async (dispatch) => {
+export const uploadUserSettings = (groupData = 0, file = 0, user = 0) => async (dispatch) => {
  if(file && file.length !== 0){
 
    /*LOGIC T0 RUN IF WE HAVE A PICTURE */

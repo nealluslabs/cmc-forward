@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import EmptyRowCard from 'src/components/home/empty-row-card';
 import { fetchGroups, fetchMyGroups } from 'src/redux/actions/group.action';
 import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
-import { fetchUserData } from 'src/redux/actions/auth.action';
+import { fetchUserData,getUserProfilePic } from 'src/redux/actions/auth.action';
 
 import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
@@ -58,6 +58,7 @@ export default function HomePage1() {
   useEffect(() => {
     dispatch(fetchFeed());
     console.log("general notices looks like!",candidates)
+    
   }, [])
 
 

@@ -2,7 +2,7 @@ import { Container,Grid, TextField, Typography, TextareaAutosize, Button, Paper,
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UPLOADIMG from '../assets/images/upload.png';
-import { fetchGroups, fetchMyGroups, uploadGroupImage} from 'src/redux/actions/group.action';
+import { fetchGroups, fetchMyGroups, uploadUserSettings} from 'src/redux/actions/group.action';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { notifyErrorFxn } from 'src/utils/toast-fxn';
@@ -73,7 +73,7 @@ if(!companySize.length && !newPassword.length &&  file === undefined ){
  /*else if( fileSize2  > 20000000){
   notifyErrorFxn("Video size too large! please upload a smaller video.")
  }*/else{
-  dispatch(uploadGroupImage(movieData,image))
+  dispatch(uploadUserSettings(movieData,image))
  }
 }
 }
