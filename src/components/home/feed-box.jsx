@@ -76,7 +76,9 @@ export default function FeedBox(feed) {
     { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' }*/
   ];
 
- const userData = feed && feed.feed?feed.feed:[]
+ const userData = feed && feed.feed?feed.feed:rowData
+
+
  const userIdArray = []
 
  useEffect(()=>{

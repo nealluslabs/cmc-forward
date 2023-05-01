@@ -72,6 +72,7 @@ function VideosRowCard ({ videoId, title, desc, tags, isDetail}) {
             pt: 2,
             pb: 2,
             margin: 'auto',
+            borderTop:"1px solid lightgray",
             // maxWidth: 500,
             // border: '1px solid black',
             flexGrow: 1,
