@@ -54,6 +54,8 @@ export default function FeedBox(feed) {
    console.log("feed is :",feed)
   const dispatch = useDispatch()
 
+  const [userData,setUserData] = useState(feed && feed.feed?feed.feed:rowData)
+
   const { profileImages } = useSelector((state) => state.auth);
   const {candidates } = useSelector((state) => state.candidates);
 
@@ -76,7 +78,7 @@ export default function FeedBox(feed) {
     { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' }*/
   ];
 
- const userData = feed && feed.feed?feed.feed:rowData
+ //const userData = feed && feed.feed?feed.feed:rowData
 
 
  const userIdArray = []
@@ -147,7 +149,7 @@ export default function FeedBox(feed) {
       {userData.length &&
       userData.slice(0,5).map((row,i) => (
         <Grid item xs={12} key={row.title}>
-          <Row title={/*feed.feed?feed.feed[feed.feed.length-(i)].title:*/row.title} avatarSrc={userData.length?profileImages[i]:AvatarIcon} time={rowData[i].time} />
+          <Row title={/*feed.feed?feed.feed[feed.feed.length-(i)].title:*/row.title} avatarSrc={profileImages.length?profileImages[i]:AvatarIcon} time={rowData[i].time} />
        
            
         </Grid>
