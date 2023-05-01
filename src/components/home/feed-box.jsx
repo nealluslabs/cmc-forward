@@ -54,13 +54,6 @@ export default function FeedBox(feed) {
    console.log("feed is :",feed)
   const dispatch = useDispatch()
 
-  const [userData,setUserData] = useState(feed && feed.feed?feed.feed:rowData)
-
-  const { profileImages } = useSelector((state) => state.auth);
-  const {candidates } = useSelector((state) => state.candidates);
-
-  console.log("profile images array what the hell:",profileImages)
-
   const rowData = [
     { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
     { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
@@ -68,15 +61,17 @@ export default function FeedBox(feed) {
     { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
     { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },
 
-   /* feed?feed.feed.map((item)=>{
-      return( { img: '21-01-2023', title:item.title, time: '4:00PM' })
-    }):
-    { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
-    { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
-    { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},
-    { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
-    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' }*/
+
   ];
+
+  const [userData,setUserData] = useState(feed && feed.feed?feed.feed:rowData)
+
+  const { profileImages } = useSelector((state) => state.auth);
+  const {candidates } = useSelector((state) => state.candidates);
+
+  console.log("profile images array what the hell:",profileImages)
+
+  
 
  //const userData = feed && feed.feed?feed.feed:rowData
 
