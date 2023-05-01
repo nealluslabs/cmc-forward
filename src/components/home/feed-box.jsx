@@ -149,7 +149,7 @@ export default function FeedBox(feed) {
       {userData.length &&
       userData.slice(0,5).map((row,i) => (
         <Grid item xs={12} key={row.title}>
-          <Row title={/*feed.feed?feed.feed[feed.feed.length-(i)].title:*/row.title} avatarSrc={profileImages.length?profileImages[i]:AvatarIcon} time={rowData[i].time} />
+          <Row title={/*feed.feed?feed.feed[feed.feed.length-(i)].title:*/row.title} avatarSrc={profileImages?profileImages[i]:AvatarIcon} time={rowData[i].time} />
        
            
         </Grid>
