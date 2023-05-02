@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import COOLERICON from '../../../../assets/images/cooler-icon.png'
+import COOLERICON from '../../../../assets/images/logo5.png'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import { useDispatch } from 'react-redux';
 import { setInboxDetails } from 'src/redux/reducers/chat.slice';
