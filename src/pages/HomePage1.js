@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Grid, Container, Typography, Paper, Button, Stack, Skeleton } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { fCurrency, fNumber } from '../utils/formatNumber';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +41,17 @@ export default function HomePage1() {
   const { myGroups, isLoading } = useSelector((state) => state.group);
   const { transactions } = useSelector((state) => state.transaction);
 
+  const rowData = [
+    { img: '21-01-2023', title: '2B Socket Wrench', time: '4:00PM' },
+    { img: '21-01-2023', title: 'Networking Event', time: '2:00PM' },
+    { img: '21-01-2023', title: 'Manhattan Project ', time: '10:20AM'},
+    { img: '21-01-2023', title: 'Window Sponsorship ', time: '4:30PM' },
+    { img: '21-01-2023', title: 'Eft Equipment Building ', time: '8:00AM' },
 
+
+  ];
+
+const [noticeFeed,setNoticeFeed] = useState(candidates.length?candidates:rowData)
 
  // useEffect(() => {
  //   if(user?.id == undefined){
@@ -49,42 +59,32 @@ export default function HomePage1() {
  //   }
  //  }, [])
 
-  useEffect(() => {
+ /* useEffect(() => {
     dispatch(fetchMyGroups(user?.coolers));
     dispatch(fetchMyTransactions(user?.id));
     console.log("Transac Changed.");
-  }, [user])
+  }, [user])*/
 
   useEffect(() => {
     dispatch(fetchFeed());
+    if(candidates.length){
+    setNoticeFeed(candidates)
     console.log("general notices looks like!",candidates)
-    
+    }
+
   }, [])
 
+  /*THIS USE-EFFECT BELOW IS A CRUTCH WHILE I FIND OUT WHY THE CANDIDATES DOESNT LOAD
+  useEffect((()=>{
+
+    if(noticeFeed.length){
+   
+      dispatch(fetchFeed());
+      setNoticeFeed(rowData)
+    }
+  }),[])*/
 
 
-const myCoolerGroups = myGroups?.length ? (
-  myGroups
-  .slice(0, 3)
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  .map(group => {
-    return (
-      <MyCoolersRowCard 
-      groupId={group.groupId}
-      name={group.groupName} 
-      fee={fCurrency(group.amount)}
-      count={`${group.members.length} OF ${group.noOfSavers} SAVERS`}
-      img={group.imageUrl}
-      members={group.members}
-      isMember={group.members.includes(user?.id)}
-      startDate={group.startDate}
-      />
-    )
-  })
-) : 
-<>
-<EmptyRowCard msg={"Coolers you have joined will appear here."}/>
-</>
 
 
   return (
@@ -93,11 +93,11 @@ const myCoolerGroups = myGroups?.length ? (
         <title> CMC | Dashboard </title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" >
 
       <div style={{fontSize:"1.6rem",marginBottom:"1.5rem"}}> Welcome  <strong>Globus Contractors,</strong> </div>
   
-  <Grid container spacing={2} style={{border: '0px solid red'}}>
+  <Grid container spacing={2} style={{border: '0px solid red'}} >
         
   <Grid item xs={12} md={8} lg={6} style={{border: '0px solid green', height: '800px'}}>
       <div style={{display: 'flex', flexDirection: 'column', gap:"0px"}}>
@@ -134,7 +134,7 @@ const myCoolerGroups = myGroups?.length ? (
             boxShadow: "2px 2px 5px 0px rgba(0,0,0,0.75)"
           }}
         >
-          {<FeedBox feed = {candidates.length && candidates}/>}
+          {candidates.length &&<FeedBox  feed = {candidates}/>}
         </Paper>
         <br/>
         <Paper

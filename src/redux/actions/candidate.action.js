@@ -14,7 +14,7 @@ export const getCandidates = (uid) => async (dispatch) => {
 };
 
 
-export const fetchFeed = (id) => async (dispatch) => {
+export const fetchFeed = () => async (dispatch) => {
     const adminId = "aPmalurwLta7i2Ygrmkx4dYVfMJ2"
     var feed = db.collection("users").doc(adminId);
 
