@@ -52,6 +52,7 @@ const allIncubatorVideos = data?.length ? (
         <title> incubator | Videos </title>
       </Helmet>
       <Container maxWidth="xl">
+      <h1 style={{position:"relative",fontWeight:"bold",marginBottom:"40px",fontSize:"30px"}}>ORGANIZATION</h1>
       {/* <SearchBox style={{ width: '100%' }} /> */}
       <br/>
       {/* <Grid  container direction="row" justifyContent="flex-end" alignItems="flex-end">

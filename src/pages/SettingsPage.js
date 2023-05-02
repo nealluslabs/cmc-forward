@@ -82,6 +82,8 @@ if(!companySize.length && !newPassword.length &&  file === undefined ){
     <>
     <Container maxWidth="xl">
 
+    <h1 style={{position:"relative",fontWeight:"bold",marginBottom:"40px",fontSize:"30px"}}>SETTINGS</h1>
+
     <Grid item xs={12} sx={{ display: 'flex' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant="h4" component="p">
