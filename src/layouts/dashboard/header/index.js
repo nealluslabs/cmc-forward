@@ -61,7 +61,7 @@ export default function Header({ onOpenNav }) {
         >
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
-       {currentPathname === '/dashboard/view-incubator' &&  <CustomSearchBar /> }
+       {/*currentPathname === '/dashboard/incubator-videos' &&  <CustomSearchBar /> */}
         
         {/* <Searchbar /> */}
         {/* <Searchbar2 /> */}

@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   searchButton: {
     color: '#fff',
     padding: '15px',
+    marginLeft:'-10px',
+    height:'56px',
+    borderBottomLeftRadius:'0px',
+    borderTopLeftRadius:'0px',
     minWidth: '45%',
     backgroundColor: 'black',
     '&:hover': {

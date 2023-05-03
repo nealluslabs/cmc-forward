@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fCurrency } from '../utils/formatNumber';
 import IncubatorRowCard from 'src/components/incubator/incubator-row-card';
-
+import CustomSearchBar from 'src/components/global/CustomSearchBar';
 
 
 
@@ -52,6 +52,12 @@ const allIncubatorVideos = data?.length ? (
         <title> incubator | Videos </title>
       </Helmet>
       <Container maxWidth="xl">
+        
+         {/*I USE THE DIV TO REGULATE STYLE AND POSITIONING OF THE  SEARCH BAR */}
+        <div style={{width:"35%",marginBottom:"40px"}}>
+        <CustomSearchBar/>
+        </div>
+
       <h1 style={{position:"relative",fontWeight:"bold",marginBottom:"40px",fontSize:"30px"}}>ORGANIZATION</h1>
       {/* <SearchBox style={{ width: '100%' }} /> */}
       <br/>
