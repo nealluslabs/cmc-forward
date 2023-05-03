@@ -11,6 +11,8 @@ import Searchbar from './Searchbar2';
 import AccountPopover from './AccountPopover';
 import NotificationsPopover from './NotificationsPopover';
 import Searchbar2 from './Searchbar2';
+import CustomSearchBar from 'src/components/global/CustomSearchBar';
+import { useLocation } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +45,9 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  const location = useLocation();
+  const currentPathname = location.pathname;
+
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -56,7 +61,8 @@ export default function Header({ onOpenNav }) {
         >
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
-
+       {currentPathname === '/dashboard/view-incubator' &&  <CustomSearchBar /> }
+        
         {/* <Searchbar /> */}
         {/* <Searchbar2 /> */}
         <Box sx={{ flexGrow: 1 }} />
