@@ -23,7 +23,7 @@ const navConfig = [
   },
   {
     title: 'incubator',
-    path: '/dashboard/incubator-videos',
+    path: '/dashboard/categories-videos',
     icon:<AiOutlineBulb/>
     // icon: icon('ic_disabled'),
     /*children: [

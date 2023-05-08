@@ -26,6 +26,7 @@ import SettingsPage from './pages/SettingsPage';
 import Login from './pages/Login';
 import LoginUpdatedPage from './pages/LoginUpdatedPage/LoginUpdatedPage'
 import RegisterUpdatedPage from './pages/RegisterUpdatedPage/RegisterUpdatedPage'
+import CategoriesVideoPage from './pages/CategoriesVideosPage';
 import IncubatorVideoPage from './pages/IncubatorVideosPage';
 import ViewIncubatorPage from './pages/ViewIncubatorPage';
 
@@ -46,7 +47,7 @@ export default function Router() {
         { path: 'video', element: <VideoPage /> },
         { path: 'video-details', element: <VideoDetailsPage /> },
         { path: 'docs', element: <DocsPage /> },
-
+        { path: 'categories-videos', element: <CategoriesVideoPage /> },
         { path: 'incubator-videos', element: <IncubatorVideoPage /> },
         { path: 'view-incubator', element: <ViewIncubatorPage /> },
        

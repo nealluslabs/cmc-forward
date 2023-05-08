@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   chatMessages: [],
-  inboxMessages: [{time:"5:00PM",coolerName:"cool coolers"},{time:"5:00PM",coolerName:"hot coolers"}],
+  inboxMessages: [],
   inboxDetails: null,
   isLoading: false,
   chatStarted: false,

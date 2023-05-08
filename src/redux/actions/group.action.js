@@ -2,7 +2,7 @@ import { db, fb, auth, storage } from '../../config/firebase';
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-import { isItLoading, saveAllGroup, saveEmployeer, saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup } from '../reducers/group.slice';
+import { isItLoading, saveAllGroup ,saveEmployeer,saveCategories ,saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup, saveSectionVideos,saveCategoryVideos } from '../reducers/group.slice';
 
 
 export const createGroup = (groupData, user, file, navigate, setLoading, url) => async (dispatch) => {
@@ -283,6 +283,54 @@ export const fetchGroups = (adminID) => async (dispatch) => {
  });
  };
 
+
+ export const fetchVideoSection = (chosenSection)=> async(dispatch) =>{
+
+  //dispatch(isItLoading(true));
+  db.collection("sections")
+  .where('category', '==', chosenSection)
+   .get()
+   .then((snapshot) => {
+     const allSectionVids = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (allSectionVids.length > 0) {
+     //dispatch(isItLoading(false));
+     console.log("ALL sections FROM DATABASE(FOR THIS CATEGORY):", allSectionVids);
+     dispatch(saveCategoryVideos(allSectionVids));
+   } else {
+      // dispatch(isItLoading(false));
+      dispatch(saveCategoryVideos(allSectionVids));
+       console.log("No sections for this category!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   dispatch(isItLoading(false));
+ });
+ };
+
+ export const fetchVideoSubsection = (chosenSection)=> async(dispatch) =>{
+
+  //dispatch(isItLoading(true));
+  db.collection("courses")
+  .where('subSection', '==', chosenSection)
+   .get()
+   .then((snapshot) => {
+     const allSectionVids = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (allSectionVids.length > 0) {
+     //dispatch(isItLoading(false));
+     console.log("FRESH FROM DATABASE:", allSectionVids);
+     dispatch(saveSectionVideos(allSectionVids));
+   } else {
+      // dispatch(isItLoading(false));
+      dispatch(saveSectionVideos(allSectionVids));
+       console.log("No groups!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   dispatch(isItLoading(false));
+ });
+ };
+
+ 
 
 export const fetchPublicGroup = () => async (dispatch) => {
  dispatch(isItLoading(true));
@@ -568,6 +616,31 @@ export const fetchGroupMembers = (groupMembers) => async (dispatch) => {
       dispatch(isItLoading(false));
     });
 };
+
+/*========== do group fetching of categories HERE ======================= */
+
+export const fetchAllCategories = () => async (dispatch) => {
+  var categories = db.collection("categories");
+  categories.get().then((snapshot) => {
+    const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
+    console.log("ALL CATEGORIES ARE:",groupMembers)
+    if (groupMembers.length) {
+    dispatch(saveCategories(groupMembers));
+  } else {
+      console.log("No categories in database!");
+  }
+}).catch((error) => {
+  console.log("Error getting categories:", error);
+});
+//return user;
+};
+
+
+
+
+
+
+/*===============do fetching of categories ===================== */
 
 export const fetchEmployeer = (id) => async (dispatch) => {
   var user = db.collection("employers").doc(id);
