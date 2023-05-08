@@ -33,13 +33,15 @@ export default function CategoriesVideoPage() {
  
  
  
-   const [data,setData] = useState(allCategories?allCategories:dummyData)
+   const [data,setData] = useState(allCategories.length?allCategories:dummyData)
 
 
 
 
 useEffect(()=>{
   dispatch(fetchAllCategories())
+
+  setTimeout(()=>{setData(allCategories)},1300)
 },[])
 
 
