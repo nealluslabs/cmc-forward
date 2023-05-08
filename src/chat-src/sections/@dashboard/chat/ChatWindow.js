@@ -26,7 +26,7 @@ export default function ChatWindow() {
       <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden' }}>
         <Stack sx={{ flexGrow: 1 }}>
           {/* <ChatMessageList conversation={conversation} /> */}
-          <center><h4>{inboxDetails ? 'Message From:'+ inboxDetails:"No message selected"}</h4></center>
+          <center><h4>{inboxDetails ? inboxDetails.title:"No message selected"}</h4></center>
           <Divider />
           <Grid
           container
@@ -36,9 +36,9 @@ export default function ChatWindow() {
           sx={{pl: 4, pt: 5}}
         >
           {inboxDetails?
-          <p style={{fontSize: '20px', margin: '10px 0'}}>Title:<span style={{color:"red"}}>{' '}{inboxDetails}</span> </p>
+          <p style={{fontSize: '20px', margin: '10px 0'}}>Title:<span style={{color:"red"}}>{' '}{inboxDetails && inboxDetails.title}</span> </p>
           :
-          <p style={{fontSize: '20px', margin: '10px 0'}}>Click a message to View </p>
+          <p style={{fontSize: '20px', margin: '10px 0'}}>Click a message to View  </p>
           }
          
          {inboxDetails &&
