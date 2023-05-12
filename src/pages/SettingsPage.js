@@ -95,6 +95,37 @@ if(!companySize.length && !newPassword.length &&  file === undefined ){
    
 
      <Grid container spacing={2}>
+         
+     <Grid container item xs={12} spacing={2}>
+          <Grid item xs={6} spacing={2}>
+            <Typography variant="p" component="p">
+            Subscription
+            </Typography>
+            <br/>
+            <span style={{marginLeft:"30px",color:"green",fontSize:"23px"}}>
+             ACTIVE
+             </span>
+            &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
+             <Button   variant="contained" 
+            style={{ backgroundColor: "#FFFFFF"/*"#F97D0B"*/,color:"#000000",border:"1px solid black", paddingTop: '10px', paddingBottom: '10px', 
+            paddingRight: '30px', paddingLeft: '30px'}}
+            >
+            UPDATE
+            </Button>
+
+            <br/><br/><br/>
+            
+           
+            
+        
+          </Grid>
+          
+        </Grid>
+
+
+
          <Grid container item xs={12} spacing={2}>
           <Grid item xs={6}>
             <Typography variant="p" component="p">
