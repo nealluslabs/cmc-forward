@@ -104,8 +104,8 @@ export default function FeedBox(feed) {
   return (
     <>
       <Grid container alignItems="center" spacing={2}>
-        <Grid item xs={6}>
-          <Typography color="textPrimary" variant="h6" component="p" sx={{pl: 2, pr: 2}}>
+        <Grid item xs={6} >
+          <Typography color="textPrimary" variant="h6" component="p" style={{marginLeft:"-10px"}} sx={{pl: 2, pr: 2}}>
             <b>FEED</b>
           </Typography>
         </Grid>
@@ -151,7 +151,7 @@ export default function FeedBox(feed) {
       ))}
     </Grid>
     <div style={{borderTop: '1px solid lightgray'}}></div>
-    <div style={{ display: "flex", justifyContent: "space-between", marginTop: '10px' }}>
+    <div style={{ display: "flex",justifyContent: "space-between", marginTop: '10px' }}>
       <div></div>
       <Button
         variant="contained"
@@ -160,7 +160,8 @@ export default function FeedBox(feed) {
           minWidth: "100px",
           backgroundColor: "black",
           border: "1px solid black",
-          marginRight: '10px'
+          marginRight: '10px',
+          marginLeft:'-10px'
         }}
       >
         FEED
