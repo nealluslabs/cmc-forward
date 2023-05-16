@@ -1,5 +1,9 @@
 import { useState,useEffect,useRef} from 'react';
 import { Helmet } from 'react-helmet-async';
+import ReactPlayer from 'react-player'
+import { findDOMNode } from 'react-dom'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
 import { useTheme } from '@mui/material/styles';
 // import { Grid, Container, Typography, Paper, Button } from '@mui/material';
 import { Button, TextField } from '@mui/material';
@@ -10,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import DEFAULTIMG from '../assets/images/video-player.png';
 import ListRowCard from 'src/components/incubator/list-card';
 import SubSectionCard from   'src/components/incubator/list-card';
+
 
 import {fetchVideoSubsection} from 'src/redux/actions/group.action';
 
@@ -42,7 +47,29 @@ export default function ViewIncubatorPage() {
    const { allSectionVideos,requestedSection } = useSelector((state) => state.group);
    const { user} = useSelector((state) => state.auth);
    console.log("user's info is",user)
+   const videoRef = useRef()
 
+   const handleEsc = (event) => {
+    setFullScreen(!fullScreen)
+  
+    console.log("full screen is",fullScreen)
+
+};
+
+const doVideoActions = () => {
+  setVideoTime(!videoTime)
+ 
+  if(!videoTime) 
+  {setThumbnail(false)
+  }else{setThumbnail(cover)}
+
+  
+   if(!videoTime){
+   findDOMNode(videoRef.current).requestFullscreen()
+   }
+}
+
+window.addEventListener('fullscreenchange', handleEsc);
   
    const dummyData = [
     {id: 1, title: "General (16 mins)", desc: "Lorem ipsum dolor sit amet consectetur tesdsjk. Eget cursus..."},
@@ -52,12 +79,33 @@ export default function ViewIncubatorPage() {
 
 
    const [subSection,setSubSection] = useState(allSectionVideos)
-   const [pastRequest,setPastRequest] = useState('')
+   const [videoTime,setVideoTime] = useState(false)
+   const [screenTest, setScreenTest] = useState(false);
    const [data,setData] = useState(allSectionVideos?allSectionVideos:dummyData)
+   const [cover,setCover] = useState(data?data[0].coverUrl:DEFAULTIMG)
+   const [thumbnail,setThumbnail] = useState(cover)
+
+  const [fullScreen, setFullScreen] = useState(false);
+  
+   
   
   console.log("first item of data is:",data[0])
 
-
+  useEffect(()=>{
+ 
+    setScreenTest(!screenTest)
+  
+  if(fullScreen === screenTest){
+    
+    if(fullScreen){
+      setVideoTime(true)
+    }else if (!fullScreen){
+      setVideoTime(false)
+      setThumbnail(cover)
+    }
+  }
+  
+  },[fullScreen])
 
 
   useEffect(()=>{
@@ -82,16 +130,48 @@ export default function ViewIncubatorPage() {
         <Grid container spacing={2} justify="center" style={{marginTop:"2rem", marginBottom:"2rem"}}>
        
         <Grid item xs={6}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <CardMedia
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',width: '740px',borderRadius:"10%" }}  >
+       {/* <CardMedia
             style={{ border: '0.2px solid black', backgroundColor: '#fff', width: '540px' }}
             component="img"
-            // height="140"
-            // width="540"
             image={DEFAULTIMG}
             alt="IMG"
-        />
+     />*/}
+
+            <ReactPlayer   
+                width="100%"
+                
+                 id="full-screenVideo"                                           
+                className="videoFrame"
+                url={data.length ? data[0].videoUrl:"https://neallusmawubucket001.s3.us-east-2.amazonaws.com/Mawu+Files/Videos/Shadow.mp4" }
+                light={thumbnail}
+                playing={videoTime}
+                playIcon={' '}
+                controls
+                ref={videoRef}
+                   
+              />
+
+
+         
         </div>  
+        <Grid container spacing={6}  style={{marginTop:"2rem", marginBottom:"2rem",display:"flex",justifyContent:"space-around",width:"740px",borderRadius:"2rem",boxShadow: "10px 4px 18px 7px rgba(0,0,0,0.13)"}}>
+              <div onClick={()=>{doVideoActions()}} style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                { videoTime? <StopIcon style={{ fontSize: '24px', color: '#74A662' }} />
+                :
+                <PlayArrowIcon style={{ fontSize: '24px', color: '#74A662' }} />
+                 }
+                <p style={{ fontSize: '20px', color: '#74A662', marginLeft: '10px',pointer:"cursor"  }}>{!videoTime?"PLAY":"STOP"}</p>
+               </div>
+
+               <div onClick={()=>{doVideoActions()}} style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                { videoTime? <PlayArrowIcon  style={{ fontSize: '24px', color: '#74A662' }} />
+                :
+                <StopIcon style={{ fontSize: '24px', color: '#74A662' }} />
+                 }
+                <p style={{ fontSize: '20px', color: '#74A662', marginLeft: '10px',pointer:"cursor"  }}>{!videoTime?"STOP":"PLAY"}</p>
+               </div>
+        </Grid>
     </Grid>
        
 
