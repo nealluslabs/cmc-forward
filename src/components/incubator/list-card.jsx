@@ -1,7 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Button } from '@mui/material';
+import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { useDispatch,useSelector } from 'react-redux';
 import {updateVideoAndUserWatchlists} from 'src/redux/actions/group.action'
 
@@ -28,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListRowCard = ({data,index,user}) => {
+const ListRowCard = ({data,index,user,watched,playable}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   console.log("THE VIDEO ID IS",data.uid)
 
-  const sendToWatchList = (userId,videoId)=>{
+  const sendToWatchList = (userId,videoId,underSubLevel)=>{
     //console.log("this function is under construction")
-    dispatch(updateVideoAndUserWatchlists(userId,videoId))
+    dispatch(updateVideoAndUserWatchlists(userId,videoId,underSubLevel))
   }
 
   return (
@@ -46,11 +48,32 @@ const ListRowCard = ({data,index,user}) => {
         </div>{' '}
         <span style={{ marginLeft: '20px' }}>{data && data.details}</span>
       </div>
-<Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'black', }}>
+
+{watched?
+   <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'white',color:"black", }}>
+   &nbsp;&nbsp;
+   <b onClick={()=>{sendToWatchList(user,data.uid,data.levelInfo.underSubLevel)}}><span>Watch</span></b> 
+ <LockOpenIcon />
+</Button>
+     :(
+  playable?
+  
+  <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'black', }}>
+   &nbsp;&nbsp;
+    <b onClick={()=>{sendToWatchList(user,data.uid,data.levelInfo.underSubLevel)}}><span>Watch</span></b> 
+   <LockOpenIcon />
+  </Button>
+
+      :
+     <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'black', }}>
               &nbsp;&nbsp;
-              <b onClick={()=>{sendToWatchList(user,data.uid)}}><span>Watch</span></b> 
+              <b onClick={()=>{notifyErrorFxn("This video is not unlocked yet!")}}><span>Watch</span></b> 
             <LockIcon />
      </Button>
+     
+     )
+    
+     }
     </div>
   );
 };

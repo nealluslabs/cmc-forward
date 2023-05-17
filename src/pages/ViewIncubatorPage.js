@@ -17,7 +17,7 @@ import SubSectionCard from   'src/components/incubator/list-card';
 
 
 import {fetchVideoSubsection} from 'src/redux/actions/group.action';
-
+import { fetchUserData } from 'src/redux/actions/auth.action';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ViewIncubatorPage() {
    const dispatch = useDispatch()
    const location = useLocation()
-   const { allSectionVideos,requestedSection } = useSelector((state) => state.group);
+   const { allSectionVideos,requestedSection,nextUpVideo } = useSelector((state) => state.group);
    const { user} = useSelector((state) => state.auth);
    console.log("user's info is",user)
    const videoRef = useRef()
@@ -124,9 +124,11 @@ window.addEventListener('fullscreenchange', handleEsc);
   useEffect(()=>{
     
     //dispatch(fetchVideoSubsection(location.state.title))
-     setData(allSectionVideos)
+     dispatch(fetchUserData(user.uid,"refresh"))
+    setData(allSectionVideos)
+     console.log("NEXT UP VIDEO IS NOW")
      
-  },[requestedSection])
+  },[requestedSection,nextUpVideo])
   
 
 
@@ -194,9 +196,10 @@ window.addEventListener('fullscreenchange', handleEsc);
                 <br/><br/>
                {data.length?
                data.map(((dt,i) => {
+                  console.log("DT UID IS INCLUDED?:",user.watched.includes(dt.uid))
                 return (
 
-                    <ListRowCard data={dt} index={i} user={user.uid}/>
+                    <ListRowCard data={dt} index={i} user={user.uid} watched={user.watched.includes(dt.uid)?true:false} playable={dt.uid === nextUpVideo?true:false}/>
                 )
                })):
                   

@@ -1,8 +1,8 @@
 import { db, fb, auth, storage } from '../../config/firebase';
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-import { isItLoading, saveAllGroup ,saveEmployeer,saveCategories ,saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup, saveSectionVideos,saveCategoryVideos } from '../reducers/group.slice';
+import { isItLoading, saveAllGroup ,saveEmployeer,saveCategories ,saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup, saveSectionVideos,saveNextUpVideo,saveCategoryVideos } from '../reducers/group.slice';
 import firebase from "firebase/app";
 
 export const createGroup = (groupData, user, file, navigate, setLoading, url) => async (dispatch) => {
@@ -667,10 +667,15 @@ export const fetchAllCategories = () => async (dispatch) => {
 /*===============Add to video watchlist and user watchlict BELOW ===================== */
 
 
-export const updateVideoAndUserWatchlists = (userId,videoId) => async (dispatch) => {
+export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => async (dispatch) => {
   console.log('about to add title',videoId.trim())
+  
+  const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
+  const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
+  const finalSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
 
 
+   //update course takers array
   db.collection("courses").doc(videoId.trim()).update({
     watched:firebase.firestore.FieldValue.arrayUnion(userId)
   }).then((docRef) => {
@@ -689,7 +694,7 @@ export const updateVideoAndUserWatchlists = (userId,videoId) => async (dispatch)
 
 
 
-  
+  //update user watchlist
   db.collection("users").doc(userId).update({
   watched:firebase.firestore.FieldValue.arrayUnion(videoId),
   currentlyWatching:firebase.firestore.FieldValue.arrayUnion(videoId)
@@ -706,6 +711,25 @@ export const updateVideoAndUserWatchlists = (userId,videoId) => async (dispatch)
 });
 
 
+//update next viewable video
+db.collection("courses")
+  .where('levelInfo.underSubLevel', '==', finalSubLevel)
+   .get()
+   .then((snapshot) => {
+     const nextUpArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (nextUpArray.length > 0) {
+     
+     console.log("next up array is:", nextUpArray);
+     dispatch(saveNextUpVideo(nextUpArray[0].uid));
+   } else {
+      
+       dispatch(saveNextUpVideo(null));
+       console.log("No video is next up, YOU HAVE LIKELY HIT THE END OF THE VIDEOS FOR THIS SECTION!");
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   
+ });
 
 
 }
