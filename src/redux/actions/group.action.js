@@ -319,7 +319,6 @@ export const fetchGroups = (adminID) => async (dispatch) => {
  };
 
 
-
  export const fetchVideoSubsection = (chosenSection)=> async(dispatch) =>{
 
   //dispatch(isItLoading(true));
@@ -328,13 +327,26 @@ export const fetchGroups = (adminID) => async (dispatch) => {
    .get()
    .then((snapshot) => {
      const allSectionVids = snapshot.docs.map((doc) => ({ ...doc.data() }));
-   if (allSectionVids.length > 0) {
+
+     const sortFunction = (array)=>{
+      if (array.length){
+        return  array.sort((a,b)=>(Number(a.levelInfo.underSubLevel.replaceAll(".","")) - Number(b.levelInfo.underSubLevel.replaceAll(".","")) ))
+       }else{
+        return []
+       }
+     }
+     
+     const sortedSectionVids = sortFunction(allSectionVids)
+     console.log( "THE NUMBER LOOKS LIKE" ,Number(sortedSectionVids[0].levelInfo.underSubLevel.replaceAll(".","")))
+   // console.log("VIDS SORTED BY SUBSECTION",sortedSectionVids)
+
+   if (sortedSectionVids.length > 0) {
      //dispatch(isItLoading(false));
-     console.log("FRESH FROM DATABASE:", allSectionVids);
-     dispatch(saveSectionVideos(allSectionVids));
+     console.log("SORTED FROM DATABASE:", sortedSectionVids);
+     dispatch(saveSectionVideos(sortedSectionVids));
    } else {
       // dispatch(isItLoading(false));
-      dispatch(saveSectionVideos(allSectionVids));
+      dispatch(saveSectionVideos(sortedSectionVids));
        console.log("No groups!");
    }
  }).catch((error) => {
