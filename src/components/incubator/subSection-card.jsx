@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from '@mui/icons-material/Lock';
 import { Button } from '@mui/material';
@@ -31,17 +31,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubSectionCard = ({data,index,user}) => {
+const SubSectionCard = ({data,index}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading,setLoading] =useState(false)
+  const [lastVideoWatched,setLastVideoWatched] =useState('')
   console.log("THE VIDEO ID IS",data.uid)
+  
+  const { user} = useSelector((state) => state.auth);
 
-  const sendToWatchList = (userId,videoId)=>{
-    //console.log("this function is under construction")
-    dispatch(updateVideoAndUserWatchlists(userId,videoId))
-  }
+  useEffect(()=>{
+
+   setLastVideoWatched(user.watched[user.watched.length-1])
+  },[user])
+
+
+
+
+ // const sendToWatchList = (userId,videoId)=>{
+ //   //console.log("this function is under construction")
+ //   dispatch(updateVideoAndUserWatchlists(userId,videoId))
+ // }
 
   return (
     <div className={classes.row}>
@@ -57,11 +68,11 @@ const SubSectionCard = ({data,index,user}) => {
                 setLoading(true)
                 dispatch(setRequestedSection(data.title))
                
-               dispatch(fetchVideoSubsection(data.title))
+               dispatch(fetchVideoSubsection(data.title,lastVideoWatched))
                 const makeRequest = async()=>{
                   console.log("i have set the requested section as",data.title)
                   dispatch(setRequestedSection(data.title))
-                  dispatch(fetchVideoSubsection(data.title))}
+                  dispatch(fetchVideoSubsection(data.title,lastVideoWatched))}
                 //use a promise not setTimeout
                 makeRequest().then(()=>(setTimeout(()=>{navigate('/dashboard/view-incubator', { state: { title:data.title } })},1300)))
               }}>

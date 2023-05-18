@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LockIcon from '@mui/icons-material/Lock';
+import {FaLockOpen} from 'react-icons/fa'
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Button } from '@mui/material';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const ListRowCard = ({data,index,user,watched,playable}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  console.log("THE VIDEO ID IS",data.uid)
+  console.log("THE VIDEO'S  UNDER SUB LEVEL IS",data.levelInfo.underSubLevel)
 
   const sendToWatchList = (userId,videoId,underSubLevel)=>{
     //console.log("this function is under construction")
@@ -50,18 +51,18 @@ const ListRowCard = ({data,index,user,watched,playable}) => {
       </div>
 
 {watched?
-   <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'white',color:"black", }}>
+   <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'white',color:"black" }}>
    &nbsp;&nbsp;
    <b onClick={()=>{sendToWatchList(user,data.uid,data.levelInfo.underSubLevel)}}><span>Watch</span></b> 
- <LockOpenIcon />
+ <FaLockOpen style={{fontSize:"22px",marginLeft:"10px"}}/>
 </Button>
      :(
   playable?
   
-  <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'black', }}>
+  <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'black' }}>
    &nbsp;&nbsp;
     <b onClick={()=>{sendToWatchList(user,data.uid,data.levelInfo.underSubLevel)}}><span>Watch</span></b> 
-   <LockOpenIcon />
+   <FaLockOpen style={{fontSize:"22px",marginLeft:"10px"}} />
   </Button>
 
       :

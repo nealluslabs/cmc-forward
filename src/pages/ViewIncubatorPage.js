@@ -90,6 +90,9 @@ window.addEventListener('fullscreenchange', handleEsc);
     {id: 3, title: "Future (39 mins)", desc: "Lorem ipsum dolor sit amet consectetur tesdsjk. Eget cursus..."},
 ];
 
+ const [refresh,setRefresh] = useState(true)
+ //to refresh and set the videos next up 
+
 
    const [subSection,setSubSection] = useState(allSectionVideos)
    const [videoTime,setVideoTime] = useState(false)
@@ -126,7 +129,8 @@ window.addEventListener('fullscreenchange', handleEsc);
     //dispatch(fetchVideoSubsection(location.state.title))
      dispatch(fetchUserData(user.uid,"refresh"))
     setData(allSectionVideos)
-     console.log("NEXT UP VIDEO IS NOW")
+     console.log("WHAT IS IN THE USER'S WATCHED ARRAY ?",user.watched)
+     console.log("WHAT IS NEXT UP ?",nextUpVideo)
      
   },[requestedSection,nextUpVideo])
   
@@ -194,12 +198,14 @@ window.addEventListener('fullscreenchange', handleEsc);
          <h2><b>{data.length? data[0].subSection.toUpperCase():''}</b></h2>
           <p style={{color: 'grey'}}>Lorem ipsum dolor sit amet consectetur. Eget ac risus ipsum maecenas cursus adipiscing eros. Mi viverra semper gravida pretium elementum. Pellentesque lacus ultrices luctus sit semper. Elementum tortor donec adipiscing tortor ut mollis quis. Molestie ipsum libero euismod ut eu quis.</p>
                 <br/><br/>
-               {data.length?
+               {(refresh === true|| refresh === true) &&
+               
+               data.length?
                data.map(((dt,i) => {
                   console.log("DT UID IS INCLUDED?:",user.watched.includes(dt.uid))
                 return (
 
-                    <ListRowCard data={dt} index={i} user={user.uid} watched={user.watched.includes(dt.uid)?true:false} playable={dt.uid === nextUpVideo?true:false}/>
+                    <ListRowCard data={dt} index={i} user={user.uid} watched={user.watched.includes(dt.uid)?true:false} playable={dt.uid === nextUpVideo?true:false} onClick={()=>{(setRefresh(!refresh))}}/>
                 )
                })):
                   

@@ -319,9 +319,103 @@ export const fetchGroups = (adminID) => async (dispatch) => {
  };
 
 
- export const fetchVideoSubsection = (chosenSection)=> async(dispatch) =>{
+ export const fetchVideoSubsection = (chosenSection,lastVideoWatched)=> async(dispatch) =>{
+   //MAY 18 2023 - DAGOGO STOPPED HERE
+  //YOU WERE GOING TO SET THE NEW SECTION BY FINDING THE LAST VIDEO WATCHED
+  //GETTING THE SUBSECTION NUMBER, FINDING THE VIDEO WITH THE SUBSECTION NUMBER WHICH IS +1 OF THAT
+  //IF THERE'S NO PLUS 1, THEN MOVE TO A NEW LARGE SECTION, THEN SET NEXT UP AS THE ID OF WHATEVER 
+  //VIDEO +1 YOU GET, OR SECTION +1 
+  //IF THERE'S NOT VIDEO + 1 OR SECTION +1 , THEN SET NULL, IT MEANS ALL VIDEOS ARE WATCHED 
+  
+  //setting upNextVideo
+  console.log('THE LAST VIDEO WATCHED IS::::',lastVideoWatched)
 
-  //dispatch(isItLoading(true));
+ if(!lastVideoWatched ||lastVideoWatched === undefined){
+
+  db.collection("courses")
+  .where('levelInfo.underSubLevel', '==','1.1.1')
+   .get()
+   .then((snapshot) => {
+     const startingOpenArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (startingOpenArray.length > 0) {
+     
+     
+     console.log("NEXT UP VIDEO IS INITIALLY:",startingOpenArray[0].uid)
+     dispatch(saveNextUpVideo(startingOpenArray[0].uid));
+    } else{
+      console.log("WE ARE NOT ABLE TO SET STARTING OPEN ARRAY AS 1.1.1 ...WHY?")
+    }})
+ }
+
+  else{
+    console.log('THE LAST VIDEO WATCHED IS:->',lastVideoWatched)
+
+  var docRef = db.collection("courses").doc(lastVideoWatched);
+  docRef.get().then((doc) => {
+  const data = doc.data();
+
+  if(data){
+  const underSubLevel = data.levelInfo.underSubLevel;
+
+  const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
+  const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
+  const finalTrimSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
+
+  db.collection("courses")
+  .where('levelInfo.underSubLevel', '==', finalTrimSubLevel)
+   .get()
+   .then((snapshot) => {
+     const nextUpArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   if (nextUpArray.length > 0) {
+     
+     console.log("next up array WHEN SETTING VIDEO SECTION IS:", nextUpArray);
+     dispatch(saveNextUpVideo(nextUpArray[0].uid));
+   } else {
+
+   
+
+    const nextSectionNumber = Number(underSubLevel.slice(0,1)) + 1
+    const nextSectionFirstUnderSubLevel = nextSectionNumber.toString() + ".1" + ".1"
+      console.log("next section's number is",nextSectionFirstUnderSubLevel)
+
+    db.collection("courses")
+  .where('levelInfo.underSubLevel', '==', nextSectionFirstUnderSubLevel)
+   .get()
+   .then((snapshot) => {
+    const nextUpNextSectionArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+     
+    if (nextUpNextSectionArray.length > 0) {
+     
+      console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextSectionArray);
+      dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
+    } else {
+
+      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
+      dispatch(saveNextUpVideo(null));
+    }
+
+   })
+     
+    
+     
+      
+   }
+ }).catch((error) => {
+   console.log("Error getting document:", error);
+   
+ });
+
+  }else{
+   console.log("THERE IS AN ID TO LOOK FOR, BUT THERE IS NO DATA RETURNING FROM THE DATABASE..WHY ? ")
+  }
+
+})
+
+ }
+
+  //setting upNextVideo end
+
+
   db.collection("courses")
   .where('subSection', '==', chosenSection)
    .get()
@@ -341,12 +435,14 @@ export const fetchGroups = (adminID) => async (dispatch) => {
    // console.log("VIDS SORTED BY SUBSECTION",sortedSectionVids)
 
    if (sortedSectionVids.length > 0) {
-     //dispatch(isItLoading(false));
+    
      console.log("SORTED FROM DATABASE:", sortedSectionVids);
      dispatch(saveSectionVideos(sortedSectionVids));
+     
    } else {
-      // dispatch(isItLoading(false));
+      
       dispatch(saveSectionVideos(sortedSectionVids));
+      
        console.log("No groups!");
    }
  }).catch((error) => {
@@ -483,55 +579,8 @@ export const fetchPrivateGroup = () => async (dispatch) => {
    })
 })
  };
-//    export const joinGroup = (groupID, user, today, navigate, userBal, groupFee) => async (dispatch) => {
-//     dispatch(isItLoading(true));
-//     let newMembers;
-//     var docRef = db.collection("groups").doc(groupID);
-//     docRef.get().then((doc) => {
-//     const data = doc.data();
-//     const members = data.members;
-//     newMembers = [...members, user.id];
-// }).then(() => {
-//   db.collection('groups')
-//   var userRef = db.collection("groups").doc(groupID);
-//   userRef.update({
-//     members: [...newMembers],
-//   }).then((res) => {
-//     db.collection('employees')
-//     .doc(user.id)
-//     .update({
-//       coolers: [...user?.coolers, groupID],
-//     })
-//    .then(() => {
-//     db.collection('groups').doc(groupID).collection('membersCollection').add({
-//       memberName: user.firstName + " " + user.lastName,
-//       memberEmail: user.email,
-//       memberImageUrl: "",
-//       invitedBy: user.id,
-//       invite: 0,
-//       paid: 1,
-//       users: user.id,
-//       sentAt: today,
-//     }).then((resp) => {
-//       console.log("membersCollection RESPONSE: ", resp);
-//       db.collection('groups').doc(groupID).collection('membersCollection').doc(resp.id).update({
-//         id: resp.id,
-//       })
-//   }).then(() => {
-//     dispatch(isItLoading(false));
-//     notifySuccessFxn("Joined Group")
-//     navigate('/dashboard/home', { replace: true });
-//     }).catch((error) => {
-//     console.log("Error joining group:", error);
-//     var errorMessage = error.message;
-//     notifyErrorFxn(errorMessage)
-//     dispatch(isItLoading(false));
-//   });
-//    })
-      
-//    })
-// })
-//  };
+
+
 
 
 export const joinPublicGroup = (groupID, user, today, navigate) => async (dispatch) => {
@@ -700,6 +749,16 @@ export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => as
   currentlyWatching:firebase.firestore.FieldValue.arrayUnion(videoId)
 }).then((docRef) => {
   console.log("user Document updated is: ", docRef);
+
+  //refreshing users watched column manually
+  var user = db.collection("users").doc(userId);
+  user.get().then((doc) => {
+  if (doc.exists) {
+    
+    dispatch(storeUserData(doc.data()));
+  } 
+})
+//refreshing users watched column manually- END
   
   //dispatch(fetchWatchListData)
   //dispatch(playlistUpdate(true));
@@ -719,12 +778,36 @@ db.collection("courses")
      const nextUpArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
    if (nextUpArray.length > 0) {
      
-     console.log("next up array is:", nextUpArray);
+     console.log("next up array items are:", nextUpArray);
      dispatch(saveNextUpVideo(nextUpArray[0].uid));
+
+
+
+
    } else {
-      
+      //IF WE CANT GET A 'NEXT' VIDEO FROM THE CURRENT SECTION, WE GO CHECK IF NEXT SECTION EXISTS AND SET IT TO THE FIRST ITEM
+      const nextSectionNumber = Number(underSubLevel.slice(0,1)) + 1
+      const nextSectionFirstUnderSubLevel = nextSectionNumber.toString() + ".1" + ".1"
+
+    db.collection("courses")
+  .where('levelInfo.underSubLevel', '==', nextSectionFirstUnderSubLevel)
+   .get()
+   .then((snapshot) => {
+    const nextUpNextSectionArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+     
+    if (nextUpNextSectionArray.length > 0) {
+     
+      console.log("next up, NEXT SECTION array IS:", nextUpNextSectionArray);
+              dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
+            
+    } else {
+
+      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
+
        dispatch(saveNextUpVideo(null));
-       console.log("No video is next up, YOU HAVE LIKELY HIT THE END OF THE VIDEOS FOR THIS SECTION!");
+    }
+
+   })
    }
  }).catch((error) => {
    console.log("Error getting document:", error);
