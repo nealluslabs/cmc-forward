@@ -350,16 +350,32 @@ export const fetchGroups = (adminID) => async (dispatch) => {
   else{
     console.log('THE LAST VIDEO WATCHED IS:->',lastVideoWatched)
 
-  var docRef = db.collection("courses").doc(lastVideoWatched);
+  var docRef = db.collection("courses").doc(lastVideoWatched.trim());
   docRef.get().then((doc) => {
   const data = doc.data();
-
+  
+console.log("MOST RECENTLY WATCHED VIDEO'S DATA IS",data)
+  
   if(data){
   const underSubLevel = data.levelInfo.underSubLevel;
 
-  const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
-  const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
-  const finalTrimSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
+  //const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
+  //const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
+ // const finalTrimSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
+
+ const first  = underSubLevel.indexOf(".");
+ const next = underSubLevel.indexOf(".", first+1);
+ const last = underSubLevel.lastIndexOf(".");
+
+
+ const endSubSectionNum =  Number(underSubLevel.slice(last+1,underSubLevel.length)) + 1
+ const otherPart = underSubLevel.slice(0,next+1)
+
+
+
+  const finalTrimSubLevel = otherPart + endSubSectionNum.toString()
+
+  console.log('AFTER TRIMMING, THE NEXT SECTION IS',finalTrimSubLevel)
 
   db.collection("courses")
   .where('levelInfo.underSubLevel', '==', finalTrimSubLevel)
@@ -372,11 +388,19 @@ export const fetchGroups = (adminID) => async (dispatch) => {
      dispatch(saveNextUpVideo(nextUpArray[0].uid));
    } else {
 
-   
+      //do the new SUB section logic here
 
-    const nextSectionNumber = Number(underSubLevel.slice(0,1)) + 1
-    const nextSectionFirstUnderSubLevel = nextSectionNumber.toString() + ".1" + ".1"
-      console.log("next section's number is",nextSectionFirstUnderSubLevel)
+      const firstDecimal  = underSubLevel.indexOf(".");
+      const curentSectionNumber = Number(underSubLevel.slice(0,firstDecimal)) //you didn't need to convert to number here
+      const csnString = curentSectionNumber.toString() +"." 
+   
+      const first  = underSubLevel.indexOf(".");
+      const next = underSubLevel.indexOf(".", first+1);
+
+    const nextSectionNumber = Number(underSubLevel.slice(first+1,next)) + 1
+   
+    const nextSectionFirstUnderSubLevel =  csnString + nextSectionNumber.toString()  + ".1"
+    console.log("next section's numbeR is---MIDDLE",nextSectionFirstUnderSubLevel)
 
     db.collection("courses")
   .where('levelInfo.underSubLevel', '==', nextSectionFirstUnderSubLevel)
@@ -390,8 +414,31 @@ export const fetchGroups = (adminID) => async (dispatch) => {
       dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
     } else {
 
+      //do the new section logic here
+
+      const firstDot  = underSubLevel.indexOf(".");
+      
+      const nextChapterNumber = Number(underSubLevel.slice(0,firstDot)) + 1
+     
+      const nextChapterFirstUnderSubLevel = nextChapterNumber.toString() + ".1" + ".1"
+      console.log("next section's number is",nextChapterFirstUnderSubLevel)
+  
+      db.collection("courses")
+    .where('levelInfo.underSubLevel', '==', nextChapterFirstUnderSubLevel)
+     .get()
+     .then((snapshot) => {
+      const nextUpNextChapterArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+    
+      if (nextUpNextChapterArray.length > 0) {
+        console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextChapterArray);
+      dispatch(saveNextUpVideo(nextUpNextChapterArray[0].uid));
+      }
+     else{
       console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
       dispatch(saveNextUpVideo(null));
+     }
+     })
+
     }
 
    })
@@ -718,10 +765,25 @@ export const fetchAllCategories = () => async (dispatch) => {
 
 export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => async (dispatch) => {
   console.log('about to add title',videoId.trim())
+
+  const first  = underSubLevel.indexOf(".");
+  const next = underSubLevel.indexOf(".", first+1);
+  const last = underSubLevel.lastIndexOf(".");
+
+   const endSubSectionNum =  Number(underSubLevel.slice(last+1,underSubLevel.length)) + 1
+   
+
+
+   const otherPart = underSubLevel.slice(0,next+1)
   
-  const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
-  const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
-  const finalSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
+
+   const finalSubLevel = otherPart + endSubSectionNum.toString()
+
+   console.log('AFTER TRIMMING, THE NEXT SECTION TO get',finalSubLevel)
+  
+  //const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
+  //const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
+  //const finalSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
 
 
    //update course takers array
@@ -778,16 +840,26 @@ db.collection("courses")
      const nextUpArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
    if (nextUpArray.length > 0) {
      
-     console.log("next up array items are:", nextUpArray);
+     console.log("next up array items consists of:", nextUpArray);
      dispatch(saveNextUpVideo(nextUpArray[0].uid));
 
 
 
 
    } else {
-      //IF WE CANT GET A 'NEXT' VIDEO FROM THE CURRENT SECTION, WE GO CHECK IF NEXT SECTION EXISTS AND SET IT TO THE FIRST ITEM
-      const nextSectionNumber = Number(underSubLevel.slice(0,1)) + 1
-      const nextSectionFirstUnderSubLevel = nextSectionNumber.toString() + ".1" + ".1"
+      //do the new SUB section logic here
+
+      const firstDecimal  = underSubLevel.indexOf(".");
+      const curentSectionNumber = Number(underSubLevel.slice(0,firstDecimal)) //you didn't need to convert to number here
+      const csnString = curentSectionNumber.toString() +"." 
+   
+      const first  = underSubLevel.indexOf(".");
+      const next = underSubLevel.indexOf(".", first+1);
+
+    const nextSectionNumber = Number(underSubLevel.slice(first+1,next)) + 1
+   
+    const nextSectionFirstUnderSubLevel =  csnString + nextSectionNumber.toString()  + ".1"
+    console.log("next section's number is---WITHIN SECTIONS O!",nextSectionFirstUnderSubLevel)
 
     db.collection("courses")
   .where('levelInfo.underSubLevel', '==', nextSectionFirstUnderSubLevel)
@@ -797,17 +869,41 @@ db.collection("courses")
      
     if (nextUpNextSectionArray.length > 0) {
      
-      console.log("next up, NEXT SECTION array IS:", nextUpNextSectionArray);
-              dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
-            
+      console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextSectionArray);
+      dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
     } else {
 
-      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
+      //do the new section logic here
 
-       dispatch(saveNextUpVideo(null));
+      const firstDot  = underSubLevel.indexOf(".");
+      
+      const nextChapterNumber = Number(underSubLevel.slice(0,firstDot)) + 1
+     
+      const nextChapterFirstUnderSubLevel = nextChapterNumber.toString() + ".1" + ".1"
+      console.log("next section's number is",nextChapterFirstUnderSubLevel)
+  
+      db.collection("courses")
+    .where('levelInfo.underSubLevel', '==', nextChapterFirstUnderSubLevel)
+     .get()
+     .then((snapshot) => {
+      const nextUpNextChapterArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
+    
+      if (nextUpNextChapterArray.length > 0) {
+        console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextChapterArray);
+      dispatch(saveNextUpVideo(nextUpNextChapterArray[0].uid));
+      }
+     else{
+      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
+      dispatch(saveNextUpVideo(null));
+     }
+     })
+
     }
 
    })
+     
+    
+     
    }
  }).catch((error) => {
    console.log("Error getting document:", error);
