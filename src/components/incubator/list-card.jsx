@@ -8,7 +8,7 @@ import { Circles } from 'react-loading-icons'
 import { Button } from '@mui/material';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { useDispatch,useSelector } from 'react-redux';
-import {updateVideoAndUserWatchlists} from 'src/redux/actions/group.action'
+import {updateVideoAndUserWatchlists,updateCurrentlyWatchingOnly } from 'src/redux/actions/group.action'
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -47,6 +47,11 @@ const ListRowCard = ({data,index,user,watched,playable}) => {
     setTimeout(setLoading(false),1000)
   }
 
+  const updateWatchListOnly = (userId,videoId)=>{
+ 
+    dispatch(updateCurrentlyWatchingOnly(userId,videoId)) 
+ 
+}
   return (
     <div className={classes.row}>
       <div className={classes.text}>
@@ -59,7 +64,7 @@ const ListRowCard = ({data,index,user,watched,playable}) => {
 {watched?
    <Button variant="contained" style={{minHeight: '45px', minWidth: '145px', backgroundColor: 'white',color:"black" }}>
    &nbsp;&nbsp;
-   <b onClick={()=>{sendToWatchList(user,data.uid,data.levelInfo.underSubLevel)}}><span>Watch</span></b> 
+   <b onClick={()=>{updateWatchListOnly(user,data.uid)}}><span>Watch</span></b> 
  <FaLockOpen style={{fontSize:"22px",marginLeft:"10px"}}/>
 </Button>
      :(

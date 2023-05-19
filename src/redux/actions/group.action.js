@@ -759,6 +759,33 @@ export const fetchAllCategories = () => async (dispatch) => {
 
 /*===============do fetching of categories ABOVE ===================== */
 
+export const updateCurrentlyWatchingOnly = (userId,videoId) => async (dispatch) => {
+
+
+     //update user watchlist
+  db.collection("users").doc(userId).update({
+    currentlyWatching:firebase.firestore.FieldValue.arrayUnion(videoId)
+  }).then((docRef) => {
+    console.log("user Document updated is: ", docRef);
+  
+    //refreshing users watched column manually
+    var user = db.collection("users").doc(userId);
+    user.get().then((doc) => {
+    if (doc.exists) {
+      
+      dispatch(storeUserData(doc.data()));
+    } 
+  })
+  //refreshing users watched column manually- END
+   
+  })
+  .catch((error) => {
+    console.error("Error adding video  to USER watch List: ", error);
+    notifyErrorFxn("Error adding video  to USER watch List")
+    
+  });
+}
+
 
 /*===============Add to video watchlist and user watchlict BELOW ===================== */
 
@@ -791,9 +818,7 @@ export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => as
     watched:firebase.firestore.FieldValue.arrayUnion(userId)
   }).then((docRef) => {
     console.log(" course Document updated is: ", docRef);
-    
-    //dispatch(fetchWatchListData)
-    //dispatch(playlistUpdate(true));
+   
   })
   .catch((error) => {
     console.error("Error adding USER to  VIDEO watch List: ", error);
@@ -822,8 +847,7 @@ export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => as
 })
 //refreshing users watched column manually- END
   
-  //dispatch(fetchWatchListData)
-  //dispatch(playlistUpdate(true));
+  
 })
 .catch((error) => {
   console.error("Error adding video  to USER watch List: ", error);
