@@ -101,6 +101,8 @@ window.addEventListener('fullscreenchange', handleEsc);
    const [cover,setCover] = useState(DEFAULTIMG)
    const [thumbnail,setThumbnail] = useState(cover)
 
+   const [toPlay,setToPlay] = useState(nextUpVideo)
+
   const [fullScreen, setFullScreen] = useState(false);
   
    
@@ -135,6 +137,12 @@ window.addEventListener('fullscreenchange', handleEsc);
   },[requestedSection,nextUpVideo])
   
 
+  useEffect(()=>{
+
+  setTimeout(()=>{setToPlay(nextUpVideo)},500)
+ 
+
+  },[nextUpVideo])
 
   return (
     <>
@@ -198,14 +206,14 @@ window.addEventListener('fullscreenchange', handleEsc);
          <h2><b>{data.length? data[0].subSection.toUpperCase():''}</b></h2>
           <p style={{color: 'grey'}}>Lorem ipsum dolor sit amet consectetur. Eget ac risus ipsum maecenas cursus adipiscing eros. Mi viverra semper gravida pretium elementum. Pellentesque lacus ultrices luctus sit semper. Elementum tortor donec adipiscing tortor ut mollis quis. Molestie ipsum libero euismod ut eu quis.</p>
                 <br/><br/>
-               {(refresh === true|| refresh === true) &&
+               {
                
                data.length?
                data.map(((dt,i) => {
                   console.log("DT UID IS INCLUDED?:",user.watched.includes(dt.uid))
                 return (
 
-                    <ListRowCard data={dt} index={i} user={user.uid} watched={user.watched.includes(dt.uid)?true:false} playable={dt.uid === nextUpVideo?true:false} onClick={()=>{(setRefresh(!refresh))}}/>
+                    <ListRowCard data={dt} index={i} user={user.uid} watched={user.watched.includes(dt.uid)?true:false} playable={dt.uid === toPlay?true:false} />
                 )
                })):
                   
