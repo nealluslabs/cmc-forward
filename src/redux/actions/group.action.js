@@ -889,6 +889,10 @@ db.collection("courses")
 
       //do the new section logic here
 
+
+  
+
+
       const firstDot  = underSubLevel.indexOf(".");
       
       const nextChapterNumber = Number(underSubLevel.slice(0,firstDot)) + 1
@@ -911,6 +915,35 @@ db.collection("courses")
       dispatch(saveNextUpVideo(null));
      }
      })
+
+
+         //UPDATE OF USER BADGES !   
+  db.collection("users").doc(userId).update({
+    badgesEarned:Number(underSubLevel.slice(0,firstDot))
+    
+  }).then((docRef) => {
+    console.log("user Document updated is: ", docRef);
+  
+    //refreshing users watched column manually
+    var user = db.collection("users").doc(userId);
+    user.get().then((doc) => {
+    if (doc.exists) {
+      
+      dispatch(storeUserData(doc.data()));
+      notifySuccessFxn("Congrats,You have completed the entire section and earned a new badge! 🏆")
+    } 
+  })
+  //refreshing users watched column manually- END
+    
+    
+  })
+  .catch((error) => {
+    console.error("Error adding video  to USER watch List: ", error);
+   
+    
+  });
+  //UPDATE OF BADGES END 
+
 
     }
 

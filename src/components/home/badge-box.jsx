@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useEffect,useState} from 'react';
 import Typography from '@mui/material/Typography';
 // import Title from './title';
 import { Button, Divider, Grid } from '@mui/material';
@@ -41,8 +41,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BadgeBox() {
+  const dispatch = useDispatch()
   const classes = useStyles();
-  /*const { user } = useSelector((state) => state.auth);*/
+  const { user } = useSelector((state) => state.auth);
+  const [placeHolder,setPlaceHolder] = useState(user && user.badgesEarned>0? new Array(user.badgesEarned):new Array(1))
+  //const [badgeHolder, setBadgeHolder] = useState([...placeHolder.fill('badge')])
+
+  useEffect(()=>{
+
+   
+      setPlaceHolder([...placeHolder.fill('badge')])
+      //setBadgeHolder([...placeHolder.fill('badge')])
+     
+      console.log("placeHolder array is",placeHolder)
+  },[user])
 
   return (
     <>
@@ -51,20 +63,44 @@ export default function BadgeBox() {
             variant="h6"
             component="p"
           >
-        <b>BADGE</b>
+        <b>BADGES</b>
       </Typography>
       <Divider />
       <br/>
         <center>
-    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }} justifyContent="flex-start" alignItems="center" position="relative" top="-10%">
+    <Grid container rowSpacing={0} style={{ height:"200px" }} columnSpacing={{ xs: 1, sm: 1, md: 1 }} justifyContent="flex-start" alignItems="center" position="relative" left="-3%" top="-20%">
    
-    <Grid item xs={2}>
+    {placeHolder.length && user.badgesEarned>0?
+    
+      placeHolder.map((item)=>
+     
+       ( 
+        
+    <Grid item xs={2}  style={{ marginRight:"1px" }}>
     <div elevation={3} className={classes.circle}>
-    <img src={badge} />
+    <img src={badge} style={{width:`${100/(1)}%`}} />
+     
     </div>
     </Grid>
+       
+    )
+     )
+
+     :
+
+     <Grid item xs={2}  style={{ marginRight:"1px" }}>
+     <div elevation={3} className={classes.circle}>
+     
+      
+     </div>
+     </Grid>
+      }
+
+ 
+  
 
    {/* THIS IS COMMENTED OUT FOR USE IN THE FUTURE  - SAVED 30/03/2023
+    <>
     <Grid item xs={2}>
     <div elevation={3} className={classes.circle}>
      h  i
@@ -75,12 +111,14 @@ export default function BadgeBox() {
     <div elevation={3} className={classes.circle}>
     <img src={line} />
     </div>
-  </Grid>*/}
+  </Grid>
+  </>
+  */}
 
     </Grid>
     </center>
    
-    <p style={{fontStyle:"1.2rem",fontWeight:"bold"}}>You have Recieved <span style={{color:"brown"}}> 1</span> out of 5 badges! </p>
+    <p style={{fontStyle:"1.2rem",fontWeight:"bold"}}>You have Recieved <span style={{color:"brown"}}> {user.badgesEarned}</span> out of 5 badges! </p>
     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '10px' }}>
     <div></div>
       <Button
