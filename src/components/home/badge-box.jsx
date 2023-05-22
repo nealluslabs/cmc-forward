@@ -118,7 +118,7 @@ export default function BadgeBox() {
     </Grid>
     </center>
    
-    <p style={{fontStyle:"1.2rem",fontWeight:"bold"}}>You have Recieved <span style={{color:"brown"}}> {user.badgesEarned}</span> out of 5 badges! </p>
+    <p style={{fontStyle:"1.2rem",fontWeight:"bold"}}>You have Recieved <span style={{color:"brown"}}> {user && user.badgesEarned?user.badgesEarned:0}</span> out of 5 badges! </p>
     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '10px' }}>
     <div></div>
       <Button

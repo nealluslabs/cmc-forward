@@ -111,7 +111,7 @@ useEffect(()=>{
         <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '3%' }}>
         <center><b>{"RESUME:"}</b></center>
         <br/>
-        <div style={{ marginLeft: '2%',width:"100%" }}>{videoTitle && videoSection?(`${videoTitle} - ( under ${videoSection.toUpperCase()})`.slice(0,23))+"...":"loading..."}</div>
+        <div style={{ marginLeft: '2%',width:"100%" }}>{videoTitle && videoSection?(`${videoTitle} - ( under ${videoSection.toUpperCase()})`.slice(0,33))+"...":"loading..."}</div>
       </Typography>
        
       

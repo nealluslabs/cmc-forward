@@ -841,7 +841,7 @@ export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => as
 })
 .catch((error) => {
   console.error("Error adding video  to USER watch List: ", error);
-  notifyErrorFxn("Error adding video  to USER watch List")
+  //notifyErrorFxn("Error adding video  to USER watch List")
   
 });
 
@@ -853,12 +853,33 @@ db.collection("courses")
    .then((snapshot) => {
      const nextUpArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
    if (nextUpArray.length > 0) {
-     
+
+   
      console.log("next up array items consists of:", nextUpArray);
      dispatch(saveNextUpVideo(nextUpArray[0].uid));
 
-
-
+     //updatingCurrentLevel START
+     db.collection("users").doc(userId).update({
+     
+      currentLevel:finalSubLevel
+      
+    }).then((docRef) => {
+      console.log("user Document updated is: ", docRef);
+    
+      //refreshing users watched column manually
+      var user = db.collection("users").doc(userId);
+      user.get().then((doc) => {
+      if (doc.exists) {
+        
+        dispatch(storeUserData(doc.data()));
+       
+      } 
+    })
+    //refreshing users watched column manually- END
+      
+      
+    })
+    //updatingCurrentLevel END
 
    } else {
       //do the new SUB section logic here
@@ -882,8 +903,33 @@ db.collection("courses")
     const nextUpNextSectionArray = snapshot.docs.map((doc) => ({ ...doc.data() }));
      
     if (nextUpNextSectionArray.length > 0) {
+
+
+
      
       console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextSectionArray);
+
+
+      db.collection("users").doc(userId).update({
+        currentLevel:nextSectionFirstUnderSubLevel
+        
+      }).then((docRef) => {
+        console.log("user Document updated is: ", docRef);
+      
+        //refreshing users watched column manually
+        var user = db.collection("users").doc(userId);
+        user.get().then((doc) => {
+        if (doc.exists) {
+          
+          dispatch(storeUserData(doc.data()));
+        
+        } 
+      })
+      //refreshing users watched column manually- END
+        
+        
+      })
+
       dispatch(saveNextUpVideo(nextUpNextSectionArray[0].uid));
     } else {
 
@@ -909,17 +955,11 @@ db.collection("courses")
       if (nextUpNextChapterArray.length > 0) {
         console.log("next up, NEXT SECTION array WHEN SETTING VIDEO SECTION IS:", nextUpNextChapterArray);
       dispatch(saveNextUpVideo(nextUpNextChapterArray[0].uid));
-      }
-     else{
-      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
-      dispatch(saveNextUpVideo(null));
-     }
-     })
 
-
-         //UPDATE OF USER BADGES !   
+              //UPDATE OF USER BADGES !   
   db.collection("users").doc(userId).update({
-    badgesEarned:Number(underSubLevel.slice(0,firstDot))
+    badgesEarned:Number(underSubLevel.slice(0,firstDot)),
+    currentLevel:nextChapterFirstUnderSubLevel
     
   }).then((docRef) => {
     console.log("user Document updated is: ", docRef);
@@ -938,12 +978,44 @@ db.collection("courses")
     
   })
   .catch((error) => {
-    console.error("Error adding video  to USER watch List: ", error);
+    console.error("Error adding video  to BADGE LEVEL TO USER: ", error);
+     
+  });
+  //UPDATE OF BADGES END 
+      }
+     else{
+      console.log("IT IS LIKELY THAT THERE ARE NO NEW SECTIONS, sAVE next UP video to null");
+      dispatch(saveNextUpVideo(null));
+
+              //UPDATE OF USER BADGES !   
+  db.collection("users").doc(userId).update({
+    badgesEarned:Number(underSubLevel.slice(0,firstDot)) + 1,
    
+  }).then((docRef) => {
+    console.log("user Document updated is: ", docRef);
+  
+    //refreshing users watched column manually
+    var user = db.collection("users").doc(userId);
+    user.get().then((doc) => {
+    if (doc.exists) {
+      
+      dispatch(storeUserData(doc.data()));
+      notifySuccessFxn("Congrats,You have completed the entire section and earned a new badge! 🏆")
+    } 
+  })
+  //refreshing users watched column manually- END
     
+    
+  })
+  .catch((error) => {
+    console.error("Error adding video  to BADGE LEVEL TO USER: ", error);
+     
   });
   //UPDATE OF BADGES END 
 
+
+     }
+     })
 
     }
 
@@ -976,3 +1048,45 @@ export const fetchEmployeer = (id) => async (dispatch) => {
 });
 return user;
 };
+
+export const addNewBadge = (userId,currentLevel) => async (dispatch)=>{
+
+  
+   console.log("user's current level is",currentLevel)
+
+
+  const firstDot  = currentLevel.indexOf(".");   
+  const badgeNumber =Number(currentLevel.slice(0,firstDot))-1
+  console.log("BADGE NUMBER VARIABLE IS- ",badgeNumber)
+
+
+  
+  //UPDATE OF USER BADGES !  
+  if(badgeNumber <5){  // I HARDCODED THIS TO BE LESS THAN 5 CUZ WHEN WE REACH 5, WE DONT KNOW WHEN TO ASSIGN THE FIFTH BADGE FROM THE PARAMETERS GIVEN SO FAR
+  db.collection("users").doc(userId).update({
+    badgesEarned:badgeNumber,
+  
+  }).then((docRef) => {
+    console.log("user Document updated is: ", docRef);
+  
+    //refreshing users watched column manually
+    var user = db.collection("users").doc(userId);
+    user.get().then((doc) => {
+    if (doc.exists) {
+      
+      dispatch(storeUserData(doc.data()));
+    } 
+  })
+  //refreshing users watched column manually- END
+    
+    
+  })
+  .catch((error) => {
+    console.error("Error adding video  to BADGE LEVEL TO USER: ", error);
+     
+  });
+}
+  //UPDATE OF BADGES END 
+
+
+}

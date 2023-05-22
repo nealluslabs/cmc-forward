@@ -5,7 +5,7 @@ import { fCurrency, fNumber } from '../utils/formatNumber';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyRowCard from 'src/components/home/empty-row-card';
-import { fetchGroups, fetchMyGroups } from 'src/redux/actions/group.action';
+import { addNewBadge } from 'src/redux/actions/group.action';
 import MyCoolersRowCard from 'src/components/my-cooler/my-coolers-card';
 import { fetchUserData,getUserProfilePic } from 'src/redux/actions/auth.action';
 
@@ -59,11 +59,11 @@ const [noticeFeed,setNoticeFeed] = useState(candidates.length?candidates:rowData
  //   }
  //  }, [])
 
- /* useEffect(() => {
-    dispatch(fetchMyGroups(user?.coolers));
-    dispatch(fetchMyTransactions(user?.id));
-    console.log("Transac Changed.");
-  }, [user])*/
+  useEffect(() => {
+    dispatch(addNewBadge(user?.uid,user?.currentLevel));
+   
+    console.log("BADGE HAS BEEN REDUNDANTLY SET");
+  }, [])
 
   useEffect(() => {
     dispatch(fetchFeed());
@@ -74,15 +74,7 @@ const [noticeFeed,setNoticeFeed] = useState(candidates.length?candidates:rowData
 
   }, [])
 
-  /*THIS USE-EFFECT BELOW IS A CRUTCH WHILE I FIND OUT WHY THE CANDIDATES DOESNT LOAD
-  useEffect((()=>{
 
-    if(noticeFeed.length){
-   
-      dispatch(fetchFeed());
-      setNoticeFeed(rowData)
-    }
-  }),[])*/
 
 
 
