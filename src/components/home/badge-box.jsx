@@ -70,7 +70,7 @@ export default function BadgeBox() {
         <center>
     <Grid container rowSpacing={0} style={{ height:"200px" }} columnSpacing={{ xs: 1, sm: 1, md: 1 }} justifyContent="flex-start" alignItems="center" position="relative" left="-3%" top="-20%">
    
-    {placeHolder.length && user.badgesEarned>0?
+    {placeHolder.length && user &&  user.badgesEarned>0?
     
       placeHolder.map((item)=>
      

@@ -17,27 +17,36 @@ const Img = styled('img')({
 
 export default function SeessionBox() {
   const dispatch = useDispatch();
-  const [videoTitle,setVideoTitle] = useState('loading')
-  const [videoSection,setVideoSection] = useState('')
-  const abridged = `${videoTitle} - ( under ${videoSection.toUpperCase()})`
-
-
+ 
   const { user } = useSelector((state) => state.auth);
   const { lastWatchedVideo,nextUpVideo } = useSelector((state) => state.group);
+
+  const [videoTitle,setVideoTitle] = useState(lastWatchedVideo?lastWatchedVideo.title:'loading')
+  const [videoSection,setVideoSection] = useState(lastWatchedVideo ?lastWatchedVideo.section:'loading')
+
+
+
+useEffect(()=>{
+  const lastWatchedId = user && user.watched[user.watched.length-1]
+   dispatch(fetchSingleVideo(lastWatchedId))
+},[])
+
 
 
 useEffect(()=>{
 
-  const lastWatchedId = user.watched[user.watched.length-1]
+  const lastWatchedId = user && user.watched[user.watched.length-1]
   console.log("the last watched id is !:",lastWatchedId)
 
-  dispatch(fetchSingleVideo(lastWatchedId))
+  //dispatch(fetchSingleVideo(lastWatchedId))
 
-  setVideoTitle(lastWatchedVideo.title)
-  setVideoSection(lastWatchedVideo.section)
+  setVideoTitle( lastWatchedVideo && lastWatchedVideo.title)
+   setVideoSection(lastWatchedVideo && lastWatchedVideo.section)
 
 
-},[user.watched,nextUpVideo])
+},[lastWatchedVideo])
+
+
 
 
 
@@ -102,7 +111,7 @@ useEffect(()=>{
         <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '3%' }}>
         <center><b>{"RESUME:"}</b></center>
         <br/>
-        <div style={{ marginLeft: '2%',width:"100%" }}>{videoTitle?(abridged.length<23?abridged:abridged.slice(0,23))+"...":"loading..."}</div>
+        <div style={{ marginLeft: '2%',width:"100%" }}>{videoTitle && videoSection?(`${videoTitle} - ( under ${videoSection.toUpperCase()})`.slice(0,23))+"...":"loading..."}</div>
       </Typography>
        
       
