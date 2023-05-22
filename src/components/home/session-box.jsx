@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Avatar, Button, ButtonBase, Grid, Paper, Typography,  } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { styled } from '@mui/material/styles';
 import CMCVid from 'src/assets/images/CMC-vid.jpg';
-
+import {fetchSingleVideo} from 'src/redux/actions/group.action';
 
 
 const Img = styled('img')({
@@ -16,8 +16,30 @@ const Img = styled('img')({
 
 
 export default function SeessionBox() {
- // const { user } = useSelector((state) => state.auth);
- // const { transactions } = useSelector((state) => state.transaction);
+  const dispatch = useDispatch();
+  const [videoTitle,setVideoTitle] = useState('loading')
+  const [videoSection,setVideoSection] = useState('')
+  const abridged = `${videoTitle} - ( under ${videoSection.toUpperCase()})`
+
+
+  const { user } = useSelector((state) => state.auth);
+  const { lastWatchedVideo,nextUpVideo } = useSelector((state) => state.group);
+
+
+useEffect(()=>{
+
+  const lastWatchedId = user.watched[user.watched.length-1]
+  console.log("the last watched id is !:",lastWatchedId)
+
+  dispatch(fetchSingleVideo(lastWatchedId))
+
+  setVideoTitle(lastWatchedVideo.title)
+  setVideoSection(lastWatchedVideo.section)
+
+
+},[user.watched,nextUpVideo])
+
+
 
   return (
     <>
@@ -77,9 +99,13 @@ export default function SeessionBox() {
         <img style={{height:"272px", width:"600px"}} alt="complex" src={CMCVid} />
         </ButtonBase>
         </Grid>  
-        <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '20%' }}>
-        <center><b>{"UP NEXT"}</b></center><span style={{ marginLeft: '10px' }}>Regulatory Licenses</span>
+        <Typography variant="body2" gutterBottom style={{ fontSize: '18px', display: 'flex', alignItems: 'center', marginLeft: '3%' }}>
+        <center><b>{"RESUME:"}</b></center>
+        <br/>
+        <div style={{ marginLeft: '2%',width:"100%" }}>{videoTitle?(abridged.length<23?abridged:abridged.slice(0,23))+"...":"loading..."}</div>
       </Typography>
+       
+      
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: '5%' }}>
       <div></div>
       <Button

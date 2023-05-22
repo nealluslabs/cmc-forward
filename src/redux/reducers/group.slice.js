@@ -9,6 +9,7 @@ const initialState = {
        presentOpenMenu:null,
        requestedSection:null,
        nextUpVideo:null,
+       lastWatchedVideo:null,
        publicGroups: [], 
        privateGroups: [],
        groupMembers: [], 
@@ -46,6 +47,9 @@ savePresentOpenMenu: (state, action) => {
 saveNextUpVideo: (state, action) => {
   state.nextUpVideo = action.payload;
 },
+savelastWatchedVideo: (state, action) => {
+  state.lastWatchedVideo = action.payload;
+},
     savePublicGroup: (state, action) => {
         state.publicGroups = action.payload;
     },
@@ -80,6 +84,7 @@ export const {
  savePresentOpenMenu,
  savePublicGroup,
  saveCategories,
+ savelastWatchedVideo,
  savePrivateGroup,
  saveGroupMembers,
  saveEmployeer,

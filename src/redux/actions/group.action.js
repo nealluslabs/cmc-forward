@@ -2,7 +2,7 @@ import { db, fb, auth, storage } from '../../config/firebase';
 import { clearUser, loginFailed, loginSuccess, logoutFxn, signupFailed, storeUserData } from '../reducers/auth.slice';
 import { v4 as uuidv4 } from 'uuid'
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
-import { isItLoading, saveAllGroup ,saveEmployeer,saveCategories ,saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup, saveSectionVideos,saveNextUpVideo,saveCategoryVideos } from '../reducers/group.slice';
+import { isItLoading, saveAllGroup ,saveEmployeer,saveCategories ,saveGroupMembers, saveMyGroup, savePrivateGroup, savePublicGroup, saveSectionVideos,saveNextUpVideo,savelastWatchedVideo,saveCategoryVideos } from '../reducers/group.slice';
 import firebase from "firebase/app";
 
 export const createGroup = (groupData, user, file, navigate, setLoading, url) => async (dispatch) => {
@@ -194,11 +194,6 @@ if(file.length === 0 && groupData.newPassword){
 
 }
 
-
-
-
-
-
 }
 
 export const fetchMyGroups = (coolers) => async (dispatch) => {
@@ -232,33 +227,7 @@ export const fetchMyGroups = (coolers) => async (dispatch) => {
 };
 
 
-// export const fetchMyGroups = (coolers) => async (dispatch) => {
-//   console.log("Cilcked...")
-//   dispatch(isItLoading(true));
-//     if(coolers.length){
-//       db.collection("groups")
-//       . where('groupId', 'in', coolers)
-//        .get()
-//        .then((snapshot) => {
-//         const myGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-//         console.log("DATA::: ", myGroups);
-//         // return
-//       if (myGroups.length) {
-//         dispatch(isItLoading(false));
-//         console.log("My Groups Data:", myGroups);
-//         dispatch(saveMyGroup(myGroups));
-//       } else {
-//           dispatch(isItLoading(false));
-//       }
-//      }).catch((error) => {
-//        console.log("Error getting document:", error);
-//        dispatch(isItLoading(false));
-//      });
-//     }else{
-//       dispatch(saveMyGroup(coolers));
-//       dispatch(isItLoading(false));
-//     }
-//  };
+
 
 
 export const fetchGroups = (adminID) => async (dispatch) => {
@@ -283,6 +252,23 @@ export const fetchGroups = (adminID) => async (dispatch) => {
  });
  };
 
+
+ export const fetchSingleVideo = (videoId)=> async(dispatch)=>{
+
+
+  var docRef = db.collection("courses").doc(videoId.trim());
+  docRef.get().then((doc) => {
+  const data = doc.data(); 
+  dispatch(savelastWatchedVideo(data))
+  console.log("i have dispatched the latest CURRENT VIDEO")
+
+}).catch((error) => {
+  console.log("Error getting single video:", error);
+ 
+});
+
+
+ }
 
  export const fetchVideoSection = (chosenSection)=> async(dispatch) =>{
 
@@ -811,6 +797,10 @@ export const updateVideoAndUserWatchlists = (userId,videoId,underSubLevel) => as
   //const nextSubLevelNumber = Number(underSubLevel.replaceAll(".","")) + 1
   //const nextSubLevelString = nextSubLevelNumber.toString().replace(/.{1}/g, '$&.');
   //const finalSubLevel = nextSubLevelString.slice(0,nextSubLevelString.length-1)
+
+  //update currently watched on dashboard screen
+   dispatch(fetchSingleVideo(videoId.trim()))
+
 
 
    //update course takers array
