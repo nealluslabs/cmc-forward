@@ -7,7 +7,8 @@ import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 //import { fCurrency } from 'src/utils/formatNumber';
-import CMCgraph from 'src/assets/images/CMC-graph.png';
+import CMCgraph from 'src/assets/images/CMCgraph.png';
+import {BsArrowUpLeftCircleFill} from 'react-icons/bs'
 
 const Img = styled('img')({
   margin: 'auto',
@@ -25,7 +26,7 @@ export default function BoxOne() {
   return (
       <>
     
-     <p style={{fontSize:"12px",}}><strong>PRE-QUALIFICATION:</strong> (3+ THIS MONTH)</p>
+     <p style={{fontSize:"16px"}}><strong>PRE-QUALIFICATION:</strong> (3+ <BsArrowUpLeftCircleFill style={{color:"lightgreen",display:"inline"}}/> THIS MONTH)</p>
     
     <Grid container spacing={3} sx={{mt: 1}}>
     <Grid item xs container direction="column" spacing={0} sx={{pl: 2, pr: 2}}>
