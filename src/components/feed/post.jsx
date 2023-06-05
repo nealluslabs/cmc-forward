@@ -46,23 +46,40 @@ console.log("user id is actually:", user.uid)
             p: 1,
             pt: 2,
             pb: 2,
-            margin: 'auto',
-            maxWidth: {xl:1100,lg:900,md:800,sm:650},
+            margin: '0 auto',
+            marginBottom:"2rem",
+          //maxWidth: {xl:1090,lg:900,md:800,sm:650},
+          maxWidth: {xl:"96%",lg:"96%",md:"94%",sm:"90%"},
             border: '1px solid lightgrey',
             flexGrow: 1,
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+            /*backgroundColor: (theme) =>
+              theme.palette.mode === 'dark' ? '#1A2027' : '#fff',*/
+              backgroundColor:"black",
           }}
         >
           <Grid container spacing={2}>
             <Grid item xs container direction="column" spacing={0}>
                 <div style={{width: '100%', height: '127px', border: '1px solid lightgray'}}>
                  <textarea  style={{width: '100%', height: '100%'}} 
-          value={message}  placeholder="write a message here..." onChange ={(e)=>setMessage(e.target.value)}/>
+          value={message}  onChange ={(e)=>setMessage(e.target.value)}/>
                 </div>
             </Grid>
           </Grid>
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: '10px' }}>
+       
+        <Button
+          variant="contained"
+          style={{
+            minHeight: "35px",
+            minWidth: "100px",
+            backgroundColor: "black",
+            border: "1px solid white",
+            marginRight: '10px'
+          }}
+          onClick={()=>{postMessage(message)}}
+        >
+          UPLOAD
+        </Button>
         <Button
           variant="contained"
           style={{
@@ -73,18 +90,6 @@ console.log("user id is actually:", user.uid)
             border: "1px solid black",
             marginRight: '10px'
           }}
-        >
-          UPLOAD
-        </Button>
-        <Button
-          variant="contained"
-          style={{
-            minHeight: "35px",
-            minWidth: "100px",
-            backgroundColor: "black",
-            border: "1px solid black",
-          }}
-          onClick={()=>{postMessage(message)}}
         >
           POST
         </Button>

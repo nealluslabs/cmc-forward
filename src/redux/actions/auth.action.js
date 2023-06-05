@@ -125,7 +125,7 @@ return user;
 export const getUserProfilePic = (idArray) => async (dispatch) => {
   //var user = db.collection("users").doc(id);
    console.log("idArray at this given moment is:",idArray)
-const watchListItem =  db.collection('users').where('uid', 'in', idArray);
+const watchListItem =  db.collection('users').where('uid', 'in', idArray.slice(0,10));
   
   watchListItem.get().then((snapshot) => {
     const imageLinks = snapshot.docs.map((doc) => (doc.data().profileImage));

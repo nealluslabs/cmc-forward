@@ -11,8 +11,8 @@ export default function FeedPage() {
       </Helmet>
     
       <Container maxWidth="xl">
-      <h1 style={{position:"relative",fontWeight:"bold",left:"150px",marginBottom:"40px",fontSize:"30px"}}>Feed</h1>
-  <Grid container spacing={2} style={{border: '0px solid red', paddingLeft: '40px', paddingRight: '40px'}}>
+      <h1 style={{position:"relative",fontWeight:"bold",left:"6%",marginBottom:"40px",fontSize:"30px"}}>Feed</h1>
+  <Grid container spacing={2} style={{display:"flex",justifyContent:"center", border: '2px solid red',width:"1300px", paddingLeft: '40px', paddingRight: '40px'}}>
  
     <Post />
     <FeedList />

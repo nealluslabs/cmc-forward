@@ -306,13 +306,6 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 
  export const fetchVideoSubsection = (chosenSection,lastVideoWatched)=> async(dispatch) =>{
-   //MAY 18 2023 - DAGOGO STOPPED HERE
-  //YOU WERE GOING TO SET THE NEW SECTION BY FINDING THE LAST VIDEO WATCHED
-  //GETTING THE SUBSECTION NUMBER, FINDING THE VIDEO WITH THE SUBSECTION NUMBER WHICH IS +1 OF THAT
-  //IF THERE'S NO PLUS 1, THEN MOVE TO A NEW LARGE SECTION, THEN SET NEXT UP AS THE ID OF WHATEVER 
-  //VIDEO +1 YOU GET, OR SECTION +1 
-  //IF THERE'S NOT VIDEO + 1 OR SECTION +1 , THEN SET NULL, IT MEANS ALL VIDEOS ARE WATCHED 
-  
   //setting upNextVideo
   console.log('THE LAST VIDEO WATCHED IS::::',lastVideoWatched)
 
