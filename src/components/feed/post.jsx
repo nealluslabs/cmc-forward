@@ -47,9 +47,9 @@ console.log("user id is actually:", user.uid)
             pt: 2,
             pb: 2,
             margin: '0 auto',
-            marginBottom:"2rem",
+            marginBottom:"4rem",
           //maxWidth: {xl:1090,lg:900,md:800,sm:650},
-          maxWidth: {xl:"96%",lg:"96%",md:"94%",sm:"90%"},
+          maxWidth: {xl:"94%",lg:"96%",md:"94%",sm:"90%"},
             border: '1px solid lightgrey',
             flexGrow: 1,
             /*backgroundColor: (theme) =>

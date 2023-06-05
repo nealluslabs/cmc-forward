@@ -12,7 +12,7 @@ export default function FeedPage() {
     
       <Container maxWidth="xl">
       <h1 style={{position:"relative",fontWeight:"bold",left:"6%",marginBottom:"40px",fontSize:"30px"}}>Feed</h1>
-  <Grid container spacing={2} style={{display:"flex",justifyContent:"center", border: '2px solid red',width:"1300px", paddingLeft: '40px', paddingRight: '40px'}}>
+  <Grid container spacing={2} style={{display:"flex",justifyContent:"center",alignItems:"center", border: '0px solid red',width:"1300px", paddingLeft: '40px', paddingRight: '40px'}}>
  
     <Post />
     <FeedList />
